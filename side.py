@@ -79,6 +79,9 @@ prev_action = None
 clear()
 print('loading functions...')
 
+def get_globals():
+    return globals()
+
 def closest_num(numbers, value):
     """
     Find the closest number in the list values to the number value
@@ -105,6 +108,8 @@ def run_action(code, values, debug=False, set_values_3=True):
     Args:
         code (str): the string code to run.
         values (list): This also follows a specific formula that is needed. See below.
+        debug (optional, bool): Whether or not to apply the action to both the debug and normal or just normal. Defaults to False (just normal).
+        set_values_3 (optional, bool): Whether or not to set the third value in the list values or to just leave it. Defaults to True (change it).
     
     Values:
     - out (dict): The parsed dictionary of the nlp parsed sentence.
