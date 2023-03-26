@@ -5,7 +5,7 @@
 > 
 > This file is also the todo list
 
-# TODO:
+# TODO: (not in order)
  - add many comments
  - separate easy to read code from the complex code more than what i already did
  - add in a file on all the actions we will want and get everyone to fill it out
