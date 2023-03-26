@@ -263,7 +263,8 @@ def parse(doc, room_id, objs):
     for t in trees:
         if type(t) == str:
             if len(GCM(t, ['help'], cutoff=cutoff, n=1)) != 0:
-                global desc
+                global desc, title
+                title = True
                 desc = True
                 continue
             elif prev_action != None:
@@ -342,12 +343,14 @@ def parse(doc, room_id, objs):
                     if i['type'] in dep[tri][2]: al_objs.append(i['name'].lower())
                 al_obj_names = deepcopy(al_objs)
                 al_obj_names.extend(outs)
-                al_obj_names.extend(all_wrd_syns.keys())
+                for i in all_wrd_syns.keys():
+                    if all_wrd_syns[i] in al_obj_names:
+                        al_obj_names.append(i)
                 
                 for f in outfind:
                     if type(f) == tuple:
-                        tx = f[0]
-                        f = deepcopy(f[1])
+                        tx = f[0].text
+                        #f = deepcopy(f[1])
                     else:
                         tx = f.text
                     try:
@@ -407,7 +410,7 @@ while True:
     croom = fc['rooms'][str(roomnum)]
     if title:
         clear()
-        print("%s\n%s\n" % (croom['name'], croom['description']))
+        print("%s\n%s\n" % (croom['name'].capitalize(), croom['description']))
         title = False
     else:
         print()
