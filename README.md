@@ -5,7 +5,7 @@ This file is also the todo list
 
 # TODO:
  - add many comments
- - separate easy to read code from the complex code
+ - separate easy to read code from the complex code more than what i already did
  - add in all the actions
  - add in all the debug actions
  - add in # tags
