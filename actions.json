@@ -1,0 +1,37 @@
+{
+    "valid_actions": 
+        {
+            "('throw', ('stick',))": 
+                ["PYou throw the {3}. It goes a little far before settling back down into the grass.", 
+                "O('del ', '[0]');PYou throw the {3}. You accidentally throw it WAY too hard (tooootal accident) off into the sunset and now that {3} will never be seen again."]
+        }, 
+    "actions": 
+        {
+            "'throw'":
+                [
+                    "PYou can't throw {3}. Are you insane? What are you thinking?", 
+                    "PYou try to throw {3}. You hurt your back and fail. Why would you try? You have no chance of {1}ing it! (*idiot*)"
+                ],
+            "'move'":
+                [
+                    "Ctry:\n  *G*['roomnum'] = fc['rooms']['{5}']['exits'][str(closest_num([int(i) for i in fc['rooms']['{5}']['exits'].keys()], pos.index('{3}')))]\n  *G*['title'] = True\n  *G*['desc'] = True\nexcept: pass"
+                ],
+            "'help'":
+                [
+                    "C*G*['desc'] = True"
+                ]
+        },
+    "action_dependencies":
+        {
+            "throw":
+                {
+                    "subjobj": [1, "object", [5]]
+                },
+            "move":
+                {
+                    "(subjobj)|(obj#where)|(move)": [1, "direction", ["move"]]
+                },
+            "help":
+                {}
+        }
+}

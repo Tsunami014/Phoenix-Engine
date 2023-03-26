@@ -1,0 +1,37 @@
+{
+    "adjs":
+    {
+        "throw": [
+            "chuck",
+            "toss",
+            "remove",
+            "hurl",
+            "yeet"
+        ],
+        "move": [
+            "walk",
+            "go",
+            "head",
+            "find",
+            "travel",
+            "ride"
+        ]
+    },
+    "words":
+    {
+        "stick": [
+            "twig"
+        ],
+        "mountains": [
+            "mount",
+            "mounts",
+            "mountain"
+        ],
+        "rock": [
+            "pebble",
+            "pebbles",
+            "stones",
+            "stone"
+        ]
+    }
+}
