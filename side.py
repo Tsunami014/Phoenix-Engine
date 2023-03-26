@@ -27,14 +27,14 @@ cutoff = 0.85
 #lemmatizer = WordNetLemmatizer() #doesn't work... yet
 #These next vars are what to load from a file:
 
-with open("words&tags.json") as f:
+with open("actions, words & syns/words&tags.json") as f:
     fc = json.load(f)
     
 marker_tags = fc['marker_tags']
 dollars_wrds = fc['dollars_wrds']
 other_names = fc['other_names']
 
-with open("actions.json") as f:
+with open("actions, words & syns/actions.json") as f:
     fc = json.load(f)
 
 actions = fc['actions']
@@ -45,7 +45,7 @@ valid_actions = {eval(i): valid_actions[i] for i in valid_actions}
 
 action_deps = fc['action_dependencies']
 
-with open("syns.json") as f:
+with open("actions, words & syns/syns.json") as f:
     syns = json.load(f)
 
 all_adj_syns = {}
@@ -59,14 +59,14 @@ for i in syns['words']:
         all_wrd_syns[j] = i
 
 if debug:
-    with open("debug_actions.json") as f:
+    with open("actions, words & syns/debug_actions.json") as f:
         debug_actions = json.load(f)
 else:
     debug_actions = {}
 
 pos = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest", "", "up", "", "down", "", "left", "", "right", "", "in", "", "out"]
 
-with open("out.json") as f:
+with open("maps/Forest out.json") as f: # TODO: make a map selelector
     fc = json.load(f)
     tosavefc = deepcopy(fc)
 

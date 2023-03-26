@@ -1,7 +1,7 @@
 import unittest
 import side as s
 
-class TestExample(unittest.TestCase):
+class MainGameTest(unittest.TestCase):
     
     def test_closest_num(self):
         self.assertEqual(s.closest_num(list(range(10)), 2), 2) # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
