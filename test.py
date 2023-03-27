@@ -16,15 +16,15 @@ class MainGameTest(unittest.TestCase):
         g.run_action("C*S*apple = '{1}'", ['a', 'b', 'c'], set_values_3=False)
         self.assertEqual(g.apple, 'b')
 
-        s.run_action("C*S*apple = {3}", ['a', 'b', [0, 1, 2, 3], None])
+        g.run_action("C*S*apple = {3}", ['a', 'b', [0, 1, 2, 3], None])
         self.assertEqual(g.apple, 0)
         
-        s.run_action("C*S*apple = int('{3}')", ['a', 'b', [5, 10], 'c'])
+        g.run_action("C*S*apple = int('{3}')", ['a', 'b', [5, 10], 'c'])
         self.assertEqual(g.apple, 5)
         
-        self.assertRaises(IndexError, s.run_action, "C*S*apple = '{5}'", ['a', 'b', [0, 1, 2, 3], None])
+        self.assertRaises(IndexError, g.run_action, "C*S*apple = '{5}'", ['a', 'b', [0, 1, 2, 3], None])
         
-        #self.assertRaises(NameError, s.run_action, "C*S*apple = '{5}'", ['a', 'b', [0, 1, 2, 3], None])
+        #self.assertRaises(NameError, g.run_action, "C*S*apple = '{5}'", ['a', 'b', [0, 1, 2, 3], None])
 
 if __name__ == '__main__':
     unittest.main()
