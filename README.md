@@ -19,7 +19,7 @@
  - make sure that everything works properly
  - make sure that everything follows the main criteria and we didn't go *too* far in the wrong direction 
  - Make map selection
- - Make the side.py a class
 
 # Done:
  - main functionalities
+ - Make the side.py a class
