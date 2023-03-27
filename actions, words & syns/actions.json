@@ -14,11 +14,11 @@
                 ],
             "'move'":
                 [
-                    "Ctry:\n  *G*['roomnum'] = fc['rooms']['{5}']['exits'][str(closest_num([int(i) for i in fc['rooms']['{5}']['exits'].keys()], pos.index('{3}')))]\n  *G*['title'] = True\n  *G*['desc'] = True\nexcept: pass"
+                    "Ctry:\n  *S*roomnum = *S*fc['rooms']['{5}']['exits'][str(closest_num([int(i) for i in *S*fc['rooms']['{5}']['exits'].keys()], pos.index('{3}')))]\n  *S*title = True\n  *S*desc = True\nexcept: pass"
                 ],
             "'help'":
                 [
-                    "C*G*['desc'] = True"
+                    "C*S*desc = True"
                 ]
         },
     "action_dependencies":
