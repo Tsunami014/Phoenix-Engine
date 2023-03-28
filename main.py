@@ -45,4 +45,4 @@ while True:
     print("Type in help to be helped.")
     i = input("\n> ")
     print()
-    g(i, g.roomnum, croom['objects'])
+    print("\n".join(g(i, g.roomnum, croom['objects'])))

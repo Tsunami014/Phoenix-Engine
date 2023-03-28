@@ -38,6 +38,10 @@ class Game:
         print('loading other vars ...')
         
         self.roomnum = 1 #This is the starting room id
+        
+        self.log = [] #Instead of printing errors, return them in this list!
+        
+        self.output = [] #Instead of printing the output, return them in this list
 
         #lemmatizer = WordNetLemmatizer() #doesn't work... yet
 
@@ -93,7 +97,7 @@ class Game:
             self.debug_actions = {}
 
         #Get the map from the file
-        with open("maps/Forest out.json") as f: # TODO: make a map selelector
+        with open("maps/Forest out.json") as f:
             self.fc = json.load(f) #This is the game object which is a javascript object
             self.tosavefc = deepcopy(fc) #This is the game to save so that in debug mode
                     #If you change something it changes both so it can save the original
@@ -101,8 +105,6 @@ class Game:
         self.title = True #Whether to show the title
         self.desc = True #Whether to show the description
         self.prev_action = None #What the previous action specified was
-
-        # TODO: in actions.json, in the valid_actions, instead of specifying the name specify a tag like '#throwable'
 
     def run_action(self, code, values, debug=False, set_values_3=True):
         """
@@ -162,7 +164,7 @@ class Game:
                 spla = act[1:].format(*values).split(" = ")
                 self.fc['rooms'][str(self.roomnum)]['objects'][values[2][spla[0]]]['status'] = spla[1]
             elif act.startswith('P'):
-                print(act[1:].format(*values))
+                self.output.append(act[1:].format(*values))
             #elif act.startswith('Q'):
             #    cur.execute(act[1:].format(*values))
             elif act.startswith('O'):
@@ -178,6 +180,8 @@ class Game:
             return node.orth_
 
     def p_t(self, tree, toks, wrds, root=None): #parse tree
+        self.output = []
+        self.log = []
         out = {}
         for i in tree:
             if type(i) == str:
@@ -186,13 +190,13 @@ class Game:
                 try:
                     m_t = self.marker_tags[tag[1]] #marker tag
                 except:
-                    print("couldn't find tag '%s' for word '%s' in dict." % (tag[1], tag[0].text))
+                    self.log.append("couldn't find tag '%s' for word '%s' in dict." % (tag[1], tag[0].text))
                     continue
                 if m_t == '$$':
                     try:
                         m_t = self.dollars_wrds[GCM(tag[0].text, self.dollars_wrds.keys(), n=1, cutoff=cutoff)[0]]
                     except:
-                        print("Could not find word '%s' in dollars_wrds" % tag[0].text)
+                        self.log.append("Could not find word '%s' in dollars_wrds" % tag[0].text)
                 try:
                     out[m_t].append(tag[0])
                 except:
@@ -203,7 +207,7 @@ class Game:
                 try:
                     m_t = self.marker_tags[tag[1]] #marker tag
                 except:
-                    print("couldn't find tag '%s' for word '%s' in dict." % (tag[1], tag[0].text))
+                    self.log.append("couldn't find tag '%s' for word '%s' in dict." % (tag[1], tag[0].text))
                     continue
                 end = self.p_t(i, toks, wrds)
                 if m_t == '$$' and end != {}:
@@ -215,7 +219,7 @@ class Game:
                             except:
                                 out[i+'#'+m_t] = end[i]
                     except:
-                        print("Could not find word '%s' in dollars_wrds" % tag[0].text)
+                        self.log.append("Could not find word '%s' in dollars_wrds" % tag[0].text)
                 else:
                     if end == {}:
                         try:
@@ -252,22 +256,22 @@ class Game:
             if len(GCM('save', [wrds[0]], cutoff=cutoff, n=1)) != 0:
                 with open("out.json", "w") as f:
                     f.write(json.dumps(self.tosavefc, indent=2))
-                print("saved successfully! :)")
-                return
+                self.output.append("saved successfully! :)")
+                return self.output, self.log
             elif len(GCM('debug', [wrds[0]], cutoff=cutoff, n=1)) != 0:
                 if len(GCM('help', [wrds[2]], cutoff=cutoff, n=1)) != 0:
-                    print(self.debug_actions[wrds[1]][1])
+                    self.output.append(self.debug_actions[wrds[1]][1])
                 else:
                     try:
                         closest = GCM('debug', list(self.debug_actions.keys()), cutoff=cutoff, n=1)[0]
                     except:
-                        return
+                        return self.output, self.log
                     try:
                         self.run_action(self.debug_actions[closest][0], wrds, True, False)
                     except Exception as e:
-                        print("ERROR:", e)
-                        print(self.debug_actions[closest][1])
-                return
+                        self.log.append("ERROR:", e)
+                        self.log.append(self.debug_actions[closest][1])
+                return self.output, self.log
         
         #juiceless_wrds = []
         #for tok in toks:
@@ -290,10 +294,10 @@ class Game:
                     wrds = [str(tok) for tok in doc]
                     t = [self.to_nltk_tree(sent.root) for sent in doc.sents][0]
                 else:
-                    print("Sorry, you need to specify an action.")
+                    self.log.append("Sorry, you need to specify an action.")
                     continue
             out = self.p_t(t, toks, wrds, t._label)
-            print(out)
+            self.log.append(out) #Re-comment this line if you want detailed logs
             
             al = [(i[0] if type(i) != str else i) for i in list(self.actions.keys())]
             alls = deepcopy(al)
@@ -301,7 +305,7 @@ class Game:
             try:
                 closest = GCM(t._label.lower(), alls, cutoff=cutoff, n=1)[0]
             except:
-                print('Unknown command: %s. Avaliable commands: %s\nKeep in mind similar words work too' % (t._label.lower(), str(al)))
+                self.log.append('Unknown command: %s. Avaliable commands: %s\nKeep in mind similar words work too' % (t._label.lower(), str(al)))
                 continue
             if closest in self.all_adj_syns:
                 closest = self.all_adj_syns[closest]
@@ -310,7 +314,7 @@ class Game:
             
             try:
                 if out['subj'] not in ['i', 'me']:
-                    print("You can't get someone else to {0} a {1}".format(closest, out['subjobj']))
+                    self.log.append("You can't get someone else to {0} a {1}".format(closest, out['subjobj']))
                     continue
             except:
                 pass
@@ -341,12 +345,12 @@ class Game:
                     find = []
                 
                 if len(find) == 0:
-                    print('You need at least the %s you are %sing!\nIf you did, consider rewording the sentence.' % (dep[tri][1], closest))
+                    self.log.append('You need at least the %s you are %sing!\nIf you did, consider rewording the sentence.' % (dep[tri][1], closest))
                     stop = True
                     break
                 
                 if len(outfind) != dep[tri][0]:
-                    print('Too many/little %ss specified. Please only specify %s.\nIf you did, consider rewording the sentence.\nYou said these %s: '+outfind % (dep[tri][1], str(dep[tri][0]), dep[tri][1]))
+                    self.log.append('Too many/little %ss specified. Please only specify %s.\nIf you did, consider rewording the sentence.\nYou said these %s: '+outfind % (dep[tri][1], str(dep[tri][0]), dep[tri][1]))
                     stop = True
                     break # Director yells out, "NEXT!" while you are halfway in the middle of what you were showing them
                 
@@ -379,7 +383,7 @@ class Game:
                                 try:
                                     match = GCM(tri.lower(), al_obj_names, cutoff=cutoff, n=1)[0]
                                 except:
-                                    print('Unknown %s: %s.\nObjects that can be used in this situation: %s' % (dep[tri][1], tx.lower(), str(al_objs)))
+                                    self.log.append('Unknown %s: %s.\nObjects that can be used in this situation: %s' % (dep[tri][1], tx.lower(), str(al_objs)))
                                     stop = True
                                     break
                         if match not in al_objs:
@@ -414,6 +418,7 @@ class Game:
                 self.run_action(choice(self.valid_actions[(closest, tuple(closests))]), vals)
             except: #This uses NOTHING to figure out what to do. This is like a fail message for anything that isn't special.
                 self.run_action(choice(self.actions[(closest)]), vals)
+        return self.output, self.log
 
 def closest_num(numbers, value):
     """
