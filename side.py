@@ -248,7 +248,6 @@ class Game:
                 wrds[i] = self.sent_wrd_syns[check[0]]
                 changed = True
         if changed: doc = nlp(" ".join(wrds))
-        global prev_action
         toks = [(tok, tok.dep_) for tok in doc]
         wrds = [str(tok) for tok in doc]
         
@@ -288,8 +287,8 @@ class Game:
                     title = True
                     desc = True
                     continue
-                elif prev_action != None:
-                    doc = nlp("%s %s" % (prev_action, t))
+                elif self.prev_action != None:
+                    doc = nlp("%s %s" % (self.prev_action, t))
                     toks = [(tok, tok.dep_) for tok in doc]
                     wrds = [str(tok) for tok in doc]
                     t = [self.to_nltk_tree(sent.root) for sent in doc.sents][0]
@@ -310,7 +309,7 @@ class Game:
             if closest in self.all_adj_syns:
                 closest = self.all_adj_syns[closest]
             
-            prev_action = closest
+            self.prev_action = closest
             
             try:
                 if out['subj'] not in ['i', 'me']:
