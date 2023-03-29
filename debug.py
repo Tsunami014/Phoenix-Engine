@@ -1,5 +1,7 @@
+from copy import deepcopy
 import side as s
 import tkinter as tk
+from tkinter import scrolledtext
 
 g = s.Game()
 
@@ -7,6 +9,39 @@ print('setting up tkinter...')
 
 inps = []
 i = 0
+debugs = []
+end = {}
+ccroom = None
+
+class Dropdown:
+    def __init__(self, root, options=[], init=''):
+        # datatype of menu text
+        self.clicked = tk.StringVar()
+        
+        # initial menu text
+        if init != '': self.clicked.set(init)
+        else: self.clicked.set(options[0])
+        self.clicked.trace("w", self.changed)
+        
+        self.now = self.get()
+        self.prev = ''
+        
+        # Create Dropdown menu
+        self.drop = tk.OptionMenu(root, self.clicked, *options )
+    
+    def pack(self, *args):
+        self.drop.pack(args)
+    
+    def get(self):
+        return self.clicked.get()
+    
+    def destroy(self):
+        return self.drop.destroy()
+
+    def changed(self, *args):
+        self.prev = self.now
+        self.now = self.get()
+        debug()
 
 def up(args=None):
     global i, inps
@@ -47,8 +82,34 @@ def go(args=None):
     inp.delete(0, len(inp.get()))
     pass
 
-def debug(args=None):
-    print('debug', args)
+def debug(*args):
+    global l3, debugs, top, d, debuginp, ccroom, end
+    croom = g.fc['rooms'][str(g.roomnum)]
+    changed = False
+    if ccroom != croom or end != croom:
+        changed = True
+        ccroom = deepcopy(croom)
+        end = deepcopy(croom)
+    l3.config(text='Debug \'%s\' (%s)' % (g.roomnum, croom['name']))
+    """if debugs != []:
+        for i in debugs:
+            i.destroy()
+            del i
+    debugs = []""" #not needed... yet
+    
+    try:
+        prev = d.get()
+        if not changed:
+            end[d.prev] = debuginp.get('1.0', tk.END)
+        d.destroy()
+        del d
+    except:
+        prev = list(croom.keys())[0]
+    d = Dropdown(top, list(croom.keys()), prev)
+    d.pack()
+    
+    debuginp.delete('1.0', tk.END,)
+    debuginp.insert(tk.INSERT, str(end[prev]))
 
 def search():
     print('search')
@@ -59,22 +120,24 @@ def save():
 def show_debug():
     global top, l3, btn3, debuginp, btn4, btn5
     top = tk.Toplevel(root)
-    l3 = tk.Label(top, text='Debug window', relief='solid')
+    l3 = tk.Label(top, text='Debug', relief='solid')
     l3.pack(side='top', fill='x', pady=10, padx=10)
     
     btn3 = tk.Button(top, text='search for things to debug', command=search)
     btn3.pack(side='top', fill='x', pady=10, padx=10)
     
-    debuginp = tk.Entry(top)
+    debuginp = scrolledtext.ScrolledText(top, wrap=tk.WORD,
+                                      width=40, height=8,
+                                      font=("Times New Roman", 15))
     debuginp.pack(fill='both', padx=10, pady=10)
     
     debuginp.bind('<Return>', debug)
     
     btn4 = tk.Button(top, text='debug', command=debug)
-    btn4.pack(fill='x', pady=10, padx=10)
+    btn4.pack(side='bottom', fill='x', pady=10, padx=10)
     
     btn5 = tk.Button(top, text='save', command=save)
-    btn5.pack(side='bottom', fill='x', pady=10, padx=10)
+    btn5.pack(side='bottom', fill='x', pady=10, padx=10, before=btn4)
 
     top.mainloop()
 
