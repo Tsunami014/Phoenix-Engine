@@ -5,37 +5,33 @@ g = s.Game()
 
 print('setting up tkinter...')
 
-inps = ['']
+inps = []
 i = 0
 
 def up(args=None):
-    print(args)
+    global i, inps
     if i > 0:
-        if inp.get() != inps[i]:
-            inps[len(inps)-1] = inp.get()
-            i = len(inps)-1
         i -= 1
         inp.delete(0, len(inp.get()))
         inp.insert(0, inps[i])
 
 def dwn(args=None):
-    print(args)
+    global i, inps
     if i < len(inps):
-        if inp.get() != inps[i]:
-            inps[len(inps)-1] = inp.get()
-            i = len(inps)-1
         i += 1
         inp.delete(0, len(inp.get()))
-        inp.insert(0, inps[i])
+        try:
+            inp.insert(0, inps[i])
+        except IndexError:
+            pass
 
 #args in these cases are just the keybinds when you press enter.
 def go(args=None):
+    global i, inps
     croom = g.fc['rooms'][str(g.roomnum)]
     if inp.get() != '':
-        inps[len(inps)-1] = inp.get()
-        inps.append('')
+        inps.append(inp.get())
         i = len(inps)
-        inp.select_clear()
         logs.config(text="\n".join([str(i) for i in g(inp.get(), g.roomnum, croom['objects'])]))
     game.config(text=croom['name'].capitalize()+'\n'+croom['description'])
     
@@ -111,8 +107,8 @@ l2 = tk.Label(root, text='Logs:')
 l2.pack(side='bottom')
 
 inp.bind('<Return>', go)
-inp.bind('Up', up)
-inp.bind('Down', dwn)
+inp.bind('<Up>', up)
+inp.bind('<Down>', dwn)
 s.clear()
 go()
 print('complete!')
