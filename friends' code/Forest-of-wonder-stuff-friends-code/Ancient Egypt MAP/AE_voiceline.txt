@@ -1,6 +1,7 @@
 Pharoh Guard Voice Lines
 "The Pharoh is resting and you will be soon too" *Unsheathes Sword
 "What colour is your Coffin going to be?" *Unsheathes Sword
+"*mega intense death boss music starts playing*"
 
 Anubis Stature Voice Lines
 "Why are so suprised to see my stature alive..what you thought I was a myth, no I'm a legend!" * Slams staff which Summons Multiple Mummies"
@@ -11,7 +12,5 @@ Anubis Stature Voice Lines
 
 
 
-Scrabs
-"*Clicks begin Intensfing"
-
-
+Scarabs
+"*Clicks begin Intensifying"
