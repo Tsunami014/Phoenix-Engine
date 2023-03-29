@@ -31,6 +31,13 @@ cutoff = 0.85 #The cutoff for get closest matches (How close it needs to be for 
 #So the gap is because it does not want that number to be close enough to the others
 #That it will be counted as close enough to pass
 pos = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest", "", "up", "", "down", "", "left", "", "right", "", "in", "", "out"]
+fourth_numbers = ["""
+try:
+    self.fc['rooms']['{5}']['exits'][str(closest_num([int(i) for i in self.fc['rooms']['{5}']['exits'].keys()], pos.index('{3}')))]
+    self.title = True
+    self.desc = True
+except: pass"""]
+delete_numbers = ["self.fc['rooms']['{5}']['objects'][{4}[0]]"]
 
 class Game:
     def __init__(self):
@@ -89,13 +96,6 @@ class Game:
             for j in syns['sent_wrds'][i]:
                 self.sent_wrd_syns[j] = i
 
-        #If it is in debug mode then get debug_actions from debug_actions.json else just leave it blank
-        if debug:
-            with open(fp+"debug_actions.json") as f:
-                self.debug_actions = json.load(f)
-        else:
-            self.debug_actions = {}
-
         #Get the map from the file
         with open("maps/Forest out.json") as f:
             self.fc = json.load(f) #This is the game object which is a javascript object
@@ -128,28 +128,33 @@ class Game:
         
         UNLESS IF YOU WANT ANOTHER SET OF VALUES FOR THE ACTIONS THEN:
         1. set_values_3=False
-        2. don't use S to change the state
         Then you should be fine :)
         
         The code:
-        e.g.
-        S0 = 2;Pyou smash {0}{1}. Nothing happens.
-        look at the first character of each element in ___.split(';') (in this case, S and P)
+        (split by ';', so '00Hello;01Goodbye' are 2 different statements both executed seperately)
         
-        S: change the state of the object in question. 
-        Basically, fc['rooms'][str(roomnum)]['objects'][_____]['status'] = ______
-        In this case, because the code was "S0 = 2;", the object at 0 would have its state changed to 2.
-        P: print out the text
-        C: execute the code
-        O: execute: "%sfc['rooms'][str(room_id)]['objects']%s" % (_____, ______)
-        example input for O:
-        "O('del ', '[0]')" (which would evaluate to "del fc['rooms'][str(room_id)]['objects'][object_id][0]" which would delete the object)
+        First number:
+            0 = print
+            1 = set variable (if not exists then create variable)
+            2 = delete variable
         
-        Timesavers:
-        - "*S*" = self.
-        - "*R*" = fc['rooms']['"+roomnum+"']
-        - "*RMN*" = [fc['rooms'][i]['name'] for i in fc['rooms']]
-        - "*RMS*" = [i for i in fc['rooms']]
+        Second number:
+            with the set variables:
+                0 = global
+                1 = class
+            with the print:
+                what colour
+            with the delete variables:
+                0 = the object specified
+        
+        Third string (not for first number=2):
+            what variable name/what to print
+        
+        Delimeter: " ~ "
+        
+        Fourth number (only for first number=1):
+            what value to set it to
+                0 = the closest exit to what was said
         """
         if set_values_3:
             try:
@@ -157,21 +162,19 @@ class Game:
             except:
                 values[3] = []
         for act in code.split(';'):
-            act = act.replace("*S*", "self.")
-            if debug: act = act.replace("*R*", "self.tosavefc['rooms']['"+str(self.roomnum)+"']").replace("*RMN*", "[self.tosavefc['rooms'][i]['name'] for i in self.tosavefc['rooms']]").replace("*RMS*", "[i for i in self.tosavefc['rooms']]")
-            else: act = act.replace("*R*", "self.fc['rooms']['"+str(self.roomnum)+"']").replace("*RMN*", "[self.fc['rooms'][i]['name'] for i in self.fc['rooms']]").replace("*RMS*", "[i for i in self.fc['rooms']]")
-            if act.startswith('S'):
-                spla = act[1:].format(*values).split(" = ")
-                self.fc['rooms'][str(self.roomnum)]['objects'][values[2][spla[0]]]['status'] = spla[1]
-            elif act.startswith('P'):
-                self.output.append(act[1:].format(*values))
-            #elif act.startswith('Q'):
-            #    cur.execute(act[1:].format(*values))
-            elif act.startswith('O'):
-                exec(("%sself.fc['rooms']['"+str(values[5])+"']['objects']%s") % eval(act[1:].format(*values)))
-            else:
-                exec(act[1:].format(*values))
-        if debug: self.run_action(code, values, debug=False)
+            if act[0] == '0':
+                #colour = act[1]
+                self.output.append(act[2:].format(*values))
+            elif act[0] == '1':
+                spl = act[2:].split(' ~ ')
+                front = ('globals()[\'%s\']' if act[1] == '0' else 'self.%s') % spl[0]
+                
+                exec(front.format(*values) + " = " + fourth_numbers[int(spl[1])].format(*values))
+            elif act[0] == '2':
+                exec('del '+delete_numbers[int(act[1])].format(*values))
+                
+                
+        if debug: self.run_action(code, values, debug=False) #? Do we need this?
 
     def to_nltk_tree(self, node):
         if node.n_lefts + node.n_rights > 0:
@@ -251,7 +254,7 @@ class Game:
         toks = [(tok, tok.dep_) for tok in doc]
         wrds = [str(tok) for tok in doc]
         
-        if debug:
+        """if debug:
             if len(GCM('save', [wrds[0]], cutoff=cutoff, n=1)) != 0:
                 with open("out.json", "w") as f:
                     f.write(json.dumps(self.tosavefc, indent=2))
@@ -270,7 +273,7 @@ class Game:
                     except Exception as e:
                         self.log.append("ERROR:", e)
                         self.log.append(self.debug_actions[closest][1])
-                return self.output, self.log
+                return self.output, self.log"""
         
         #juiceless_wrds = []
         #for tok in toks:
