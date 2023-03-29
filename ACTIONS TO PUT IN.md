@@ -13,7 +13,7 @@
 | #playable         | play       | Play an arcade game        | game,arcade               |
 | #sleepable        | sleep      | Sleep on the pillows       | rest,nap,liedown          |
 | #rippable         | rip        | Rip an item                | tear                      |
-| #slashable        | slash      | Slash an item/object       |  cur                      |
+| #slashable        | slash      | Slash an item/object       |cut                        |
 | #moveable         | push       | Push an item or object     |                           |
 | #catchable        | catch      | Catch an item or object    |                           |
 | #snapable         | snap       | Snap an item or object     |                           |
