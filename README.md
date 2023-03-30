@@ -37,3 +37,5 @@
 # Done:
  - main functionalities
  - Make the side.py a class
+ - add in debug.py and make it a class
+ - make the actions much easier to read and write to
