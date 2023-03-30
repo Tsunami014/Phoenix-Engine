@@ -102,6 +102,13 @@ def debug(*args):
         end = deepcopy(croom)
     l3.config(text='Debug \'%s\' (%s)' % (g.roomnum, croom['name']))
 
+    for i in debugs:
+        if type(i) == tk.scrolledtext.ScrolledText:
+            i.master.destroy()
+            i.frame.destroy()
+        i.destroy()
+        del i
+    
     debugs = []
     
     try:
