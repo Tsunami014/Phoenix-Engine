@@ -10,7 +10,7 @@ print('setting up tkinter...')
 inps = []
 i = 0
 debugs = []
-dbug = None
+dbugtyp = None
 end = {}
 ccroom = None
 
@@ -89,7 +89,7 @@ def go(args=None):
     debug()
 
 def debug(*args):
-    global l3, debugs, top, d, debuginp, ccroom, end, dbug
+    global l3, debugs, top, d, debuginp, ccroom, end, dbugtyp
     try:
         top
     except:
@@ -101,7 +101,16 @@ def debug(*args):
         ccroom = deepcopy(croom)
         end = deepcopy(croom)
     l3.config(text='Debug \'%s\' (%s)' % (g.roomnum, croom['name']))
-
+    
+    try:
+        prev = d.get()
+        if not changed:
+            save(False)
+    except:
+        prev = list(croom.keys())[0]
+        d = Dropdown(top, list(croom.keys()), prev)
+        d.pack()
+    
     for i in debugs:
         if type(i) == tk.scrolledtext.ScrolledText:
             i.master.destroy()
@@ -111,19 +120,18 @@ def debug(*args):
     
     debugs = []
     
-    try:
-        prev = d.get()
-        if not changed and dbug != None:
-            end[d.prev] = dbug
-    except:
-        prev = list(croom.keys())[0]
-        d = Dropdown(top, list(croom.keys()), prev)
-        d.pack()
+    sav = lambda *args: save(False)
 
-    dbug = end[prev]
     if type(end[prev]) == bool:
-        debugs = [Dropdown(top, ['True', 'False'], end[prev])]
+        dbugtyp = bool
+        debugs = [Dropdown(top, ['True', 'False'], str(end[prev]), sav)]
         debugs[0].pack()
+    elif type(end[prev]) == int:
+        dbugtyp = int
+        debugs = [tk.Spinbox(top, from_=0, to=10)]
+        debugs[0].pack()
+        debugs[0].delete(0,"end")
+        debugs[0].insert(0,2)
     #elif type(end[prev]) == list:
     #    frame = tk.Frame(top)
     #    debugs = [frame]
@@ -131,18 +139,29 @@ def debug(*args):
     #        debugs.append(Dropdown(frame, list(i.keys())))
     #        debugs[len(debugs)-1].pack()                    # not working yet...
     else:
+        dbugtyp = str
         debugs = [scrolledtext.ScrolledText(top, wrap=tk.WORD,
                                       width=40, height=8,
                                       font=("Times New Roman", 15))]
         debugs[0].pack(fill='both', padx=10, pady=10)
     
-        debugs[0].bind('<Return>', debug)
+        debugs[0].bind('<Return>', sav)
         debugs[0].delete('1.0', tk.END,)
         debugs[0].insert(tk.INSERT, str(end[prev]))
 
-def save():
-    global end, g
-    g.fc['rooms'][str(g.roomnum)] = end
+def save(update_game=True):
+    global dbugtyp, end, d, debugs, g
+    if dbugtyp == bool:
+        end[d.prev] = debugs[0].get() == "True"
+    elif dbugtyp == int:
+        end[d.prev] = debugs[0].get()
+    elif dbugtyp == str:
+        end[d.prev] = debugs[0].get("1.0", tk.END)
+    else:
+        raise ValueError("Unknown type %s" % str(dbugtyp))
+    
+    if update_game:
+        g.fc['rooms'][str(g.roomnum)] = end
 
 def upload():
     print('upload to file')
