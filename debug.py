@@ -10,11 +10,16 @@ print('setting up tkinter...')
 inps = []
 i = 0
 debugs = []
+dbug = None
 end = {}
 ccroom = None
 
 class Dropdown:
-    def __init__(self, root, options=[], init=''):
+    def __init__(self, root, options=[], init='', changedfunc=None):
+        
+        #The function to run when the dropdown gets updated
+        self.changedfunc = changedfunc if changedfunc != None else debug
+        
         # datatype of menu text
         self.clicked = tk.StringVar()
         
@@ -36,12 +41,13 @@ class Dropdown:
         return self.clicked.get()
     
     def destroy(self):
-        return self.drop.destroy()
+        self.drop.destroy()
+        del self
 
     def changed(self, *args):
         self.prev = self.now
         self.now = self.get()
-        debug()
+        self.changedfunc()
 
 def up(args=None):
     global i, inps
@@ -80,10 +86,14 @@ def go(args=None):
         "There are these people/monsters: " + '['+"".join([i['identifier']+", " if i['type'] == 4 else '' for i in croom['objects']])+']\n')
     subgame.config(text=txt)
     inp.delete(0, len(inp.get()))
-    pass
+    debug()
 
 def debug(*args):
-    global l3, debugs, top, d, debuginp, ccroom, end
+    global l3, debugs, top, d, debuginp, ccroom, end, dbug
+    try:
+        top
+    except:
+        return False
     croom = g.fc['rooms'][str(g.roomnum)]
     changed = False
     if ccroom != croom or end != croom:
@@ -91,31 +101,49 @@ def debug(*args):
         ccroom = deepcopy(croom)
         end = deepcopy(croom)
     l3.config(text='Debug \'%s\' (%s)' % (g.roomnum, croom['name']))
-    """if debugs != []:
-        for i in debugs:
-            i.destroy()
-            del i
-    debugs = []""" #not needed... yet
+
+    debugs = []
     
     try:
         prev = d.get()
-        if not changed:
-            end[d.prev] = debuginp.get('1.0', tk.END)
-        d.destroy()
-        del d
+        if not changed and dbug != None:
+            end[d.prev] = dbug
     except:
         prev = list(croom.keys())[0]
-    d = Dropdown(top, list(croom.keys()), prev)
-    d.pack()
-    
-    debuginp.delete('1.0', tk.END,)
-    debuginp.insert(tk.INSERT, str(end[prev]))
+        d = Dropdown(top, list(croom.keys()), prev)
+        d.pack()
 
-def search():
-    print('search')
+    dbug = end[prev]
+    if type(end[prev]) == bool:
+        debugs = [Dropdown(top, ['True', 'False'], end[prev])]
+        debugs[0].pack()
+    #elif type(end[prev]) == list:
+    #    frame = tk.Frame(top)
+    #    debugs = [frame]
+    #    for i in lit:
+    #        debugs.append(Dropdown(frame, list(i.keys())))
+    #        debugs[len(debugs)-1].pack()                    # not working yet...
+    else:
+        debugs = [scrolledtext.ScrolledText(top, wrap=tk.WORD,
+                                      width=40, height=8,
+                                      font=("Times New Roman", 15))]
+        debugs[0].pack(fill='both', padx=10, pady=10)
+    
+        debugs[0].bind('<Return>', debug)
+        debugs[0].delete('1.0', tk.END,)
+        debugs[0].insert(tk.INSERT, str(end[prev]))
 
 def save():
-    print('save')
+    global end, g
+    g.fc['rooms'][str(g.roomnum)] = end
+
+def upload():
+    print('upload to file')
+
+def reset():
+    global g
+    g.fc['rooms'][str(g.roomnum)] = g.tosavefc['rooms'][str(g.roomnum)]
+    debug()
 
 def show_debug():
     global top, l3, btn3, debuginp, btn4, btn5
@@ -123,21 +151,16 @@ def show_debug():
     l3 = tk.Label(top, text='Debug', relief='solid')
     l3.pack(side='top', fill='x', pady=10, padx=10)
     
-    btn3 = tk.Button(top, text='search for things to debug', command=search)
-    btn3.pack(side='top', fill='x', pady=10, padx=10)
+    btn3 = tk.Button(top, text='sync changes', command=save)
+    btn3.pack(side='bottom', fill='x', pady=10, padx=10)
     
-    debuginp = scrolledtext.ScrolledText(top, wrap=tk.WORD,
-                                      width=40, height=8,
-                                      font=("Times New Roman", 15))
-    debuginp.pack(fill='both', padx=10, pady=10)
+    btn4 = tk.Button(top, text='save', command=upload)
+    btn4.pack(side='bottom', fill='x', pady=10, padx=10, before=btn3)
     
-    debuginp.bind('<Return>', debug)
-    
-    btn4 = tk.Button(top, text='debug', command=debug)
-    btn4.pack(side='bottom', fill='x', pady=10, padx=10)
-    
-    btn5 = tk.Button(top, text='save', command=save)
+    btn5 = tk.Button(top, text='reset level to file original', command=reset)
     btn5.pack(side='bottom', fill='x', pady=10, padx=10, before=btn4)
+    
+    debug()
 
     top.mainloop()
 
