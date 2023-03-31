@@ -107,7 +107,7 @@ class DebugInterface:
                 pass
 
     #args in these cases are just the keybinds when you press enter.
-    def go(self, args=None):
+    def go(self, args=None, debug=True):
         croom = g.fc['rooms'][str(g.roomnum)]
         if self.inp.get() != '':
             self.inps.append(self.inp.get())
@@ -125,7 +125,7 @@ class DebugInterface:
             "There are these people/monsters: " + '['+"".join([i['identifier']+", " if i['type'] == 4 else '' for i in croom['objects']])+']\n')
         self.subgame.config(text=txt)
         self.inp.delete(0, len(self.inp.get()))
-        self.debug()
+        if debug: self.debug()
 
     def debug(self, *args):
         try:
@@ -143,7 +143,7 @@ class DebugInterface:
         try:
             prev = self.d.get()
             if not changed:
-                self.save(False)
+                self.save(True, self.d.prev, False)
         except:
             prev = list(croom.keys())[0]
             self.d = Dropdown(self.top, self.debug, list(croom.keys()), prev)
@@ -158,7 +158,9 @@ class DebugInterface:
         
         self.debugs = []
         
-        sav = lambda *args: self.save(False)
+        def sav(*args):
+            self.save(True, prev)
+            self.go(debug=False)
 
         if type(self.end[prev]) == bool:
             self.dbugtyp = bool
@@ -187,15 +189,16 @@ class DebugInterface:
             self.debugs[0].delete('1.0', tk.END,)
             self.debugs[0].insert(tk.INSERT, str(self.end[prev]))
 
-    def save(self, update_game=True):
-        if self.dbugtyp == bool:
-            self.end[self.d.prev] = self.debugs[0].get() == "True"
-        elif self.dbugtyp == int:
-            self.end[self.d.prev] = self.debugs[0].get()
-        elif self.dbugtyp == str:
-            self.end[self.d.prev] = self.debugs[0].get("1.0", tk.END)
-        else:
-            raise ValueError("Unknown type %s" % str(self.dbugtyp))
+    def save(self, save=False, what_inend=None, update_game=True):
+        if save:
+            if self.dbugtyp == bool:
+                self.end[what_inend] = self.debugs[0].get() == "True"
+            elif self.dbugtyp == int:
+                self.end[what_inend] = self.debugs[0].get()
+            elif self.dbugtyp == str:
+                self.end[what_inend] = self.debugs[0].get("1.0", tk.END).strip('\n \t')
+            else:
+                raise ValueError("Unknown type %s" % str(self.dbugtyp))
         
         if update_game:
             g.fc['rooms'][str(g.roomnum)] = self.end
