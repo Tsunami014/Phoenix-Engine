@@ -213,7 +213,8 @@ else:
 
 ## first we do the imports
 
-this line is for importing the regular expressions used in i forget TODO: fix this and also for the line following
+this line is for importing the regular expressions used in the code and also for the line following
+
 	import os, re 
 
 this line is for clearing the screen. It is the only use of the os library. it basically sets the function 'clear' to clear the screen, so whenever you need to clear the screen you call "clear()"
@@ -221,7 +222,7 @@ this line is for clearing the screen. It is the only use of the os library. it b
     clear = lambda: os.system('cls' if os.name == 'nt' else 'clear')
     clear()
 
-This is whether to include debug mode or not. Its default is true, but it gets set to false in files like main.py. TODO: actiually set it to false in main.py
+This is whether to include debug mode or not. Its default is true, but it gets set to false in files like main.py where you play the game, not debug it.
     
     debug = True 
 
@@ -282,7 +283,7 @@ That it will be counted as close enough to pass
 
 	pos = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest", "", "up", "", "down", "", "left", "", "right", "", "in", "", "out"]
 
-This is TODO: fill in this
+This is the fourth number and delete expressions. More on all this below.
 
 	fourth_numbers = ["""
 	try:
@@ -290,8 +291,6 @@ This is TODO: fill in this
 	    self.title = True
 	    self.desc = True
 	except: pass"""]
-
-TODO: fill this in as well
 
 	 delete_numbers = ["self.fc['rooms']['{5}']['objects'][{4}[0]]"]
 
@@ -313,7 +312,7 @@ These next vars we load from a file:
 
 	        fp = "actions, words & syns/" #The filepath to all the json files
 
-TODO: explain this
+This gets the marker tags, dollas_wrds, etc. More on that in the \_\_call__ function.
 
 	        #Gets marker_tags, dollars_wrds, and other_names from words&tags.json
 	        with open(fp+"words&tags.json") as f:
@@ -321,8 +320,6 @@ TODO: explain this
 	        self.marker_tags = fc['marker_tags']
 	        self.dollars_wrds = fc['dollars_wrds']
 	        self.other_names = fc['other_names']
-
-TODO: explain this
 
 	        #Get actions, valid actions and action_deps from actions.json
 	        with open(fp+"actions.json") as f:
@@ -335,7 +332,30 @@ TODO: explain this
 
 	        self.action_deps = fc['action_dependencies']
 
-TODO: explain this
+This gets all the adjectives and stores them in variables.
+
+The adjectives are basically words that can be substituted with other words. e.g. the all_adj_syns are all the adjective synonyms, and those basically are synonyms for adjectives (or the actions) like a synonym for throw is chuck.
+
+word synonyms are just synonyms for words in a phrase like a synonym for stick is twig
+
+sent_wrds are sentence word synonyms - basically unfiltered, literrally just replaces the words in the input string synonyms. For example, 'the' could also be 'da' ('the stick', 'da stick')
+
+It also formats this so in the end the result dictionary is in the format: (this is an example)
+
+    {
+        'da': 'the',
+        'le': 'the'
+    }
+
+Because it starts off like (again, example):
+
+    {
+        'the': ['da', 'le']
+    }
+
+so it takes all the keys in the dictionary, and then all the lists of synonyms and then combines them into one dictionary.
+
+And this is the code:
 
 	        #Get all adjective and word and sentence_word (checked against all words in sentence) synonyms from syns.json and do some formatting with them
 	        with open(fp+"syns.json") as f:
@@ -343,7 +363,7 @@ TODO: explain this
 	        self.all_adj_syns = {}
 	        for i in syns['adjs']:
 	            for j in syns['adjs'][i]:
-	                self.all_adj_syns[j] = i               
+	                self.all_adj_syns[j] = i
 	        self.all_wrd_syns = {}
 	        for i in syns['words']:
 	            for j in syns['words'][i]:
@@ -353,69 +373,74 @@ TODO: explain this
 	            for j in syns['sent_wrds'][i]:
 	                self.sent_wrd_syns[j] = i
 
-TODO: explain this
+This takes the map from the file and loads it.
+
+One thing to notice is that the self.fc and self.tosavefc are the same - this is because when we change something in the gameplay we want to not change it in the actual file to do everything again, but if we change something in debug mode and we want to save that we change self.tosavefc.
 
 	        #Get the map from the file
 	        with open("maps/Forest out.json") as f:
-	            self.fc = json.load(f) #This is the game object which is a json object
-	            self.tosavefc = deepcopy(fc) #This is the game to save so that in debug mode
-	                    #If you change something it changes both so it can save the original
-	        self.title = True #Whether to show the title
-	        self.desc = True #Whether to show the description
-	        self.prev_action = None #What the previous action specified was
+	            self.fc = json.load(f)
+	            self.tosavefc = deepcopy(fc)
+
+and lastly a few more self explanitory actions
+
+	        self.title = True
+	        self.desc = True
+	        self.prev_action = None
 
 this next function is the function to run the action.
 
 This runs an action as defined by the formula below.
-TODO: improve this description and make it not look like code
-        Args:
-            code (str): the string code to run.
-            values (list): This also follows a specific formula that is needed. See below.
-            debug (optional, bool): Whether or not to apply the action to both the debug and normal or just normal. Defaults to False (just normal).
-            set_values_3 (optional, bool): Whether or not to set the third value in the list values or to just leave it. Defaults to True (change it).
+
+Args:
+    code (str): the string code to run.
+    values (list): This also follows a specific formula that is needed. See below.
+    debug (optional, bool): Whether or not to apply the action to both the debug and normal or just normal. Defaults to False (just normal).
+    set_values_3 (optional, bool): Whether or not to set the third value in the list values or to just leave it. Defaults to True (change it).
         
-        Values:
-        - out (dict): The parsed dictionary of the nlp parsed sentence.
-        - action (str): The action that is being done. For printing reasons.
-        - closests (list) - the words in the output that match the action in actions.json
-        - singular (str, but please leave this as None when inputting the list):
-            This basically is closests[0] for those actions that only use one object
-            So the print statement can be simpler. Will be overridden at the start of this code, so leave it as None.
-        - idxs (list) - the indexes of the words in the closests list in the room
-        - room_id (int) - the id of the current room. This is also the variable roomnum, but... still needed in this list.
-        
-        UNLESS IF YOU WANT ANOTHER SET OF VALUES FOR THE ACTIONS THEN:
-        1. set_values_3=False
-        Then you should be fine :)
-        
-        The code:
-        (split by ';', so '00Hello;01Goodbye' are 2 different statements both executed seperately)
-        
-        First number:
-            0 = print
-            1 = set variable (if not exists then create variable)
-            2 = delete variable
-        
-        Second number:
-            with the set variables:
-                0 = global
-                1 = class
-            with the print:
-                what colour
-            with the delete variables:
-                0 = the object specified
-        
-        Third string (not for first number=2):
-            what variable name/what to print
-        
-        Delimeter: " ~ "
-        
-        Fourth number (only for first number=1):
-            what value to set it to
-                0 = the closest exit to what was said
+Values:
+- out (dict): The parsed dictionary of the nlp parsed sentence.
+- action (str): The action that is being done. For printing reasons.
+- closests (list) - the words in the output that match the action in actions.json
+- singular (str, but please leave this as None when inputting the list):
+    This basically is closests[0] for those actions that only use one object
+    So the print statement can be simpler. Will be overridden at the start of this code, so leave it as None.
+- idxs (list) - the indexes of the words in the closests list in the room
+- room_id (int) - the id of the current room. This is also the variable roomnum, but... still needed in this list.
+
+UNLESS IF YOU WANT ANOTHER SET OF VALUES FOR THE ACTIONS THEN:
+1. set_values_3=False
+Then you should be fine :)
+
+The code:
+(split by ';', so '00Hello;01Goodbye' are 2 different statements both executed seperately)
+
+First number:
+    0 = print
+    1 = set variable (if not exists then create variable)
+    2 = delete variable
+
+Second number:
+    with the set variables:
+        0 = global
+        1 = class
+    with the print:
+        what colour
+    with the delete variables:
+        0 = the object specified
+
+Third string (not for first number=2):
+    what variable name/what to print
+
+Delimeter: " ~ "
+
+Fourth number (only for first number=1):
+    what value to set it to
+        0 = the closest exit to what was said
+
 TODO: explain bit by bit what this does
 
-	    def run_action(self, code, values, debug=False, set_values_3=True):
+	def run_action(self, code, values, debug=False, set_values_3=True):
 	        if set_values_3:
 	            try:
                 values[3] = values[2][0]
@@ -441,6 +466,8 @@ TODO: explain bit by bit what this does
             return Tree(node.orth_, [self.to_nltk_tree(child) for child in node.children])
         else:
             return node.orth_
+
+TODO: explain this
 
     def p_t(self, tree, toks, wrds, root=None): #parse tree
         self.output = []
@@ -500,6 +527,8 @@ TODO: explain bit by bit what this does
             except:
                 out['action'] = root
         return out
+
+TODO: explain this
 
     def __call__(self, inp, room_id, objs):
         doc = nlp(inp)
@@ -620,7 +649,6 @@ TODO: explain bit by bit what this does
                     outs = []
                     for i in out.keys():
                         if i in dep[tri][2]: outs.append(out[i][0].text.lower())
-                    #TODO: add synonyms for the above
                     al_objs = []
                     for i in objs:
                         if i['type'] in dep[tri][2]: al_objs.append(i['name'].lower())
@@ -682,21 +710,21 @@ TODO: explain bit by bit what this does
                 self.run_action(choice(self.actions[(closest)]), vals)
         return self.output, self.log
 
-def closest_num(numbers, value):
-    """
-    Find the closest number in the list values to the number value
+TODO: this
+Find the closest number in the list values to the number value
 
-    Args:
-        numbers ([int]): the list of numbers to search over to fi
-        value (int): _description_
-    
-    Returns:
-        int/None: the closest number, but if it is not found then it returns None
-    """
-    
-    closesst = (2, None)
-    for i in numbers:
-        if abs(i-value) < closesst[0]:
-            closesst = (abs(i-value), i)
-    
-    return closesst[1]
+Args:
+    numbers ([int]): the list of numbers to search over to fi
+    value (int): _description_
+
+Returns:
+    int/None: the closest number, but if it is not found then it returns None
+
+    def closest_num(numbers, value):
+        
+        closesst = (2, None)
+        for i in numbers:
+            if abs(i-value) < closesst[0]:
+                closesst = (abs(i-value), i)
+        
+        return closesst[1]
