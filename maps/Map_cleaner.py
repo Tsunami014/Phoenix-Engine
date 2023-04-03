@@ -23,29 +23,32 @@ for element in data['elements']:
         room['exits'] = {}
         
         if element['_endroom']: end_room = element['id']
-        room['objects'] = []
-        for obj in element['objects']:
-            obj_data = {}
-            if obj['_name'].find(" ") != -1:
-                i = ' '
-                tags = [tok.dep_ for tok in nlp(obj['_name'])]
-                while i.find(" ") != -1:
-                    i = obj['_name'].split(' ')[(tags.index("ROOT") if 'dobj' not in tags else tags.index("dobj")) if 'nsubj' not in tags else tags.index("nsubj")]
-                    #i = input("The object with name '%s' has more than one word in its name.\n\
-                    #Please input a one word name.\n> " % obj['_name'])
-                obj_data['name'] = i
-                obj_data['identifier'] = obj['_name']
-            else:
-                obj_data['name'] = obj['_name']
-                obj_data['identifier'] = obj['_name']
-            obj_data['description'] = obj['_description']
-            obj_data['content'] = obj['_content']
-            obj_data['type'] = obj['_kind']
-            try:
-                obj_data['status'] = obj['_status']
-            except:
-                obj_data['status'] = 0
-            room['objects'].append(obj_data)
+        def clean_objs(objs):
+            end = []
+            for obj in objs:
+                obj_data = {}
+                if obj['_name'].find(" ") != -1:
+                    i = ' '
+                    tags = [tok.dep_ for tok in nlp(obj['_name'])]
+                    while i.find(" ") != -1:
+                        i = obj['_name'].split(' ')[(tags.index("ROOT") if 'dobj' not in tags else tags.index("dobj")) if 'nsubj' not in tags else tags.index("nsubj")]
+                        #i = input("The object with name '%s' has more than one word in its name.\n\
+                        #Please input a one word name.\n> " % obj['_name'])
+                    obj_data['name'] = i
+                    obj_data['identifier'] = obj['_name']
+                else:
+                    obj_data['name'] = obj['_name']
+                    obj_data['identifier'] = obj['_name']
+                obj_data['description'] = obj['_description']
+                obj_data['content'] = [] if obj['_content'] == [] else clean_objs(obj['_content'])
+                obj_data['type'] = obj['_kind']
+                try:
+                    obj_data['status'] = obj['_status']
+                except:
+                    obj_data['status'] = 0
+                end.append(obj_data)
+            return end
+        room['objects'] = clean_objs(element['objects'])
         rooms[element["id"]] = room
     if element['_type'] == 'Connector':
         try:
