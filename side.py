@@ -98,7 +98,7 @@ class Game:
 
         #Get the map from the file
         with open("maps/Forest out.json") as f:
-            self.fc = json.load(f) #This is the game object which is a javascript object
+            self.fc = json.load(f) #This is the game object which is a json object
             self.tosavefc = deepcopy(fc) #This is the game to save so that in debug mode
                     #If you change something it changes both so it can save the original
 
