@@ -5,18 +5,21 @@
 >Locks,Puzzles and traps are stored in this file so they are easy to read and edit.
 #Boring Digital Lock
 > Define the file to store the combination
-import random
-filename = "combination.txt"
+    import random
+    filename = "combination.txt"
 
  Read the initial combination from the file
->with open(filename, "r") as file:
-    combination = file.read().strip()
+
+	with open(filename, "r") as file:
+        combination = file.read().strip()
 
  Ask user if they want to change the combination
->change = input("Would you like to change the combination? (y/n): ")
+
+	change = input("Would you like to change the combination? (y/n): ")
 
 If user wants to change the combination, ask for the original and new combinations
->if change == "y":
+
+	if change == "y":
     old_combination = input("Enter the current combination: ")
     if old_combination == combination:
         new_combination = input("Enter the new combination: ")
@@ -28,13 +31,15 @@ If user wants to change the combination, ask for the original and new combinatio
         print("Incorrect combination. Cannot change password.")
 
 Ask user for the combination
->user_input = input("Enter the combination: ")
+
+	user_input = input("Enter the combination: ")
 
  Check if the combination is correct
->if user_input == combination:
-  print("Access granted!")
-else:
-  print("Access denied.")
+
+	if user_input == combination:
+        print("Access granted!")
+    else:
+        print("Access denied.")
 
 
 # Next Lock
@@ -209,51 +214,60 @@ else:
 ## first we do the imports
 
 this line is for importing the regular expressions used in i forget TODO: fix this and also for the line following
->     import os, re 
+	import os, re 
 
 this line is for clearing the screen. It is the only use of the os library. it basically sets the function 'clear' to clear the screen, so whenever you need to clear the screen you call "clear()"
->     clear = lambda: os.system('cls' if os.name == 'nt' else 'clear')
->     clear()
+    
+    clear = lambda: os.system('cls' if os.name == 'nt' else 'clear')
+    clear()
 
 This is whether to include debug mode or not. Its default is true, but it gets set to false in files like main.py. TODO: actiually set it to false in main.py
->     debug = True 
+    
+    debug = True 
 
 more importing
->     print('importing... (There may be some warnings, if so just ignore them)')
+
+    print('importing... (There may be some warnings, if so just ignore them)')
 
 this line imports the copy module, used in later code. This deepcopy function basically creates duplicates of items, but without keeping the same references. This is used because of very complicated reasons.
->     from copy import deepcopy
+
+    from copy import deepcopy
 
 this imports the tree library from nltk, for turning the complicated spacy trees into the more simplified ones from the nltk library.
->     from nltk import Tree
+
+    from nltk import Tree
 
 this imports the random choice library
->     from random import choice
+
+    from random import choice
 
 this imports a very handy function that makes it so that it checks for very tiny spelling errors. Comes in handy.
->     from difflib import get_close_matches as GCM
+
+    from difflib import get_close_matches as GCM
 
 this is for loading the files.
->     import json
+
+    import json
 
 
 ### SET THIS TO TRUE if you downloaded en_core_web_sm using spacy install en_core_web_sm
 
 ### SET THIS TO FALSE if you downloaded en_core_web_sm using the .whl file that you download from the internet
->     if True:
->         import spacy
->         nlp = spacy.load('en_core_web_sm')
->     else:
->         import en_core_web_sm
->         nlp = en_core_web_sm.load()
+    if True:
+        import spacy
+        nlp = spacy.load('en_core_web_sm')
+    else:
+        import en_core_web_sm
+        nlp = en_core_web_sm.load()
 
 then it sets up the game by clearing the screen and setting some variables.
 
->     clear()
->     print('loading functions and other global variables...')
+	clear()
+	print('loading functions and other global variables...')
 
 The cutoff is... the cutoff for get closest matches (How close it needs to be for the match to work, 0=anything 1=same thing)
->     cutoff = 0.85
+
+	cutoff = 0.85
 
 
 the next variable pos is all the positions possible - notice sometimes there is "" between two items
@@ -266,87 +280,94 @@ So the gap is because it does not want that number to be close enough to the oth
 
 That it will be counted as close enough to pass
 
->     pos = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest", "", "up", "", "down", "", "left", "", "right", "", "in", "", "out"]
+	pos = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest", "", "up", "", "down", "", "left", "", "right", "", "in", "", "out"]
 
 This is TODO: fill in this
 
->     fourth_numbers = ["""
->     try:
->         self.fc['rooms']['{5}']['exits'][str(closest_num([int(i) for i in self.fc['rooms']['{5}']['exits'].keys()], pos.index('{3}')))]
->         self.title = True
->         self.desc = True
->     except: pass"""]
+	fourth_numbers = ["""
+	try:
+	    self.fc['rooms']['{5}']['exits'][str(closest_num([int(i) for i in self.fc['rooms']['{5}']['exits'].keys()], pos.index('{3}')))]
+	    self.title = True
+	    self.desc = True
+	except: pass"""]
 
 TODO: fill this in as well
->      delete_numbers = ["self.fc['rooms']['{5}']['objects'][{4}[0]]"]
+
+	 delete_numbers = ["self.fc['rooms']['{5}']['objects'][{4}[0]]"]
 
 The main game class!
->     class Game:
->         def __init__(self):
->             clear()
->             print('loading other vars...')
+
+	class Game:
+	    def __init__(self):
+	        clear()
+	        print('loading other vars...')
 
 set some variables, mostly self explanitory
->             self.roomnum = 1 #This is the starting room id
->             self.log = [] #Instead of printing errors, return them in this list!
->             self.output = [] #Instead of printing the output, return them in this list
->             #lemmatizer = WordNetLemmatizer() #doesn't work... yet
+
+	        self.roomnum = 1 #This is the starting room id
+	        self.log = [] #Instead of printing errors, return them in this list!
+	        self.output = [] #Instead of printing the output, return them in this list
+	        #lemmatizer = WordNetLemmatizer() #doesn't work... yet
 
 These next vars we load from a file:
 
->             fp = "actions, words & syns/" #The filepath to all the json files
+	        fp = "actions, words & syns/" #The filepath to all the json files
 
 TODO: explain this
->             #Gets marker_tags, dollars_wrds, and other_names from words&tags.json
->             with open(fp+"words&tags.json") as f:
->                 fc = json.load(f)
->             self.marker_tags = fc['marker_tags']
->             self.dollars_wrds = fc['dollars_wrds']
->             self.other_names = fc['other_names']
+
+	        #Gets marker_tags, dollars_wrds, and other_names from words&tags.json
+	        with open(fp+"words&tags.json") as f:
+	            fc = json.load(f)
+	        self.marker_tags = fc['marker_tags']
+	        self.dollars_wrds = fc['dollars_wrds']
+	        self.other_names = fc['other_names']
 
 TODO: explain this
->             #Get actions, valid actions and action_deps from actions.json
->             with open(fp+"actions.json") as f:
->                 fc = json.load(f)
->             #Do a little formatting with the actions and valid actions
->             self.actions = fc['actions']
->             self.actions = {eval(i): self.actions[i] for i in self.actions}
->             self.valid_actions = fc['valid_actions']
->             self.valid_actions = {eval(i): self.valid_actions[i] for i in self.valid_actions}
 
->             self.action_deps = fc['action_dependencies']
+	        #Get actions, valid actions and action_deps from actions.json
+	        with open(fp+"actions.json") as f:
+	            fc = json.load(f)
+	        #Do a little formatting with the actions and valid actions
+	        self.actions = fc['actions']
+	        self.actions = {eval(i): self.actions[i] for i in self.actions}
+	        self.valid_actions = fc['valid_actions']
+	        self.valid_actions = {eval(i): self.valid_actions[i] for i in self.valid_actions}
 
-TODO: explain this
->             #Get all adjective and word and sentence_word (checked against all words in sentence) synonyms from syns.json and do some formatting with them
->             with open(fp+"syns.json") as f:
->                 syns = json.load(f)
->             self.all_adj_syns = {}
->             for i in syns['adjs']:
->                 for j in syns['adjs'][i]:
->                     self.all_adj_syns[j] = i               
->             self.all_wrd_syns = {}
->             for i in syns['words']:
->                 for j in syns['words'][i]:
->                     self.all_wrd_syns[j] = i
->             self.sent_wrd_syns = {}
->             for i in syns['sent_wrds']:
->                 for j in syns['sent_wrds'][i]:
->                     self.sent_wrd_syns[j] = i
+	        self.action_deps = fc['action_dependencies']
 
 TODO: explain this
->             #Get the map from the file
->             with open("maps/Forest out.json") as f:
->                 self.fc = json.load(f) #This is the game object which is a json object
->                 self.tosavefc = deepcopy(fc) #This is the game to save so that in debug mode
->                         #If you change something it changes both so it can save the original
->             self.title = True #Whether to show the title
->             self.desc = True #Whether to show the description
->             self.prev_action = None #What the previous action specified was
+
+	        #Get all adjective and word and sentence_word (checked against all words in sentence) synonyms from syns.json and do some formatting with them
+	        with open(fp+"syns.json") as f:
+	            syns = json.load(f)
+	        self.all_adj_syns = {}
+	        for i in syns['adjs']:
+	            for j in syns['adjs'][i]:
+	                self.all_adj_syns[j] = i               
+	        self.all_wrd_syns = {}
+	        for i in syns['words']:
+	            for j in syns['words'][i]:
+	                self.all_wrd_syns[j] = i
+	        self.sent_wrd_syns = {}
+	        for i in syns['sent_wrds']:
+	            for j in syns['sent_wrds'][i]:
+	                self.sent_wrd_syns[j] = i
+
+TODO: explain this
+
+	        #Get the map from the file
+	        with open("maps/Forest out.json") as f:
+	            self.fc = json.load(f) #This is the game object which is a json object
+	            self.tosavefc = deepcopy(fc) #This is the game to save so that in debug mode
+	                    #If you change something it changes both so it can save the original
+	        self.title = True #Whether to show the title
+	        self.desc = True #Whether to show the description
+	        self.prev_action = None #What the previous action specified was
 
 this next function is the function to run the action.
 
 This runs an action as defined by the formula below.
-TODO: improve this description
+TODO: improve this description and make it not look like code
         Args:
             code (str): the string code to run.
             values (list): This also follows a specific formula that is needed. See below.
@@ -393,9 +414,10 @@ TODO: improve this description
             what value to set it to
                 0 = the closest exit to what was said
 TODO: explain bit by bit what this does
->         def run_action(self, code, values, debug=False, set_values_3=True):
->             if set_values_3:
->                 try:
+
+	    def run_action(self, code, values, debug=False, set_values_3=True):
+	        if set_values_3:
+	            try:
                 values[3] = values[2][0]
             except:
                 values[3] = []
