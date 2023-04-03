@@ -1,6 +1,6 @@
 import side as s
 
-s.debug = True #Re-setting the debug variable (just change this instead of the one in side.py)
+s.debug = False #Re-setting the debug variable (just change this instead of the one in side.py)
 
 g = s.Game()
 
@@ -36,10 +36,10 @@ while True:
         print("There are these people/monsters: " + '['+"".join([i['identifier']+", " if i['type'] == 4 else '' for i in croom['objects']])+']')
         
         print("What do you do?")
-        if s.debug:
-            #This lists all the debug statements you can make, but only if debug is activated.
-            print("To debug: type \"DEBUG (type in one: %s) (parameters go here, type help if you are unsure)\"" % list(g.debug_actions.keys()))
-            print("REMEMBER TO SAVE AFTER with \"save\"")
+        #if s.debug:
+        #    #This lists all the debug statements you can make, but only if debug is activated.
+        #    print("To debug: type \"DEBUG (type in one: %s) (parameters go here, type help if you are unsure)\"" % list(g.debug_actions.keys()))
+        #    print("REMEMBER TO SAVE AFTER with \"save\"")
         g.desc = False
         
     print("Type in help to be helped.")
