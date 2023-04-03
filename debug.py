@@ -15,6 +15,8 @@ class Dropdown:
         # datatype of menu text
         self.clicked = tk.StringVar()
         
+        self.options = options
+        
         # initial menu text
         if init != '': self.clicked.set(init)
         else: self.clicked.set(options[0])
@@ -31,6 +33,10 @@ class Dropdown:
     
     def get(self):
         return self.clicked.get()
+    
+    def set(self, set_to=''):
+        if set_to != '': return self.clicked.set(set_to)
+        else: return self.clicked.set(self.options[0])
     
     def destroy(self):
         self.drop.destroy()
@@ -162,24 +168,34 @@ class DebugInterface:
             self.save(True, prev)
             self.go(debug=False)
 
-        if type(self.end[prev]) == bool:
-            self.dbugtyp = bool
+        self.dbugtype = type(self.end[prev])
+        if self.dbugtype == bool:
             self.debugs = [Dropdown(self.top, sav, ['True', 'False'], str(self.end[prev]))]
             self.debugs[0].pack()
-        elif type(self.end[prev]) == int:
-            self.dbugtyp = int
+        elif self.dbugtype == int:
             self.debugs = [tk.Spinbox(self.top, from_=0, to=10)]
             self.debugs[0].pack()
             self.debugs[0].delete(0,"end")
             self.debugs[0].insert(0,2)
-        #elif type(self.end[prev]) == list:
-        #    frame = tk.Frame(self.top)
-        #    self.debugs = [frame]
-        #    for i in lit:
-        #        self.debugs.append(Dropdown(lambda: None, frame, list(i.keys())))
-        #        self.debugs[len(self.debugs)-1].pack()                    # not working yet...
-        else:
-            self.dbugtyp = str
+        elif self.dbugtype == list:
+            def func(destroy=True):
+                if destroy: self.debugs[1].destroy()
+                if self.debugs[0].get() == 'delete selected': pass
+                elif self.debugs[0].get() == 'insert new': pass
+                self.debugs[1] = 
+            l = [i['name'] for i in self.end[prev]]
+            l.extend(['delete selected', 'insert new'])
+            self.debugs = [Dropdown(self.top, func, ), None]
+            self.debugs[0].pack()
+            func(False)
+            frame = tk.Frame(self.top)
+            self.debugs = [frame]
+            for i in self.end[prev]:
+                self.debugs.append(Dropdown(frame, lambda: None, list(i.keys())))
+                self.debugs[len(self.debugs)-1].pack()
+        elif self.dbugtype == dict:
+            pass
+        elif self.dbugtype == str:
             self.debugs = [scrolledtext.ScrolledText(self.top, wrap=tk.WORD,
                                         width=40, height=8,
                                         font=("Times New Roman", 15))]
@@ -188,6 +204,8 @@ class DebugInterface:
             self.debugs[0].bind('<Return>', sav)
             self.debugs[0].delete('1.0', tk.END,)
             self.debugs[0].insert(tk.INSERT, str(self.end[prev]))
+        else:
+            raise ValueError('Invalid type: %s' % self.dbugtype)
 
     def save(self, save=False, what_inend=None, update_game=True):
         if save:
