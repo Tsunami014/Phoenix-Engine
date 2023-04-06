@@ -1,0 +1,26 @@
+{
+    "{'subj': 'speaker', 'action': 'took', 'subjobj': ['dog', {'owner': 'speaker'}], 'obj': ['walk', {'amount': 1}]}": [
+        ["I", "nsubj"], 
+        ["took", "ROOT"], 
+        ["my", "poss"], 
+        ["dog", "dobj"], 
+        ["for", "prep"], 
+        ["a", "det"], 
+        ["walk", "pobj"]
+    ],
+    "{'subj': ['dog': {'owner': 'speaker', 'mod': ['beautiful', 'blue']}], 'action': ['got', {'mod': 'just'}], 'subjobj': 'haircut'}": [
+        ["my", "poss"], 
+        ["beautiful", "amod"], 
+        ["blue", "amod"], 
+        ["dog", "nsubj"], 
+        ["just", "advmod"], 
+        ["got", "ROOT"], 
+        ["a", "det"], 
+        ["haircut", "dobj"]
+    ],
+    "{'action': 'throw', 'subjobj': ['pot', {'det': 'the'}]}": [
+        ["throw", "ROOT"],
+        ["the", "det"],
+        ["pot", "dobj"]
+    ]
+}

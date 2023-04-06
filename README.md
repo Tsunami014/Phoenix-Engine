@@ -25,6 +25,7 @@
  - make the actions
  - ### **make everything less complicated**
  - ### **make the interface for the actions and whatnot better**
+ - ## **restructure side.py, making the tests first**
 
 # CAN DO:
  - Make map selection
