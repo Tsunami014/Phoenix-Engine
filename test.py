@@ -1,5 +1,5 @@
 import unittest
-import side as s
+import redo_side as s
 from json import load, loads
 
 """
