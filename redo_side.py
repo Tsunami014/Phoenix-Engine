@@ -1,10 +1,12 @@
-from copy import deepcopy
 import json
 import os
 clear = lambda: os.system('cls' if os.name == 'nt' else 'clear')
 clear()
 
-#Set some global variables
+from nltk import Tree
+from copy import deepcopy
+from difflib import get_close_matches as GCM
+
 if True: #SET THIS TO TRUE if you downloaded en_core_web_sm using spacy install en_core_web_sm
     import spacy
     nlp = spacy.load('en_core_web_sm')
@@ -38,11 +40,9 @@ class Game:
         
         self.roomnum = 1 #This is the starting room id
         
-        self.output = [] #Instead of printing the output, return them in this list!
+        self.output = []
 
         #lemmatizer = WordNetLemmatizer() #doesn't work... yet
-
-        #These next vars are what to load from a file:
 
         fp = "actions, words & syns/" #The filepath to the json files
 
@@ -93,3 +93,87 @@ class Game:
                     #If you change something it changes both so it can save the original
 
         self.prev_action = None #What the previous action specified was
+    
+    def to_nltk_tree(self, node):
+        if node.n_lefts + node.n_rights > 0:
+            return Tree(node.orth_, [self.to_nltk_tree(child) for child in node.children])
+        else:
+            return node.orth_
+    
+    def parse(self, tree, toks, wrds, root=None): #parse tree
+        self.output = []
+        self.log = []
+        out = {}
+        for i in tree:
+            if type(i) == str:
+                tag = toks[wrds.index(i)]
+                #if tag[1] not in juiceless_tags:
+                try:
+                    m_t = self.marker_tags[tag[1]] #marker tag
+                except:
+                    self.log.append("couldn't find tag '%s' for word '%s' in dict." % (tag[1], tag[0].text))
+                    continue
+                if m_t == '$$':
+                    try:
+                        m_t = self.dollars_wrds[GCM(tag[0].text, self.dollars_wrds.keys(), n=1, cutoff=cutoff)[0]]
+                    except:
+                        self.log.append("Could not find word '%s' in dollars_wrds" % tag[0].text)
+                try:
+                    out[m_t].append(tag[0])
+                except:
+                    out[m_t] = [tag[0]]
+            else:
+                tag = toks[wrds.index(i._label)]
+                #if tag[1] not in juiceless_tags:
+                try:
+                    m_t = self.marker_tags[tag[1]] #marker tag
+                except:
+                    self.log.append("couldn't find tag '%s' for word '%s' in dict." % (tag[1], tag[0].text))
+                    continue
+                end = self.p_t(i, toks, wrds)
+                if m_t == '$$' and end != {}:
+                    try:
+                        m_t = self.dollars_wrds[GCM(tag[0].text, self.dollars_wrds.keys(), n=1, cutoff=cutoff)[0]]
+                        for i in end.keys():
+                            try:
+                                out[i+'#'+m_t].extend(end[i])
+                            except:
+                                out[i+'#'+m_t] = end[i]
+                    except:
+                        self.log.append("Could not find word '%s' in dollars_wrds" % tag[0].text)
+                else:
+                    if end == {}:
+                        try:
+                            out[m_t].append(tag[0])
+                        except:
+                            out[m_t] = [tag[0]]
+                    else:
+                        try:
+                            out[m_t].append((tag[0], end))
+                        except:
+                            out[m_t] = [(tag[0], end)]
+        if root != None:
+            try:
+                out['action'].append(root)
+            except:
+                out['action'] = root
+        return out
+
+def closest_num(numbers, value):
+    """
+    Find the closest number in the list values to the number value
+
+    Args:
+        numbers ([int]): the list of numbers to search over to fi
+        value (int): _description_
+    
+    Returns:
+        int/None: the closest number, but if it is not found then it returns None
+    """
+    
+    closesst = (2, None)
+    for i in numbers:
+        if abs(i-value) < closesst[0]:
+            closesst = (abs(i-value), i)
+    
+    return closesst[1]
