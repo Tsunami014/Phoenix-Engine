@@ -143,7 +143,7 @@ class Game:
     def action(self, action, match):
         found = None
         for i in match:
-            if i != 'action':
+            if 'action' not in i:
                 try:
                     if len(action[i]) == match[i]:
                         found = match['action']
@@ -261,7 +261,22 @@ class Game:
             code = self.action(p, self.actions[act])
             if code == None: continue
             self.run_action(code)
-            
+
+    def hash_check(self, inp, hashtags):
+        hashtags = hashtags.split('#')[1:]
+        closest = (None, -1)
+        for i in inp:
+            if 'action' in i and i != 'action':
+                j = i.split('#')[1:]
+                l = [k in hashtags for k in j]
+                if all(l):
+                    if closest[1] < len(l):
+                        closest = (inp[i], len(l))
+                    elif closest[1] == len(l):
+                        if type(closest[0]) != list: closest = ([closest[0], inp[i]], closest[1])
+                        else: closest.append(inp[i])
+        if closest[0] == None: return inp['action']
+        return closest[0]
 
 def closest_num(numbers, value):
     """

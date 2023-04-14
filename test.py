@@ -75,6 +75,22 @@ class NewTest(unittest.TestCase):
         self.assertIn('2', self.g.log[-1])
         #self.g.action({'action': ['die'], 'in': [('hole'), ('hole', ['another', 'a'])]}, {'subjobj': 1, 'action': 'abcdefg'})
         #self.assertIn('')
+    
+    def test_hashes(self):
+        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': 'abcdefg', 'action#throwable': 'throw! YEAH!'}, '#throwable'), 'throw! YEAH!')
+        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': 'abcdefg', 'action#throwable': 'throw! YEAH!'}, ''), 'abcdefg')
+        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': 'abcdefg', 'action#throwable': 'throw! YEAH!'}, '#throwable#yeetable'), 'throw! YEAH!')
+        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': '!@#$%', 'action#throwable': 'throw! YEAH!'}, '#meltable'), '!@#$%')
+        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': '12345', 'action#throwable': 'throw! YEAH!'}, ''), '12345')
+        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': 'abcdefg', 'action#throwable': 'throw! YEAH!'}, '#throwable'), 'throw! YEAH!')
+        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': 'abcdefg', 'action#throwable': 'throw! YEAH!', 'action#niceable': 'be super super COOOOOOOL!'}, '#throwable#niceable'), ['throw! YEAH!', 'be super super COOOOOOOL!'])
+        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': 'abcdefg', 'action#throwable': 'throw! YEAH!'}, '#throwable'), 'throw! YEAH!')
+        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': 'abcdefg', 'action#throwable': 'throw! YEAH!'}, ''), 'abcdefg')
+        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': 'abcdefg', 'action#throwable': 'throw! YEAH!'}, '#throwable#yeetable'), 'throw! YEAH!')
+        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': '!@#$%', 'action#throwable': 'throw! YEAH!'}, '#meltable'), '!@#$%')
+        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': '12345', 'action#throwable': 'throw! YEAH!'}, ''), '12345')
+        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': 'abcdefg', 'action#throwable': 'throw! YEAH!'}, '#throwable'), 'throw! YEAH!')
+        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': 'abcdefg', 'action#throwable#niceable': 'throw! YEAH!', 'action#niceable': 'be super super COOOOOOOL!'}, '#throwable#niceable'), 'throw! YEAH!')
 
 if __name__ == '__main__':
     unittest.main()
