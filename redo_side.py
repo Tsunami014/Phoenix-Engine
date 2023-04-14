@@ -167,58 +167,6 @@ class Game:
             return out
         else:
             raise TypeError('What the hell is this type; "%s"?' % str(type(i)))
-        """
-        self.log = []
-        out = {}
-        
-        for i in wrds:
-            if type(i) == str:
-                tag = i[1]
-                #if tag not in juiceless_tags:
-                try:
-                    m_t = self.marker_tags[tag] #marker tag
-                except:
-                    self.log.append("couldn't find tag '%s' for word '%s' in dict." % (tag, i[0]))
-                    continue
-                if m_t == '$$':
-                    try:
-                        m_t = self.dollars_wrds[GCM(i[0], self.dollars_wrds.keys(), n=1, cutoff=cutoff)[0]]
-                    except:
-                        self.log.append("Could not find word '%s' in dollars_wrds" % i[0])
-                try:
-                    out[m_t].append(i[0])
-                except:
-                    out[m_t] = [i[0]]
-            else:
-                tag = i[1]
-                #if tag not in juiceless_tags:
-                try:
-                    m_t = self.marker_tags[tag] #marker tag
-                except:
-                    self.log.append("couldn't find tag '%s' for word '%s' in dict." % (tag, i[0]))
-                    continue
-                end = self.parse(i[0], wrds)
-                if m_t == '$$' and end != {}:
-                    try:
-                        m_t = self.dollars_wrds[GCM(i[0], self.dollars_wrds.keys(), n=1, cutoff=cutoff)[0]]
-                        for i in end.keys():
-                            try:
-                                out[i+'#'+m_t].extend(end[i])
-                            except:
-                                out[i+'#'+m_t] = end[i]
-                    except:
-                        self.log.append("Could not find word '%s' in dollars_wrds" % tag[0].text)
-                elif end != {}:
-                    try:
-                        out[m_t].append((tag[0], end))
-                    except:
-                        out[m_t] = [(tag[0], end)]
-                else:
-                    try:
-                        out[m_t].append(tag[0])
-                    except:
-                        out[m_t] = [tag[0]]"""
-        return out
 
 def closest_num(numbers, value):
     """

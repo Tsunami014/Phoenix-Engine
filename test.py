@@ -62,14 +62,12 @@ class NewTest(unittest.TestCase):
             print(self.g.log)
             self.assertEqual(res, loads(test.replace("'", '"')))
     
-    """
     def test_action(self):
         #TODO: finish this test
-        self.assertEqual(self.g.run({'action': ['throw'], 'subjobj': [('pot', {'det': 'the'})]}, [{'subjobj': 1, 'action': 'abcdefg'}, {'subj': 2, 'action': 12345}]), 'abcdefg')
-        self.assertEqual(self.g.run({'action': ['say'], 'subj': [('jeff'), ('joe')]}, [{'subjobj': 1, 'action': 'abcdefg'}, {'subj': 2, 'action': 12345}]), '12345')
-        self.assertEqual(self.g.run({'action': ['talk'], 'subj': [('jeff')]}, [{'subjobj': 1, 'action': 'abcdefg'}, {'subj': 2, 'action': 12345}]), None)
-        self.assertEqual(self.g.run({'action': ['die'], 'in': [('hole')]}, [{'subjobj': 1, 'action': 'abcdefg'}, {'subj': 2, 'action': 12345}]), None)
-    """
+        self.assertEqual(self.g.action({'action': ['throw'], 'subjobj': [('pot', {'det': 'the'})]}, [{'subjobj': 1, 'action': 'abcdefg'}, {'subj': 2, 'action': 12345}]), 'abcdefg')
+        self.assertEqual(self.g.action({'action': ['say'], 'subj': [('jeff'), ('joe')]}, [{'subjobj': 1, 'action': 'abcdefg'}, {'subj': 2, 'action': 12345}]), '12345')
+        self.assertEqual(self.g.action({'action': ['talk'], 'subj': [('jeff')]}, [{'subjobj': 1, 'action': 'abcdefg'}, {'subj': 2, 'action': 12345}]), None)
+        self.assertEqual(self.g.action({'action': ['die'], 'in': [('hole')]}, [{'subjobj': 1, 'action': 'abcdefg'}, {'subj': 2, 'action': 12345}]), None)
 
 """class MainGameTest(unittest.TestCase):
     
