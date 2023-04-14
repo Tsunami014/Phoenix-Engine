@@ -3,7 +3,8 @@
         {
             "nsubj": "subj", 
             "prep": "$$", 
-            "advmod": "$$", 
+            "advmod": "$$",
+            "amod": "$$",
             "pobj": "obj", 
             "dobj": "subjobj", 
             "xcomp": "action",
@@ -36,7 +37,8 @@
             "to": "become",
             "exit": "exit",
             "for": "what",
-            "just": "time"
+            "just": "time",
+            "beautiful": "feature"
         },
     "other_names":
         {
