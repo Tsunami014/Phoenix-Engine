@@ -59,13 +59,7 @@ class Game:
             fc = json.load(f)
 
         #Do a little formatting with the actions and valid actions
-        self.actions = fc['actions']
-        self.actions = {eval(i): self.actions[i] for i in self.actions}
-
-        self.valid_actions = fc['valid_actions']
-        self.valid_actions = {eval(i): self.valid_actions[i] for i in self.valid_actions}
-
-        self.action_deps = fc['action_dependencies']
+        self.actions = fc
 
         #Get all adjective and word and sentence_word (checked against all words in sentence) synonyms from syns.json and do some formatting with them
         with open(fp+"syns.json") as f:
@@ -195,7 +189,7 @@ class Game:
         for act in code.split(';'):
             if act[0] == '0':
                 #colour = act[1]
-                self.output.append(act[2:].format())
+                self.log.append(act[2:].format())
             elif act[0] == '1':
                 spl = act[2:].split(' = ')
                 front = ('globals()[\'%s\']' if act[1] == '0' else 'self.%s') % spl[0]
@@ -242,7 +236,7 @@ class Game:
                     txt = txt.replace(j, self.syns[i])
                     
         doc = nlp(txt)
-        trees = [self.to_nltk_tree(sent.root) for sent in doc.sents]
+        trees = [self.to_tree(sent.root) for sent in doc.sents]
         for t in trees:       
             if type(t) == tuple:
                 if len(GCM(t[0], ['help'], cutoff=cutoff, n=1)) != 0:
@@ -258,6 +252,15 @@ class Game:
                     continue
                     
             p = self.parse(t)
+            try:
+                act = GCM(p['action'][0][0], self.actions.keys(), 1, cutoff)[0]
+            except:
+                self.log.append('Sorry, but you cannot %s.' % p['action'][0][0])
+                continue
+            #TODO: random chance of action
+            code = self.action(p, self.actions[act])
+            if code == None: continue
+            self.run_action(code)
             
 
 def closest_num(numbers, value):

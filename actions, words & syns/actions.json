@@ -1,37 +1,9 @@
 {
-    "valid_actions": 
-        {
-            "('throw', ('stick',))": 
-                ["00You throw the {3}. It goes a little far before settling back down into the grass.", 
-                "20;00You throw the {3}. You accidentally throw it WAY too hard (tooootal accident) off into the sunset and now that {3} will never be seen again."]
-        }, 
-    "actions": 
-        {
-            "'throw'":
-                [
-                    "00You can't throw {3}. Are you insane? What are you thinking?", 
-                    "00You try to throw {3}. You hurt your back and fail. Why would you try? You have no chance of {1}ing it! (*idiot*)"
-                ],
-            "'move'":
-                [
-                    "12roomnum ~ 0"
-                ],
-            "'help'":
-                [
-                    "C*S*desc = True"
-                ]
-        },
-    "action_dependencies":
-        {
-            "throw":
-                {
-                    "subjobj": [1, "object", [5]]
-                },
-            "move":
-                {
-                    "(subjobj)|(obj#where)|(move)": [1, "direction", ["move"]]
-                },
-            "help":
-                {}
-        }
+        "throw":
+            {"subjobj": 1,
+            "action": "00You threw something! HUZZAH!!!!!! :)"},
+        "move":
+            {"action": "12roomnum = 0"},
+        "help":
+            {"action": "12desc = True"}
 }
