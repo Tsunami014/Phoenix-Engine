@@ -1,5 +1,5 @@
 from copy import deepcopy
-import side as s
+import redo_side as s
 import tkinter as tk
 from tkinter import scrolledtext
 
@@ -118,7 +118,7 @@ class DebugInterface:
         if self.inp.get() != '':
             self.inps.append(self.inp.get())
             self.i = len(self.inps)
-            self.logs.config(text="\n".join([str(i) for i in g(self.inp.get(), g.roomnum, croom['objects'])]))
+            self.logs.config(text="\n".join([str(i) for i in g(self.inp.get())]))
         self.game.config(text=croom['name'].capitalize()+'\n'+croom['description'])
         
         #How the second line works is it says you can not exit if there are no exits otherwise it states all the exits and the direction of exit.
@@ -131,7 +131,7 @@ class DebugInterface:
             "There are these people/monsters: " + '['+"".join([i['identifier']+", " if i['type'] == 4 else '' for i in croom['objects']])+']\n')
         self.subgame.config(text=txt)
         self.inp.delete(0, len(self.inp.get()))
-        if debug: self.debug()
+        self.debug()
 
     def debug(self, *args):
         try:
