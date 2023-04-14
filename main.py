@@ -1,4 +1,4 @@
-import redo_side as s
+import side as s
 
 g = s.Game()
 

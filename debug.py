@@ -1,5 +1,5 @@
 from copy import deepcopy
-import redo_side as s
+import side as s
 import tkinter as tk
 from tkinter import scrolledtext
 

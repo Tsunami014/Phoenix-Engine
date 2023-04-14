@@ -1,18 +1,12 @@
-import os, re
+import json
+import os
 clear = lambda: os.system('cls' if os.name == 'nt' else 'clear')
 clear()
 
-debug = True #This is whether to include debug mode or not.
-
-print('importing... (There may be some warnings, if so just ignore them)')
-#Import the nececary libraries
-from copy import deepcopy
 from nltk import Tree
-from random import choice
+from copy import deepcopy
 from difflib import get_close_matches as GCM
-import json
 
-#Set some global variables
 if True: #SET THIS TO TRUE if you downloaded en_core_web_sm using spacy install en_core_web_sm
     import spacy
     nlp = spacy.load('en_core_web_sm')
@@ -46,13 +40,9 @@ class Game:
         
         self.roomnum = 1 #This is the starting room id
         
-        self.log = [] #Instead of printing errors, return them in this list!
-        
-        self.output = [] #Instead of printing the output, return them in this list
+        self.log = []
 
         #lemmatizer = WordNetLemmatizer() #doesn't work... yet
-
-        #These next vars are what to load from a file:
 
         fp = "actions, words & syns/" #The filepath to the json files
 
@@ -69,32 +59,16 @@ class Game:
             fc = json.load(f)
 
         #Do a little formatting with the actions and valid actions
-        self.actions = fc['actions']
-        self.actions = {eval(i): self.actions[i] for i in self.actions}
-
-        self.valid_actions = fc['valid_actions']
-        self.valid_actions = {eval(i): self.valid_actions[i] for i in self.valid_actions}
-
-        self.action_deps = fc['action_dependencies']
+        self.actions = fc
 
         #Get all adjective and word and sentence_word (checked against all words in sentence) synonyms from syns.json and do some formatting with them
         with open(fp+"syns.json") as f:
             syns = json.load(f)
 
-        self.all_adj_syns = {}
-        for i in syns['adjs']:
-            for j in syns['adjs'][i]:
-                self.all_adj_syns[j] = i
-                
-        self.all_wrd_syns = {}
-        for i in syns['words']:
-            for j in syns['words'][i]:
-                self.all_wrd_syns[j] = i
-        
-        self.sent_wrd_syns = {}
-        for i in syns['sent_wrds']:
-            for j in syns['sent_wrds'][i]:
-                self.sent_wrd_syns[j] = i
+        self.syns = {}
+        for i in syns:
+            for j in syns[i]:
+                self.syns[j] = i
 
         #Get the map from the file
         with open("maps/Forest out.json") as f:
@@ -102,33 +76,89 @@ class Game:
             self.tosavefc = deepcopy(fc) #This is the game to save so that in debug mode
                     #If you change something it changes both so it can save the original
 
-        self.title = True #Whether to show the title
-        self.desc = True #Whether to show the description
         self.prev_action = None #What the previous action specified was
-
-    def run_action(self, code, values, debug=False, set_values_3=True):
+    
+    def to_tree(self, node):
+        if len(list(node.children)) > 0:
+            return {(node.orth_, node.dep_): [self.to_tree(child) for child in node.children]}
+        else:
+            return (node.orth_, node.dep_)
+    
+    def parse(self, t):
+        #{['took', 'ROOT']: [['I', 'nsubj'], {['dog', 'dobj']: [['my', 'poss']]}, {['for', 'prep']: [{['walk', 'pobj']: [['a', 'det']]}]}]}
+        
+        if type(t) == str:
+            return t
+        elif type(t) == list:
+            out = {}
+            for i in t:
+                if type(i) == dict:
+                    for j in i:
+                        m_t = self.parse(j)
+                        m_t[1].append(self.parse(i[j]))
+                        try:
+                            out[m_t[0]].append(m_t[1])
+                        except:
+                            out[m_t[0]] = [m_t[1]]
+                    continue
+                
+                end = self.parse(tuple(i) if type(i) == list else i)
+                if end == False: continue
+                if type(end) == list:
+                    try:
+                        out[end[0]].append(end[1])
+                    except:
+                        out[end[0]] = [end[1]]
+                else:
+                    raise TypeError("Unexpected type %s!!!!! (CODING EROR)" % type(end))
+            return out
+        elif type(t) == tuple:
+            try:
+                m_t = self.marker_tags[t[1]] #marker tag
+            except:
+                self.log.append("couldn't find tag '%s' for word '%s' in dict." % (t[1], t[0]))
+                return False
+            if m_t == '$$':
+                try:
+                    m_t = self.dollars_wrds[GCM(t[0], self.dollars_wrds.keys(), n=1, cutoff=cutoff)[0]]
+                except:
+                    self.log.append("Could not find word '%s' in dollars_wrds" % t[0])
+            return [m_t, [t[0]]]
+        elif type(t) == dict:
+            out = {}
+            for i in t:
+                ks = self.parse(i)
+                if type(ks) == dict: ks = ks.keys()
+                ks = list(ks)
+                
+                out.update(self.parse(t[i]))
+                try:
+                    out[ks[0]].append((i[0]))
+                except:
+                    out[ks[0]] = [ks[1]]
+            return out
+        else:
+            raise TypeError('What the hell is this type; "%s"?' % str(type(i)))
+    
+    def action(self, action, match):
+        found = None
+        for i in match:
+            if i != 'action':
+                try:
+                    if len(action[i]) == match[i]:
+                        found = match['action']
+                    else:
+                        self.log.append('You need %i %s(s) you are %sing, not %i!' % (match[i], i, action['action'], len(action[i])))
+                except:
+                    self.log.append('You need at least %i %s(s) you are %sing!' % (match[i], i, action['action']))
+        return found
+    
+    def run_action(self, code): #TODO: make this even better than it is now
         """
         This runs an action as defined by the formula below.
 
         Args:
             code (str): the string code to run.
-            values (list): This also follows a specific formula that is needed. See below.
-            debug (optional, bool): Whether or not to apply the action to both the debug and normal or just normal. Defaults to False (just normal).
-            set_values_3 (optional, bool): Whether or not to set the third value in the list values or to just leave it. Defaults to True (change it).
-        
-        Values:
-        - out (dict): The parsed dictionary of the nlp parsed sentence.
-        - action (str): The action that is being done. For printing reasons.
-        - closests (list) - the words in the output that match the action in actions.json
-        - singular (str, but please leave this as None when inputting the list):
-            This basically is closests[0] for those actions that only use one object
-            So the print statement can be simpler. Will be overridden at the start of this code, so leave it as None.
-        - idxs (list) - the indexes of the words in the closests list in the room
-        - room_id (int) - the id of the current room. This is also the variable roomnum, but... still needed in this list.
-        
-        UNLESS IF YOU WANT ANOTHER SET OF VALUES FOR THE ACTIONS THEN:
-        1. set_values_3=False
-        Then you should be fine :)
         
         The code:
         (split by ';', so '00Hello;01Goodbye' are 2 different statements both executed seperately)
@@ -150,277 +180,88 @@ class Game:
         Third string (not for first number=2):
             what variable name/what to print
         
-        Delimeter: " ~ "
+        Delimeter: " = "
         
         Fourth number (only for first number=1):
             what value to set it to
                 0 = the closest exit to what was said
         """
-        if set_values_3:
-            try:
-                values[3] = values[2][0]
-            except:
-                values[3] = []
         for act in code.split(';'):
             if act[0] == '0':
                 #colour = act[1]
-                self.output.append(act[2:].format(*values))
+                self.log.append(act[2:].format())
             elif act[0] == '1':
-                spl = act[2:].split(' ~ ')
+                spl = act[2:].split(' = ')
                 front = ('globals()[\'%s\']' if act[1] == '0' else 'self.%s') % spl[0]
                 
-                exec(front.format(*values) + " = " + fourth_numbers[int(spl[1])].format(*values))
+                exec(front.format() + " = " + fourth_numbers[int(spl[1])].format())
             elif act[0] == '2':
-                exec('del '+delete_numbers[int(act[1])].format(*values))
-                
-                
-        if debug: self.run_action(code, values, debug=False) #? Do we need this?
-
-    def to_nltk_tree(self, node):
-        if node.n_lefts + node.n_rights > 0:
-            return Tree(node.orth_, [self.to_nltk_tree(child) for child in node.children])
+                exec('del '+delete_numbers[int(act[1])].format())
+    
+    def get_closest_matches(self, inp, matchAgainst):
+        add = 1
+        wrds = inp.split()
+        if type(matchAgainst) != list:
+            match_wrds = matchAgainst.split()
         else:
-            return node.orth_
+            match_wrds = matchAgainst
+        end = []
+        closes = []
+        for i in match_wrds:
+            matches = GCM(i, wrds, cutoff=cutoff, n=1)
+            if len(matches) != 0: closes.append(i)
+            end.append(matches)
+            
+        #print(closes)
+        matched = []
+        for i in range(len(end) - len(wrds) + 1 + add):
+            window = [item for sublist in end[i:i+len(wrds)+add] for item in sublist]
+            if all([i in window for i in wrds]):
+                m = match_wrds[i:i+len(wrds)+add]
 
-    def p_t(self, tree, toks, wrds, root=None): #parse tree
-        self.output = []
-        self.log = []
-        out = {}
-        for i in tree:
-            if type(i) == str:
-                tag = toks[wrds.index(i)]
-                #if tag[1] not in juiceless_tags:
-                try:
-                    m_t = self.marker_tags[tag[1]] #marker tag
-                except:
-                    self.log.append("couldn't find tag '%s' for word '%s' in dict." % (tag[1], tag[0].text))
-                    continue
-                if m_t == '$$':
-                    try:
-                        m_t = self.dollars_wrds[GCM(tag[0].text, self.dollars_wrds.keys(), n=1, cutoff=cutoff)[0]]
-                    except:
-                        self.log.append("Could not find word '%s' in dollars_wrds" % tag[0].text)
-                try:
-                    out[m_t].append(tag[0])
-                except:
-                    out[m_t] = [tag[0]]
-            else:
-                tag = toks[wrds.index(i._label)]
-                #if tag[1] not in juiceless_tags:
-                try:
-                    m_t = self.marker_tags[tag[1]] #marker tag
-                except:
-                    self.log.append("couldn't find tag '%s' for word '%s' in dict." % (tag[1], tag[0].text))
-                    continue
-                end = self.p_t(i, toks, wrds)
-                if m_t == '$$' and end != {}:
-                    try:
-                        m_t = self.dollars_wrds[GCM(tag[0].text, self.dollars_wrds.keys(), n=1, cutoff=cutoff)[0]]
-                        for i in end.keys():
-                            try:
-                                out[i+'#'+m_t].extend(end[i])
-                            except:
-                                out[i+'#'+m_t] = end[i]
-                    except:
-                        self.log.append("Could not find word '%s' in dollars_wrds" % tag[0].text)
-                else:
-                    if end == {}:
-                        try:
-                            out[m_t].append(tag[0])
-                        except:
-                            out[m_t] = [tag[0]]
-                    else:
-                        try:
-                            out[m_t].append((tag[0], end))
-                        except:
-                            out[m_t] = [(tag[0], end)]
-        if root != None:
-            try:
-                out['action'].append(root)
-            except:
-                out['action'] = root
-        return out
+                while m and m[0] not in closes:
+                    m = m[1:]
+                while m and m[-1] not in closes:
+                    m = m[:-1]
 
-    def __call__(self, inp, room_id, objs):
-        doc = nlp(inp)
-        wrds = [str(tok) for tok in doc]
-        changed = False
-        for i in range(len(wrds)):
-            check = GCM(wrds[i], self.sent_wrd_syns.keys(), cutoff=cutoff, n=1)
-            if len(check) != 0:
-                wrds[i] = self.sent_wrd_syns[check[0]]
-                changed = True
-        if changed: doc = nlp(" ".join(wrds))
-        toks = [(tok, tok.dep_) for tok in doc]
-        wrds = [str(tok) for tok in doc]
-        
-        """if debug:
-            if len(GCM('save', [wrds[0]], cutoff=cutoff, n=1)) != 0:
-                with open("out.json", "w") as f:
-                    f.write(json.dumps(self.tosavefc, indent=2))
-                self.output.append("saved successfully! :)")
-                return self.output, self.log
-            elif len(GCM('debug', [wrds[0]], cutoff=cutoff, n=1)) != 0:
-                if len(GCM('help', [wrds[2]], cutoff=cutoff, n=1)) != 0:
-                    self.output.append(self.debug_actions[wrds[1]][1])
-                else:
-                    try:
-                        closest = GCM('debug', list(self.debug_actions.keys()), cutoff=cutoff, n=1)[0]
-                    except:
-                        return self.output, self.log
-                    try:
-                        self.run_action(self.debug_actions[closest][0], wrds, True, False)
-                    except Exception as e:
-                        self.log.append("ERROR:", e)
-                        self.log.append(self.debug_actions[closest][1])
-                return self.output, self.log"""
-        
-        #juiceless_wrds = []
-        #for tok in toks:
-        #    if tok[1] in juiceless_tags: juiceless_wrds.append(str(tok[0]))
-        trees = [self.to_nltk_tree(sent.root) for sent in doc.sents]
-        #print(toks)
-        #for t in trees:
-        #    try: print(t.pretty_print()+'\n')
-        #    except: pass
-        for t in trees:
-            if type(t) == str:
-                if len(GCM(t, ['help'], cutoff=cutoff, n=1)) != 0:
+                if m not in matched: matched.append(m)
+
+        return [' '.join(i) for i in matched]
+    
+    def __call__(self, txt):
+        for i in self.syns.keys():
+            m = self.get_closest_matches(i, txt)
+            if len(m) != 0:
+                for j in m:
+                    txt = txt.replace(j, self.syns[i])
+                    
+        doc = nlp(txt)
+        trees = [self.to_tree(sent.root) for sent in doc.sents]
+        for t in trees:       
+            if type(t) == tuple:
+                if len(GCM(t[0], ['help'], cutoff=cutoff, n=1)) != 0:
                     global desc, title
                     title = True
                     desc = True
                     continue
                 elif self.prev_action != None:
-                    doc = nlp("%s %s" % (self.prev_action, t))
-                    toks = [(tok, tok.dep_) for tok in doc]
-                    wrds = [str(tok) for tok in doc]
+                    doc = nlp("%s %s" % (self.prev_action, t[0]))
                     t = [self.to_nltk_tree(sent.root) for sent in doc.sents][0]
                 else:
                     self.log.append("Sorry, you need to specify an action.")
                     continue
-            out = self.p_t(t, toks, wrds, t._label)
-            self.log.append(out) #Re-comment this line if you want detailed logs
-            
-            al = [(i[0] if type(i) != str else i) for i in list(self.actions.keys())]
-            alls = deepcopy(al)
-            alls.extend(self.all_adj_syns.keys())
+                    
+            p = self.parse(t)
             try:
-                closest = GCM(t._label.lower(), alls, cutoff=cutoff, n=1)[0]
+                act = GCM(p['action'][0][0], self.actions.keys(), 1, cutoff)[0]
             except:
-                self.log.append('Unknown command: %s. Avaliable commands: %s\nKeep in mind similar words work too' % (t._label.lower(), str(al)))
+                self.log.append('Sorry, but you cannot %s.' % p['action'][0][0])
                 continue
-            if closest in self.all_adj_syns:
-                closest = self.all_adj_syns[closest]
+            #TODO: random chance of action
+            code = self.action(p, self.actions[act])
+            if code == None: continue
+            self.run_action(code)
             
-            self.prev_action = closest
-            
-            try:
-                if out['subj'] not in ['i', 'me']:
-                    self.log.append("You can't get someone else to {0} a {1}".format(closest, out['subjobj']))
-                    continue
-            except:
-                pass
-            
-            dep = self.action_deps[closest]
-            closests = []
-            idxs = []
-            stop = False
-            for tri in dep.keys():
-                try:
-                    find = re.findall(tri, str(list(out.keys())))[0]
-                    if type(find) != str:
-                        find = list(find)
-                        #find = find[0]
-                        
-                        dels = []
-                        for i in range(len(find)):
-                            if find[i] == '': dels.append(i)
-                        dels.reverse()
-                        for i in dels:
-                            del find[i]
-                        outfind = []
-                        for j in find: outfind.extend(out[j])
-                    else:
-                        outfind = out[find]
-                    
-                except:
-                    find = []
-                
-                if len(find) == 0:
-                    self.log.append('You need at least the %s you are %sing!\nIf you did, consider rewording the sentence.' % (dep[tri][1], closest))
-                    stop = True
-                    break
-                
-                if len(outfind) != dep[tri][0]:
-                    self.log.append('Too many/little %ss specified. Please only specify %s.\nIf you did, consider rewording the sentence.\nYou said these %s: '+outfind % (dep[tri][1], str(dep[tri][0]), dep[tri][1]))
-                    stop = True
-                    break # Director yells out, "NEXT!" while you are halfway in the middle of what you were showing them
-                
-                if dep[tri][2] != []:
-                    outs = []
-                    for i in out.keys():
-                        if i in dep[tri][2]: outs.append(out[i][0].text.lower())
-                    #TODO: add synonyms for the above
-                    al_objs = []
-                    for i in objs:
-                        if i['type'] in dep[tri][2]: al_objs.append(i['name'].lower())
-                    al_obj_names = deepcopy(al_objs)
-                    al_obj_names.extend(outs)
-                    for i in self.all_wrd_syns.keys():
-                        if self.all_wrd_syns[i] in al_obj_names:
-                            al_obj_names.append(i)
-                    
-                    for f in outfind:
-                        if type(f) == tuple:
-                            tx = f[0].text
-                            #f = deepcopy(f[1])
-                        else:
-                            tx = f.text
-                        try:
-                            match = GCM(out[tx][0].text.lower(), al_obj_names, cutoff=cutoff, n=1)[0]
-                        except:
-                            try:
-                                match = GCM(tx.lower(), al_obj_names, cutoff=cutoff, n=1)[0]
-                            except:
-                                try:
-                                    match = GCM(tri.lower(), al_obj_names, cutoff=cutoff, n=1)[0]
-                                except:
-                                    self.log.append('Unknown %s: %s.\nObjects that can be used in this situation: %s' % (dep[tri][1], tx.lower(), str(al_objs)))
-                                    stop = True
-                                    break
-                        if match not in al_objs:
-                            if match in outs:
-                                closests.append(match)
-                                idxs.append(None)
-                            else:
-                                closests.append(self.all_wrd_syns[match])
-                                idxs.append(al_objs.index(self.all_wrd_syns[match]))
-                        else:
-                            closests.append(match)
-                            idxs.append(al_objs.index(match))
-                    if stop: break
-            if stop: continue
-            
-            for i in range(len(closests)):
-                try:
-                    if closests[i] in self.all_wrd_syns:
-                        closests[i] = self.all_wrd_syns[closests[i]]
-                except:
-                    try:
-                        if closests[i][0] in self.all_wrd_syns:
-                            closests[i] = self.all_wrd_syns[closests[i][0]]
-                        else:
-                            closests[i] = closests[i][0]
-                    except:
-                        pass
-            
-            vals = [out, closest, closests, None, idxs, room_id]
-            
-            try: # This uses its NAME to figure out what actions are allowed. If you want to do something different, change the [ERROR] in the statement below
-                self.run_action(choice(self.valid_actions[(closest, tuple(closests))]), vals)
-            except: #This uses NOTHING to figure out what to do. This is like a fail message for anything that isn't special.
-                self.run_action(choice(self.actions[(closest)]), vals)
-        return self.output, self.log
 
 def closest_num(numbers, value):
     """
