@@ -15,7 +15,8 @@
             "advcl": "is2",
             "aux": "to",
             "compound": "$$",
-            "attr": "$$"
+            "attr": "$$",
+            "ROOT": "action"
         },
     "dollars_wrds":
         {
@@ -33,7 +34,9 @@
             "out": "move",
             "debug": "action",
             "to": "become",
-            "exit": "exit"
+            "exit": "exit",
+            "for": "what",
+            "just": "time"
         },
     "other_names":
         {

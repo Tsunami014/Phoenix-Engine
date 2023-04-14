@@ -40,7 +40,7 @@ class Game:
         
         self.roomnum = 1 #This is the starting room id
         
-        self.output = []
+        self.log = []
 
         #lemmatizer = WordNetLemmatizer() #doesn't work... yet
 
@@ -94,46 +94,113 @@ class Game:
 
         self.prev_action = None #What the previous action specified was
     
-    def to_nltk_tree(self, node):
-        if node.n_lefts + node.n_rights > 0:
-            return Tree(node.orth_, [self.to_nltk_tree(child) for child in node.children])
+    def to_tree(self, node):
+        if len(list(node.children)) > 0:
+            return {(node.orth_, node.dep_): [self.to_tree(child) for child in node.children]}
         else:
-            return node.orth_
+            return (node.orth_, node.dep_)
     
-    def parse(self, tree, toks, wrds, root=None): #parse tree
-        self.output = []
+    def parse(self, t):
+        #{['took', 'ROOT']: [['I', 'nsubj'], {['dog', 'dobj']: [['my', 'poss']]}, {['for', 'prep']: [{['walk', 'pobj']: [['a', 'det']]}]}]}
+        
+        if type(t) == str:
+            return t
+            #if tag not in juiceless_tags:
+            try:
+                m_t = self.marker_tags[t[1]] #marker tag
+            except:
+                self.log.append("couldn't find tag '%s' for word '%s' in dict." % (t[1], t[0]))
+                return False
+            if m_t == '$$':
+                try:
+                    m_t = self.dollars_wrds[GCM(t[0], self.dollars_wrds.keys(), n=1, cutoff=cutoff)[0]]
+                except:
+                    self.log.append("Could not find word '%s' in dollars_wrds" % t[0])
+            return [t[0]]
+        elif type(t) == list:
+            out = {}
+            for i in t:
+                if type(i) == dict:
+                    for j in i:
+                        m_t = self.parse(j)
+                        m_t[1].append(self.parse(i[j]))
+                        try:
+                            out[m_t[0]].append(m_t[1])
+                        except:
+                            out[m_t[0]] = [m_t[1]]
+                    continue
+                
+                end = self.parse(tuple(i) if type(i) == list else i)
+                if end == False: continue
+                if type(end) == list:
+                    try:
+                        out[end[0]].append(end[1])
+                    except:
+                        out[end[0]] = [end[1]]
+                else:
+                    raise TypeError("Unexpected type %s!!!!! (CODING EROR)" % type(end))
+            return out
+        elif type(t) == tuple:
+            try:
+                m_t = self.marker_tags[t[1]] #marker tag
+            except:
+                self.log.append("couldn't find tag '%s' for word '%s' in dict." % (t[1], t[0]))
+                return False
+            if m_t == '$$':
+                try:
+                    m_t = self.dollars_wrds[GCM(t[0], self.dollars_wrds.keys(), n=1, cutoff=cutoff)[0]]
+                except:
+                    self.log.append("Could not find word '%s' in dollars_wrds" % t[0])
+            return [m_t, [t[0]]]
+        elif type(t) == dict:
+            out = {}
+            for i in t:
+                ks = self.parse(i)
+                if type(ks) == dict: ks = ks.keys()
+                ks = list(ks)
+                
+                out.update(self.parse(t[i]))
+                try:
+                    out[ks[0]].append((i[0]))
+                except:
+                    out[ks[0]] = [ks[1]]
+            return out
+        else:
+            raise TypeError('What the hell is this type; "%s"?' % str(type(i)))
+        """
         self.log = []
         out = {}
-        for i in tree:
+        
+        for i in wrds:
             if type(i) == str:
-                tag = toks[wrds.index(i)]
-                #if tag[1] not in juiceless_tags:
+                tag = i[1]
+                #if tag not in juiceless_tags:
                 try:
-                    m_t = self.marker_tags[tag[1]] #marker tag
+                    m_t = self.marker_tags[tag] #marker tag
                 except:
-                    self.log.append("couldn't find tag '%s' for word '%s' in dict." % (tag[1], tag[0].text))
+                    self.log.append("couldn't find tag '%s' for word '%s' in dict." % (tag, i[0]))
                     continue
                 if m_t == '$$':
                     try:
-                        m_t = self.dollars_wrds[GCM(tag[0].text, self.dollars_wrds.keys(), n=1, cutoff=cutoff)[0]]
+                        m_t = self.dollars_wrds[GCM(i[0], self.dollars_wrds.keys(), n=1, cutoff=cutoff)[0]]
                     except:
-                        self.log.append("Could not find word '%s' in dollars_wrds" % tag[0].text)
+                        self.log.append("Could not find word '%s' in dollars_wrds" % i[0])
                 try:
-                    out[m_t].append(tag[0])
+                    out[m_t].append(i[0])
                 except:
-                    out[m_t] = [tag[0]]
+                    out[m_t] = [i[0]]
             else:
-                tag = toks[wrds.index(i._label)]
-                #if tag[1] not in juiceless_tags:
+                tag = i[1]
+                #if tag not in juiceless_tags:
                 try:
-                    m_t = self.marker_tags[tag[1]] #marker tag
+                    m_t = self.marker_tags[tag] #marker tag
                 except:
-                    self.log.append("couldn't find tag '%s' for word '%s' in dict." % (tag[1], tag[0].text))
+                    self.log.append("couldn't find tag '%s' for word '%s' in dict." % (tag, i[0]))
                     continue
-                end = self.p_t(i, toks, wrds)
+                end = self.parse(i[0], wrds)
                 if m_t == '$$' and end != {}:
                     try:
-                        m_t = self.dollars_wrds[GCM(tag[0].text, self.dollars_wrds.keys(), n=1, cutoff=cutoff)[0]]
+                        m_t = self.dollars_wrds[GCM(i[0], self.dollars_wrds.keys(), n=1, cutoff=cutoff)[0]]
                         for i in end.keys():
                             try:
                                 out[i+'#'+m_t].extend(end[i])
@@ -141,22 +208,16 @@ class Game:
                                 out[i+'#'+m_t] = end[i]
                     except:
                         self.log.append("Could not find word '%s' in dollars_wrds" % tag[0].text)
+                elif end != {}:
+                    try:
+                        out[m_t].append((tag[0], end))
+                    except:
+                        out[m_t] = [(tag[0], end)]
                 else:
-                    if end == {}:
-                        try:
-                            out[m_t].append(tag[0])
-                        except:
-                            out[m_t] = [tag[0]]
-                    else:
-                        try:
-                            out[m_t].append((tag[0], end))
-                        except:
-                            out[m_t] = [(tag[0], end)]
-        if root != None:
-            try:
-                out['action'].append(root)
-            except:
-                out['action'] = root
+                    try:
+                        out[m_t].append(tag[0])
+                    except:
+                        out[m_t] = [tag[0]]"""
         return out
 
 def closest_num(numbers, value):

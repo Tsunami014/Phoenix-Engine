@@ -1,26 +1,10 @@
 {
-    "{'action': [('took')], 'subj': [('speaker')], 'subjobj': [('dog', {'owner': 'speaker'})], 'obj': [('walk', {'amount': 1})]}": [
-        ["I", "nsubj"], 
-        ["took", "ROOT"], 
-        ["my", "poss"], 
-        ["dog", "dobj"], 
-        ["for", "prep"], 
-        ["a", "det"], 
-        ["walk", "pobj"]
-    ],
-    "{'action': [('got', {'mod': 'just'})], 'subj': [('dog', {'owner': 'speaker', 'mod': ['beautiful', 'blue']})], 'subjobj': [('haircut')]}": [
-        ["my", "poss"], 
-        ["beautiful", "amod"], 
-        ["blue", "amod"], 
-        ["dog", "nsubj"], 
-        ["just", "advmod"], 
-        ["got", "ROOT"], 
-        ["a", "det"], 
-        ["haircut", "dobj"]
-    ],
-    "{'action': [('throw')], 'subjobj': [('pot', {'det': 'the'})]}": [
-        ["throw", "ROOT"],
-        ["the", "det"],
-        ["pot", "dobj"]
-    ]
+    "{'subj': [['I']], 'subjobj': [['dog', {'owns': [['my']]}]], 'what': [['for', {'obj': [['walk', {'is': [['a']]}]]}]], 'action': [['took']]}": 
+        "{['took', 'ROOT']: [['I', 'nsubj'], {['dog', 'dobj']: [['my', 'poss']]}, {['for', 'prep']: [{['walk', 'pobj']: [['a', 'det']]}]}]}",
+    
+    "{'subj': [['dog', {'owns': [['my']]}]], 'time': [['just']], 'subjobj': [['haircut', {'is': [['a']]}]], 'action': [['got']]}":
+        "{['got', 'ROOT']: [{['dog', 'nsubj']: [['my', 'poss'], ['beautiful', 'amod'], ['blue', 'amod']]}, ['just', 'advmod'], {['haircut', 'dobj']: [['a', 'det']]}]}",
+    
+    "{'subjobj': [['pot', {'is': [['the']]}]], 'action': [['throw']]}": 
+        "{['throw', 'ROOT']: [{['pot', 'dobj']: [['the', 'det']]}]}"
 }

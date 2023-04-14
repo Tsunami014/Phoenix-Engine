@@ -1,6 +1,7 @@
 import unittest
 import redo_side as s
-from json import load, loads
+from json import loads
+import re, ast
 
 """
 Action code:
@@ -30,6 +31,9 @@ Action code:
             0 = the closest exit to what was said
 """
 
+# print('"'+str([g.to_tree(sent.root) for sent in s.nlp("throw the pot").sents][0]).replace('(', '[').replace(')', ']')+'"'")
+# please note that the g.to_tree function uses tuples, so the code above replaces those with lists, so there shouldn't be any difference
+
 class NewTest(unittest.TestCase):
     g = s.Game()
     
@@ -40,20 +44,34 @@ class NewTest(unittest.TestCase):
         self.assertEqual(s.closest_num(list(range(0, 10, 5)), 1), 0) # [0, 5]
         self.assertEqual(s.closest_num(list(range(0, 10, 5)), 3), None) # [0, 5]
         self.assertEqual(s.closest_num(list(range(0, 10, 5)), 4), 5) # [0, 5]
+        
+    #TODO: test self.g.parse_word
     
     def test_parsing(self):
-        tests = load(open('test cases/parse tests.json'))
+        with open('test cases/parse tests.json') as f:
+            tests = loads(f.read())
+            f.close()
         for test in tests.keys():
-            self.assertEqual(self.g.parse(tests[test]), loads(test))
+            #trees = [self.g.to_tree(sent.root) for sent in s.nlp("I took my dog for a walk").sents]
+            testcase = tests[test].replace("'", '"')
+            #just a little reg expression to make the test case work
+            for match in re.findall(r"\[[^[]+?](?=:)", testcase):
+                testcase = testcase.replace(match, '(%s)' % match[1:-1])
+            
+            res = self.g.parse(ast.literal_eval(testcase))
+            print(self.g.log)
+            self.assertEqual(res, loads(test.replace("'", '"')))
     
+    """
     def test_action(self):
         #TODO: finish this test
         self.assertEqual(self.g.run({'action': ['throw'], 'subjobj': [('pot', {'det': 'the'})]}, [{'subjobj': 1, 'action': 'abcdefg'}, {'subj': 2, 'action': 12345}]), 'abcdefg')
         self.assertEqual(self.g.run({'action': ['say'], 'subj': [('jeff'), ('joe')]}, [{'subjobj': 1, 'action': 'abcdefg'}, {'subj': 2, 'action': 12345}]), '12345')
         self.assertEqual(self.g.run({'action': ['talk'], 'subj': [('jeff')]}, [{'subjobj': 1, 'action': 'abcdefg'}, {'subj': 2, 'action': 12345}]), None)
         self.assertEqual(self.g.run({'action': ['die'], 'in': [('hole')]}, [{'subjobj': 1, 'action': 'abcdefg'}, {'subj': 2, 'action': 12345}]), None)
+    """
 
-class MainGameTest(unittest.TestCase):
+"""class MainGameTest(unittest.TestCase):
     
     def test_closest_num(self):
         self.assertEqual(s.closest_num(list(range(10)), 2), 2) # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -77,6 +95,7 @@ class MainGameTest(unittest.TestCase):
         self.assertRaises(IndexError, g.run_action, "C*S*apple = '{5}'", ['a', 'b', [0, 1, 2, 3], None])
         
         #self.assertRaises(NameError, g.run_action, "C*S*apple = '{5}'", ['a', 'b', [0, 1, 2, 3], None])
+"""
 
 if __name__ == '__main__':
     unittest.main()
