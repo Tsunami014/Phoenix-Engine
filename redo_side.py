@@ -71,20 +71,10 @@ class Game:
         with open(fp+"syns.json") as f:
             syns = json.load(f)
 
-        self.all_adj_syns = {}
-        for i in syns['adjs']:
-            for j in syns['adjs'][i]:
-                self.all_adj_syns[j] = i
-                
-        self.all_wrd_syns = {}
-        for i in syns['words']:
-            for j in syns['words'][i]:
-                self.all_wrd_syns[j] = i
-        
-        self.sent_wrd_syns = {}
-        for i in syns['sent_wrds']:
-            for j in syns['sent_wrds'][i]:
-                self.sent_wrd_syns[j] = i
+        self.syns = {}
+        for i in syns:
+            for j in syns[i]:
+                self.syns[j] = i
 
         #Get the map from the file
         with open("maps/Forest out.json") as f:
@@ -196,7 +186,7 @@ class Game:
         Third string (not for first number=2):
             what variable name/what to print
         
-        Delimeter: " ~ "
+        Delimeter: " = "
         
         Fourth number (only for first number=1):
             what value to set it to
@@ -207,12 +197,68 @@ class Game:
                 #colour = act[1]
                 self.output.append(act[2:].format())
             elif act[0] == '1':
-                spl = act[2:].split(' ~ ')
+                spl = act[2:].split(' = ')
                 front = ('globals()[\'%s\']' if act[1] == '0' else 'self.%s') % spl[0]
                 
                 exec(front.format() + " = " + fourth_numbers[int(spl[1])].format())
             elif act[0] == '2':
                 exec('del '+delete_numbers[int(act[1])].format())
+    
+    def get_closest_matches(self, inp, matchAgainst):
+        add = 1
+        wrds = inp.split()
+        if type(matchAgainst) != list:
+            match_wrds = matchAgainst.split()
+        else:
+            match_wrds = matchAgainst
+        end = []
+        closes = []
+        for i in match_wrds:
+            matches = GCM(i, wrds, cutoff=cutoff, n=1)
+            if len(matches) != 0: closes.append(i)
+            end.append(matches)
+            
+        #print(closes)
+        matched = []
+        for i in range(len(end) - len(wrds) + 1 + add):
+            window = [item for sublist in end[i:i+len(wrds)+add] for item in sublist]
+            if all([i in window for i in wrds]):
+                m = match_wrds[i:i+len(wrds)+add]
+
+                while m and m[0] not in closes:
+                    m = m[1:]
+                while m and m[-1] not in closes:
+                    m = m[:-1]
+
+                if m not in matched: matched.append(m)
+
+        return [' '.join(i) for i in matched]
+    
+    def __call__(self, txt):
+        for i in self.syns.keys():
+            m = self.get_closest_matches(i, txt)
+            if len(m) != 0:
+                for j in m:
+                    txt = txt.replace(j, self.syns[i])
+                    
+        doc = nlp(txt)
+        trees = [self.to_nltk_tree(sent.root) for sent in doc.sents]
+        for t in trees:       
+            if type(t) == tuple:
+                if len(GCM(t[0], ['help'], cutoff=cutoff, n=1)) != 0:
+                    global desc, title
+                    title = True
+                    desc = True
+                    continue
+                elif self.prev_action != None:
+                    doc = nlp("%s %s" % (self.prev_action, t[0]))
+                    t = [self.to_nltk_tree(sent.root) for sent in doc.sents][0]
+                else:
+                    self.log.append("Sorry, you need to specify an action.")
+                    continue
+                    
+            p = self.parse(t)
+            
 
 def closest_num(numbers, value):
     """
