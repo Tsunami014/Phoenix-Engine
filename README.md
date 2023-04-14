@@ -22,7 +22,6 @@
  - add in battles and stuff
  - ### **make everything less complicated**
  - ### **make the interface for the actions and whatnot better**
- - ## **restructure side.py, making the tests first**
 
 # CAN DO:
  - Make map selection
@@ -35,3 +34,4 @@
  - Make the side.py a class
  - add in debug.py and make it a class
  - make the actions much easier to read and write to
+ - ## **restructure side.py, making the tests first**
