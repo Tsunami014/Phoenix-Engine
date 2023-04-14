@@ -105,18 +105,6 @@ class Game:
         
         if type(t) == str:
             return t
-            #if tag not in juiceless_tags:
-            try:
-                m_t = self.marker_tags[t[1]] #marker tag
-            except:
-                self.log.append("couldn't find tag '%s' for word '%s' in dict." % (t[1], t[0]))
-                return False
-            if m_t == '$$':
-                try:
-                    m_t = self.dollars_wrds[GCM(t[0], self.dollars_wrds.keys(), n=1, cutoff=cutoff)[0]]
-                except:
-                    self.log.append("Could not find word '%s' in dollars_wrds" % t[0])
-            return [t[0]]
         elif type(t) == list:
             out = {}
             for i in t:
@@ -167,6 +155,64 @@ class Game:
             return out
         else:
             raise TypeError('What the hell is this type; "%s"?' % str(type(i)))
+    
+    def action(self, action, match):
+        found = None
+        for i in match:
+            if i != 'action':
+                try:
+                    if len(action[i]) == match[i]:
+                        found = match['action']
+                    else:
+                        self.log.append('You need %i %s(s) you are %sing, not %i!' % (match[i], i, action['action'], len(action[i])))
+                except:
+                    self.log.append('You need at least %i %s(s) you are %sing!' % (match[i], i, action['action']))
+        return found
+    
+    def run_action(self, code): #TODO: make this even better than it is now
+        """
+        This runs an action as defined by the formula below.
+
+        Args:
+            code (str): the string code to run.
+        
+        The code:
+        (split by ';', so '00Hello;01Goodbye' are 2 different statements both executed seperately)
+        
+        First number:
+            0 = print
+            1 = set variable (if not exists then create variable)
+            2 = delete variable
+        
+        Second number:
+            with the set variables:
+                0 = global
+                1 = class
+            with the print:
+                what colour
+            with the delete variables:
+                0 = the object specified
+        
+        Third string (not for first number=2):
+            what variable name/what to print
+        
+        Delimeter: " ~ "
+        
+        Fourth number (only for first number=1):
+            what value to set it to
+                0 = the closest exit to what was said
+        """
+        for act in code.split(';'):
+            if act[0] == '0':
+                #colour = act[1]
+                self.output.append(act[2:].format())
+            elif act[0] == '1':
+                spl = act[2:].split(' ~ ')
+                front = ('globals()[\'%s\']' if act[1] == '0' else 'self.%s') % spl[0]
+                
+                exec(front.format() + " = " + fourth_numbers[int(spl[1])].format())
+            elif act[0] == '2':
+                exec('del '+delete_numbers[int(act[1])].format())
 
 def closest_num(numbers, value):
     """

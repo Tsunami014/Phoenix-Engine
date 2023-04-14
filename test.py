@@ -64,10 +64,17 @@ class NewTest(unittest.TestCase):
     
     def test_action(self):
         #TODO: finish this test
-        self.assertEqual(self.g.action({'action': ['throw'], 'subjobj': [('pot', {'det': 'the'})]}, [{'subjobj': 1, 'action': 'abcdefg'}, {'subj': 2, 'action': 12345}]), 'abcdefg')
-        self.assertEqual(self.g.action({'action': ['say'], 'subj': [('jeff'), ('joe')]}, [{'subjobj': 1, 'action': 'abcdefg'}, {'subj': 2, 'action': 12345}]), '12345')
-        self.assertEqual(self.g.action({'action': ['talk'], 'subj': [('jeff')]}, [{'subjobj': 1, 'action': 'abcdefg'}, {'subj': 2, 'action': 12345}]), None)
-        self.assertEqual(self.g.action({'action': ['die'], 'in': [('hole')]}, [{'subjobj': 1, 'action': 'abcdefg'}, {'subj': 2, 'action': 12345}]), None)
+        #please note this is testing material the real inputs/outputs are different
+        self.assertEqual(self.g.action({'action': ['throw'], 'subjobj': [('pot', {'det': 'the'})]}, {'subjobj': 1, 'action': 'abcdefg'}), 'abcdefg')
+        self.assertEqual(self.g.action({'action': ['say'], 'subj': [('jeff'), ('joe')]}, {'subj': 2, 'action': '12345'}), '12345')
+        self.assertEqual(self.g.action({'action': ['talk'], 'subj': [('jeff')]}, {'subjobj': 1, 'action': 'abcdefg'}), None)
+        self.assertEqual(self.g.action({'action': ['die'], 'in': [('hole'), ('hole', ['another', 'a'])]}, {'in': 1, 'action': 'abcdefg'}), None)
+        self.assertIn('1', self.g.log[-1])
+        self.assertIn('in', self.g.log[-1])
+        self.assertIn('die', self.g.log[-1])
+        self.assertIn('2', self.g.log[-1])
+        #self.g.action({'action': ['die'], 'in': [('hole'), ('hole', ['another', 'a'])]}, {'subjobj': 1, 'action': 'abcdefg'})
+        #self.assertIn('')
 
 """class MainGameTest(unittest.TestCase):
     
