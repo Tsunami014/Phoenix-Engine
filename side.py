@@ -209,6 +209,7 @@ class Game:
         #If there is more than 1 then return them in a list
         #The really easy way to find out if this code works is to NOT RUN IT but run the test in test.py
         #Either by running the individual test or the whole file it makes no difference
+        #If the test fails then something went wrong in your code
         pass
     
     def __call__(self, txt):
@@ -290,13 +291,6 @@ class Game:
                 except Exception as e:
                     self.log('ERROR: %s' % str(e))
                     continue
-                try:
-                    if len(action[i]) == match[i]:
-                        found = match['action']
-                    else:
-                        self.log.append('You need %i %s(s) you are %sing, not %i!' % (match[i], i, action['action'], len(action[i])))
-                except:
-                    self.log.append('You need at least %i %s(s) you are %sing!' % (match[i], i, action['action']))
         return found
 
     def hash_check(self, inp, hashtags):
