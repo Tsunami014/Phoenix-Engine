@@ -276,6 +276,11 @@ class Game:
             
             next number:
                 the number of items to check
+        
+        examples:
+         - 0subjobj ~ 02 (checks if it has 2 subjobjs)
+         - 0what ~ 54 (checks if there are less than 4 whats)
+         - 1action ~ throw (checks that the action is throwing (throwing is in the list of actions))
         """
         found = []
         for i in code.split(';'):
