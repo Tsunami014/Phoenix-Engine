@@ -143,7 +143,7 @@ class Game:
     def action(self, action, match):
         found = None
         for i in match:
-            if 'action' not in i:
+            if 'action' not in i and 'hash' not in i:
                 try:
                     if len(action[i]) == match[i]:
                         found = match['action']
@@ -199,34 +199,17 @@ class Game:
                 exec('del '+delete_numbers[int(act[1])].format())
     
     def get_closest_matches(self, inp, matchAgainst):
-        add = 1
-        wrds = inp.split()
-        if type(matchAgainst) != list:
-            match_wrds = matchAgainst.split()
-        else:
-            match_wrds = matchAgainst
-        end = []
-        closes = []
-        for i in match_wrds:
-            matches = GCM(i, wrds, cutoff=cutoff, n=1)
-            if len(matches) != 0: closes.append(i)
-            end.append(matches)
-            
-        #print(closes)
-        matched = []
-        for i in range(len(end) - len(wrds) + 1 + add):
-            window = [item for sublist in end[i:i+len(wrds)+add] for item in sublist]
-            if all([i in window for i in wrds]):
-                m = match_wrds[i:i+len(wrds)+add]
-
-                while m and m[0] not in closes:
-                    m = m[1:]
-                while m and m[-1] not in closes:
-                    m = m[:-1]
-
-                if m not in matched: matched.append(m)
-
-        return [' '.join(i) for i in matched]
+        #I CHOOSE YOU! RILEY/VIGGO! I'M DESIGNATING THIS TIME!!!!!!!! HAHAHAHA!!!!!
+        #What I want this function to do is this:
+        #Let's say we have a phrase, matchAgainst. I want to use a GCM function to find if inp is in the phrase.
+        #One hint is that you can use a sliding approach;
+        #E.g. if the inp is 3 words long check each 3 words to see if they have the match
+        #It is optional but nicer if you haev it so that you can have a word in the middle,
+        #like if you have the inp='nice doggo' and matchAgainst='nice brown doggo' it will count as a match
+        #If there is more than 1 then return them in a list
+        #The really easy way to find out if this code works is to NOT RUN IT but run the test in test.py
+        #Either by running the individual test or the whole file it makes no difference
+        pass
     
     def __call__(self, txt):
         for i in self.syns.keys():
@@ -252,8 +235,9 @@ class Game:
                     continue
                     
             p = self.parse(t)
+            parseAction = self.hash_check(p['action'][0][0], '') #TODO: finish this
             try:
-                act = GCM(p['action'][0][0], self.actions.keys(), 1, cutoff)[0]
+                act = GCM(parseAction[0][0], self.actions.keys(), 1, cutoff)[0]
             except:
                 self.log.append('Sorry, but you cannot %s.' % p['action'][0][0])
                 continue
@@ -261,6 +245,59 @@ class Game:
             code = self.action(p, self.actions[act])
             if code == None: continue
             self.run_action(code)
+    
+    def hash_code(self, t, code):
+        """
+        The hash codes are like this:
+        each statement is split by a semi-colon;
+
+        first digit:
+            0 - matching number of items
+            1 - matching words
+        
+        next text:
+            the part of speech ('subjobj', 'action', 'what')
+            
+        delimenar - " ~ "
+        
+        for matching words:
+            next text:
+                the word to match
+        
+        for # of items:
+            next digit:
+                0 - ==
+                1 - !=
+                2 - >=
+                3 - <=
+                4 - >
+                5 - <
+            
+            next number:
+                the number of items to check
+        """
+        found = []
+        for i in code.split(';'):
+            if i[0] == '0':
+                pass
+            elif i[0] == '1':
+                try:
+                    spl = i[1:].split(' ~ ')
+                    if len(GCM(spl[1], [t[spl[0]]], 1, cutoff)) == 1:
+                        found.append(())
+                    else:
+                        continue
+                except Exception as e:
+                    self.log('ERROR: %s' % str(e))
+                    continue
+                try:
+                    if len(action[i]) == match[i]:
+                        found = match['action']
+                    else:
+                        self.log.append('You need %i %s(s) you are %sing, not %i!' % (match[i], i, action['action'], len(action[i])))
+                except:
+                    self.log.append('You need at least %i %s(s) you are %sing!' % (match[i], i, action['action']))
+        return found
 
     def hash_check(self, inp, hashtags):
         hashtags = hashtags.split('#')[1:]
