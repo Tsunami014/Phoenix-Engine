@@ -92,5 +92,16 @@ class NewTest(unittest.TestCase):
         self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': 'abcdefg', 'action#throwable': 'throw! YEAH!'}, '#throwable'), 'throw! YEAH!')
         self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': 'abcdefg', 'action#throwable#niceable': 'throw! YEAH!', 'action#niceable': 'be super super COOOOOOOL!'}, '#throwable#niceable'), 'throw! YEAH!')
 
+    def test_hash_code(self):
+        #TODO: finish writing this test
+        self.assertEqual(self.g.hash_code({'action': ['hey']}, '0action ~ 01'), True)
+        self.assertEqual(self.g.hash_code({'action': ['hey']}, '0action ~ 02'), False)
+        self.assertEqual(self.g.hash_code({'action': ['hey']}, '0action ~ 01;0hi ~ 01'), None)
+        self.assertEqual(self.g.hash_code({'action': ['hey'], 'hi': ['hi']}, '0action ~ 01;0hi ~ 01'), True)
+        self.assertEqual(self.g.hash_code({'action': ['hey', 'hi'], 'words': ['hi']}, '0words ~ 01'), True)
+        self.assertEqual(self.g.hash_code({'action': ['hey', 'hi'], 'words': ['hi', 'bye']}, '0words ~ 01'), False)
+        self.assertEqual(self.g.hash_code({'action': ['hey', 'hi'], 'words': ['hi']}, '0words ~ 01;0action ~ 22'), True)
+        self.assertEqual(self.g.hash_code({'action': ['hey', 'hi'], 'words': ['hi', 'bye']}, '0words ~ 11;0action ~ 510'), True)
+
 if __name__ == '__main__':
     unittest.main()

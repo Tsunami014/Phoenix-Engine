@@ -26,6 +26,7 @@
  - make that function in side.py
  - add in actions (things that make more things happen)!!!!!!!
  - make sure that everything follows the main criteria and we didn't go *too* far in the wrong direction
+ - finish the unittests (requires knowledge of what they even are, i will explain)
 
 now i can blame you guys if something goes wrong
 

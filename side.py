@@ -282,21 +282,28 @@ class Game:
          - 0what ~ 54 (checks if there are less than 4 whats)
          - 1action ~ throw (checks that the action is throwing (throwing is in the list of actions))
         """
-        found = []
         for i in code.split(';'):
             if i[0] == '0':
-                pass
+                try:
+                    spl = i[1:].split(' ~ ')
+                    if eval(str(len(t[spl[0]])) + ' ' + ['==', '!=', '>=', '<=', '>', '<'][int(spl[1][0])] + ' ' + spl[1][1:]):
+                        pass
+                    else:
+                        return False
+                except Exception as e:
+                    self.log.append('ERROR: %s' % str(e))
+                    return
             elif i[0] == '1':
                 try:
                     spl = i[1:].split(' ~ ')
                     if len(GCM(spl[1], [t[spl[0]]], 1, cutoff)) == 1:
-                        found.append(())
+                        pass
                     else:
-                        continue
+                        return False
                 except Exception as e:
-                    self.log('ERROR: %s' % str(e))
-                    continue
-        return found
+                    self.log.append('ERROR: %s' % str(e))
+                    return
+        return True
 
     def hash_check(self, inp, hashtags):
         hashtags = hashtags.split('#')[1:]
