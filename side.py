@@ -44,7 +44,7 @@ class Game:
 
         #lemmatizer = WordNetLemmatizer() #doesn't work... yet
 
-        fp = "actions, words & syns/" #The filepath to the json files
+        fp = "important stuff/" #The filepath to the json files
 
         #Gets marker_tags, dollars_wrds, and other_names from words&tags.json
         with open(fp+"words&tags.json") as f:
@@ -69,6 +69,9 @@ class Game:
         for i in syns:
             for j in syns[i]:
                 self.syns[j] = i
+        
+        with open(fp+"hashtags.json") as f:
+            self.hashtags = json.load(f)
 
         #Get the map from the file
         with open("maps/Forest out.json") as f:
@@ -236,6 +239,17 @@ class Game:
                     continue
                     
             p = self.parse(t)
+            acts = self.actions[p['action'][-1][0]]
+            for i in acts:
+                if 'action' in i and not 'action' == i:
+                    for j in i.split('#')[1:]:
+                        try:
+                            if not self.hash_code(self.hashtags[j]):
+                                break
+                        except:
+                            self.log.append('%s not in hash tags list!!!!!!' % j)
+                            break
+                    #????????
             parseAction = self.hash_check(p['action'][0][0], '') #TODO: finish this
             try:
                 act = GCM(parseAction[0][0], self.actions.keys(), 1, cutoff)[0]
@@ -339,3 +353,5 @@ def closest_num(numbers, value):
             closesst = (abs(i-value), i)
     
     return closesst[1]
+
+
