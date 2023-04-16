@@ -33,34 +33,31 @@ def chooser():
     form = Inputs()
     if form.validate_on_submit():
         name = form.myField.data
-    try:
-        message = name.lower()
-    except:
-        message = ""
-    return render_template('selector.html', form=form, message=message)
+        return redirect("main/"+name, 303)
+    return render_template('selector.html', form=form)
 
 @app.route('/main/<id>', methods=['GET', 'POST'])
 def index(id):
-    print(id)
     # you must tell the variable 'form' what you named the class, above
     # 'form' is the variable name used in this template: index.html
     form = NameForm()
     if form.validate_on_submit():
-        name = form.name.data
+        name = form.inp.data
     try:
         message = name.lower()
     except:
         message = ""
-    return render_template('app.html', form=form, message=message)
+    return render_template('app.html', title=id, form=form, message=message)
 
-@app.route('/save/<id>')
-def save_slot(id):
+@app.route('/main/<id>/save/<code>')
+def save_slot(id, code):
+    print(id, code)
     if id == "Unknown":
         # redirect the browser to the error template
         return render_template('404.html'), 404
     else:
         # pass all the data for the selected actor to the template
-        return render_template('app.html')
+        return index(id)
 
 # 2 routes to handle errors - they have templates too
 
