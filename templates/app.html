@@ -1,35 +1,47 @@
-{% extends 'base.html' %}
 {% from 'bootstrap5/form.html' import render_form %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-{% block title %}
-Best Movie Actors
-{% endblock %}
+    <title>Best Movie Actors</title>
 
+    {{ bootstrap.load_css() }}
 
-{% block content %}
-
-<!--
+    <style>
+      body {
+        background: #e8f1f9;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 
 	TIPS about using Bootstrap-Flask:
 	https://github.com/helloflask/bootstrap-flask
 	https://bootstrap-flask.readthedocs.io/
--->
+ -->
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
+          <h1 class="pt-5 pb-2">Welcome to the best movie actors Flask example!</h1>
 
-      <h1 class="pt-5 pb-2">Welcome to the best movie actors Flask example!</h1>
+          <p class="lead">
+            This is the index page for an example Flask app using Bootstrap and WTForms. Note that <em>only 100 actors</em> are in the data source. Partial names are not valid.
+          </p>
 
-      <p class="lead">This is the index page for an example Flask app using Bootstrap and WTForms. Note that <em>only 100 actors</em> are in the data source. Partial names are not valid.</p>
+          {{ render_form(form) }}
 
-      {{ render_form(form) }}
-
-      <p class="pt-5"><strong>{{ message }}</strong></p>
-
+          <p class="pt-5">
+            <strong>{{ message }}</strong>
+          </p>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
-{% endblock %}
+    {{ bootstrap.load_js() }}
+  </body>
+</html>
 
 {{ id_thing }}
