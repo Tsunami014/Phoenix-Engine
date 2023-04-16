@@ -19,7 +19,7 @@
  - make sure that everything works properly
  - add in battles and stuff
  - ### **make everything less complicated**
- - ### **make the interface for the actions and whatnot better**
+ - ### **make the interface for the actions and whatnot better** (will do by making it a website)
  - ### make the best map the world has <u>**EVER SEEN**</u>!!! (you have some time to work on it)
 
 # WHAT I DESIGNATE RILEY & VIGGO (& Henry if he can do it) TO DO (in addition to the things above):
