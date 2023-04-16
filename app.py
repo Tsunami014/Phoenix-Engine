@@ -28,10 +28,13 @@ def index():
     # you must tell the variable 'form' what you named the class, above
     # 'form' is the variable name used in this template: index.html
     form = NameForm()
-    message = ""
     if form.validate_on_submit():
         name = form.name.data
-    return render_template('app.html', form=form, message=name.lower())
+    try:
+        message = name.lower()
+    except:
+        message = ""
+    return render_template('app.html', form=form, message=message)
 
 @app.route('/actor/<id>')
 def actor(id):
