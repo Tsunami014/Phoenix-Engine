@@ -6,7 +6,10 @@ from wtforms import *
 from wtforms.validators import DataRequired, Length
 
 app = Flask(__name__)
-app.secret_key = 'tO$&!|0wkamvVia0?n$NqIRVWOG'
+
+import secrets
+foo = secrets.token_urlsafe(16)
+app.secret_key = foo
 
 # Bootstrap-Flask requires this line
 bootstrap = Bootstrap5(app)
