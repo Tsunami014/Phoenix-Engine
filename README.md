@@ -12,7 +12,7 @@
  - add in a file on all the actions we will want and get everyone to fill it out 
  - implement them
  - add in all the debug actions
- - add in # tags!
+ - **add in # tags!**
  - add in way WAY more comments and docstrings
  - add in a file on how this whole thing works
  - make the unittests

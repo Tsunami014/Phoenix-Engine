@@ -89,4 +89,4 @@ def page_not_found(e):
 
 # keep this as is
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

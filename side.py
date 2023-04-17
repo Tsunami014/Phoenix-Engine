@@ -217,11 +217,11 @@ class Game:
         pass
     
     def __call__(self, txt):
-        for i in self.syns.keys():
+        """for i in self.syns.keys():
             m = self.get_closest_matches(i, txt)
             if len(m) != 0:
                 for j in m:
-                    txt = txt.replace(j, self.syns[i])
+                    txt = txt.replace(j, self.syns[i])"""
                     
         doc = nlp(txt)
         trees = [self.to_tree(sent.root) for sent in doc.sents]
@@ -241,26 +241,19 @@ class Game:
                     
             p = self.parse(t)
             acts = self.actions[p['action'][-1][0]]
-            for i in acts:
-                if 'action' in i and not 'action' == i:
-                    for j in i.split('#')[1:]:
-                        try:
-                            if not self.hash_code(self.hashtags[j]):
-                                break
-                        except:
-                            self.log.append('%s not in hash tags list!!!!!!' % j)
-                            break
-                    #????????
-            parseAction = self.hash_check(p['action'][0][0], '') #TODO: finish this
-            try:
-                act = GCM(parseAction[0][0], self.actions.keys(), 1, cutoff)[0]
-            except:
-                self.log.append('Sorry, but you cannot %s.' % p['action'][0][0])
-                continue
+            parseAction = self.hash_check(acts, p)
+            if parseAction == False: continue
+            #parseAction = self.hash_check(p['action'][0][0], '') #TODO: finish this
+            #try:
+            #    act = GCM(parseAction[0][0], self.actions.keys(), 1, cutoff)[0]
+            #except:
+            #    self.log.append('Sorry, but you cannot %s.' % p['action'][0][0])
+            #    continue
             #TODO: random chance of action
-            code = self.action(p, self.actions[act])
-            if code == None: continue
-            self.run_action(code)
+            #code = self.action(p, self.actions[parseAction])
+            #if code == None: continue
+            self.run_action(parseAction)
+        return PRINTS
     
     def hash_code(self, t, code):
         """
@@ -320,19 +313,22 @@ class Game:
                     return
         return True
 
-    def hash_check(self, inp, hashtags):
-        hashtags = hashtags.split('#')[1:]
+    def hash_check(self, inp, t):
         closest = (None, -1)
         for i in inp:
             if 'action' in i and i != 'action':
                 j = i.split('#')[1:]
-                l = [k in hashtags for k in j]
+                l = [self.hash_code(t, self.hashtags[k]) for k in j]
                 if all(l):
                     if closest[1] < len(l):
                         closest = (inp[i], len(l))
                     elif closest[1] == len(l):
                         if type(closest[0]) != list: closest = ([closest[0], inp[i]], closest[1])
                         else: closest.append(inp[i])
+            elif i != 'action':
+                if not len(t[i]) == inp[i]:
+                    self.log.append('You need %i %s in your sentence. Please rephrase.' % (inp[i], i))
+                    return False
         if closest[0] == None: return inp['action']
         return closest[0]
 
