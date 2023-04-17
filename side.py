@@ -35,6 +35,7 @@ delete_numbers = ["self.fc['rooms']['{5}']['objects'][{4}[0]]"]
 
 class Game:
     def __init__(self):
+        global PRINTS
         PRINTS = ''
         PRINTS += 'loading other vars ...\n'
         
@@ -137,25 +138,12 @@ class Game:
                 
                 out.update(self.parse(t[i]))
                 try:
-                    out[ks[0]].append((i[0]))
+                    out[ks[0]].append(ks[1])
                 except:
                     out[ks[0]] = [ks[1]]
             return out
         else:
             raise TypeError('What the hell is this type; "%s"?' % str(type(i)))
-    
-    def action(self, action, match):
-        found = None
-        for i in match:
-            if 'action' not in i and 'hash' not in i:
-                try:
-                    if len(action[i]) == match[i]:
-                        found = match['action']
-                    else:
-                        self.log.append('You need %i %s(s) you are %sing, not %i!' % (match[i], i, action['action'], len(action[i])))
-                except:
-                    self.log.append('You need at least %i %s(s) you are %sing!' % (match[i], i, action['action']))
-        return found
     
     def run_action(self, code): #TODO: make this even better than it is now
         """
@@ -190,6 +178,7 @@ class Game:
             what value to set it to
                 0 = the closest exit to what was said
         """
+        global PRINTS
         for act in code.split(';'):
             if act[0] == '0':
                 #colour = act[1]
@@ -217,11 +206,13 @@ class Game:
         pass
     
     def __call__(self, txt):
+        global PRINTS
+        PRINTS = ''
         """for i in self.syns.keys():
             m = self.get_closest_matches(i, txt)
             if len(m) != 0:
                 for j in m:
-                    txt = txt.replace(j, self.syns[i])"""
+                    txt = txt.replace(j, self.syns[i])""" #WAITING FOR FRIENDS TO FINISH CODE SO I CAN UNCOMMENT THIS
                     
         doc = nlp(txt)
         trees = [self.to_tree(sent.root) for sent in doc.sents]
@@ -240,18 +231,14 @@ class Game:
                     continue
                     
             p = self.parse(t)
-            acts = self.actions[p['action'][-1][0]]
+            try:
+                acts = self.actions[p['action'][-1][0]]
+            except KeyError:
+                self.log.append(p['action'][-1][0]+' is not in actions list')
+                continue
             parseAction = self.hash_check(acts, p)
             if parseAction == False: continue
-            #parseAction = self.hash_check(p['action'][0][0], '') #TODO: finish this
-            #try:
-            #    act = GCM(parseAction[0][0], self.actions.keys(), 1, cutoff)[0]
-            #except:
-            #    self.log.append('Sorry, but you cannot %s.' % p['action'][0][0])
-            #    continue
             #TODO: random chance of action
-            #code = self.action(p, self.actions[parseAction])
-            #if code == None: continue
             self.run_action(parseAction)
         return PRINTS
     
@@ -326,8 +313,12 @@ class Game:
                         if type(closest[0]) != list: closest = ([closest[0], inp[i]], closest[1])
                         else: closest.append(inp[i])
             elif i != 'action':
-                if not len(t[i]) == inp[i]:
-                    self.log.append('You need %i %s in your sentence. Please rephrase.' % (inp[i], i))
+                try:
+                    if not len(t[i]) == inp[i]:
+                        self.log.append('You need %i %s(s) you are %sing, not %i!' % (inp[i], i, t['action'][-1][0], len(t[i])))
+                        return False
+                except:
+                    self.log.append('You need at least %i %s(s) you are %sing!' % (inp[i], i, t['action'][-1][0]))
                     return False
         if closest[0] == None: return inp['action']
         return closest[0]
