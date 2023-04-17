@@ -16,12 +16,14 @@
         background: #e8f1f9;
       }
       input {cursor:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC) 14 0,pointer !important}
-      body {position:fixed;
+      body {position:sticky;
         top:0;
         bottom:0;
         left:0;
         right:0;
       }
+      p {white-space: pre-line}
+      h1 {display: inline}
     </style>
   </head>
   <body>
@@ -31,22 +33,28 @@
 	https://bootstrap-flask.readthedocs.io/
  -->
 
+    <script>document.getElementById("inp").focus();</script>
+
     <div class="container">
       <div class="row">
         <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
           <h1 class="pt-5 pb-2">{{ title }}</h1>
           <div hx-get="/fps" hx-trigger="every 0.1s"></div>
-          <p class="lead">
+          <h2>{{ roomname }}</h2>
+          <h3>
             {{ desc }}
-          </p>
-
+          </h3>
+          <span class="pt-5" id=messanger>
+            <strong>{{ message }}</strong>
+          </span>
           {{ render_form(form) }}
           <br>
           {{ render_form(form2) }}
-
-          <p class="pt-5" id=messanger>
-            <strong>{{ message }}</strong>
+          <p class="lead">
+            {{ bigdesc }}
           </p>
+          <p>logs:</p>
+          <p>{{ logs }}</p>
         </div>
       </div>
     </div>
