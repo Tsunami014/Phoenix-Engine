@@ -19,8 +19,9 @@
  - make sure that everything works properly
  - add in battles and stuff
  - ### **make everything less complicated**
- - ### **make the interface for the actions and whatnot better** (will do by making it a website)
  - ### make the best map the world has <u>**EVER SEEN**</u>!!! (you have some time to work on it)
+ - make checker to make sure you *can* use the specific items for actions
+ - make saving and loading
 
 # WHAT I DESIGNATE RILEY & VIGGO (& Henry if he can do it) TO DO (in addition to the things above):
  - make that function in side.py
@@ -43,3 +44,4 @@ now i can blame you guys if something goes wrong
  - add in debug.py and make it a class
  - make the actions much easier to read and write to
  - ## **restructure side.py, making the tests first**
+ - ### **make the interface for the actions and whatnot better** (will do by making it a website) BOOM! DONE!
