@@ -14,15 +14,16 @@ bootstrap = Bootstrap5(app)
 csrf = CSRFProtect(app)
 
 # with Flask-WTF, each web form is represented by a class
-# "NameForm" can change; "(FlaskForm)" cannot
+# "Game" can change; "(FlaskForm)" cannot
 # see the route for "/" and "index.html" to see how this is used
-class NameForm(FlaskForm):
+class Game(FlaskForm):
     inp = StringField('Input', validators=[DataRequired(), Length(1)])
+    save = SubmitField('Save')
     submit = SubmitField('Submit')
 
-class Inputs(FlaskForm):
+class Selector(FlaskForm):
     myChoices = ['Forest out', 'hahahahahaAAAAA', 'making sure this works', 'by adding in more stuff'] #input SPECIFIC MAP NAMES HERE, MUST BE THE EXACT NAME OF THE MAP FILES IN THE 'maps/' FOLDER
-    myField = SelectField(u'Field name', choices = myChoices, validators = [DataRequired()])
+    choice = SelectField(u'Field name', choices = myChoices, validators = [DataRequired()])
     submit = SubmitField('Submit')
 
 
@@ -30,26 +31,29 @@ class Inputs(FlaskForm):
 
 @app.route('/', methods = ['GET', 'POST'])
 def chooser():
-    form = Inputs()
+    form = Selector()
     if form.validate_on_submit():
-        name = form.myField.data
-        return redirect("main/"+name, 303)
+        name = form.choice.data
+        return redirect("main/"+name+'/', 303)
     return render_template('selector.html', form=form)
 
-@app.route('/main/<id>', methods=['GET', 'POST'])
+@app.route('/main/<id>/', methods=['GET', 'POST'])
 def index(id):
     # you must tell the variable 'form' what you named the class, above
     # 'form' is the variable name used in this template: index.html
-    form = NameForm()
+    form = Game()
+    name = ""
     if form.validate_on_submit():
-        name = form.inp.data
-    try:
-        message = name.lower()
-    except:
-        message = ""
-    return render_template('app.html', title=id, form=form, message=message)
+        if form.save.data:
+            lc = 'insertloadingcodehere'
+            return redirect('save/'+lc, 307)
+        elif form.submit.data:
+            name = form.inp.data
+        else:
+            raise KeyError('UNEXPECTED VALIDATION METHOD: %s' % [form[i].short_name for i in form._fields if form[i].data == True])
+    return render_template('app.html', title=id, form=form, message=name)
 
-@app.route('/main/<id>/save/<code>')
+@app.route('/main/<id>/save/<code>', methods=['GET', 'POST'])
 def save_slot(id, code):
     print(id, code)
     if id == "Unknown":
@@ -57,7 +61,7 @@ def save_slot(id, code):
         return render_template('404.html'), 404
     else:
         # pass all the data for the selected actor to the template
-        return index(id)
+        return redirect('..')
 
 # 2 routes to handle errors - they have templates too
 
