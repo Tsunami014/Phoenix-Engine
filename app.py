@@ -1,3 +1,4 @@
+import random
 from flask import Flask, render_template, redirect, url_for
 from flask_bootstrap import Bootstrap5
 
@@ -32,6 +33,10 @@ class Selector(FlaskForm):
     choice = SelectField(u'Field name', choices = myChoices, validators = [DataRequired()])
     submit = SubmitField('Submit')
 
+@app.route('/fps')
+def fps():
+    the_answer = random.randint(25, 60)
+    return (str(the_answer))
 
 # all Flask routes below
 

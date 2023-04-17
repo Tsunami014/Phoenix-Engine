@@ -26,7 +26,7 @@
       <div class="row">
         <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
           <h1 class="pt-5 pb-2">{{ title }}</h1>
-
+          <div hx-get="/fps" hx-trigger="every 0.1s"></div>
           <p class="lead">
             {{ desc }}
           </p>
