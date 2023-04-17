@@ -25,6 +25,7 @@ class Game(FlaskForm):
 
 class SaveForm(FlaskForm):
     save = SubmitField('Save')
+    back = SubmitField('Return to map selector')
 
 class Selector(FlaskForm):
     myChoices = ['Forest out', 'hahahahahaAAAAA', 'making sure this works', 'by adding in more stuff'] #input SPECIFIC MAP NAMES HERE, MUST BE THE EXACT NAME OF THE MAP FILES IN THE 'maps/' FOLDER
@@ -52,8 +53,11 @@ def index(id):
     if form.validate_on_submit():
         name = form.inp.data
     if form2.validate_on_submit():
-        lc = 'insertloadingcodehere'
-        return redirect('save/'+lc, 307)
+        if form2.save.data:
+            lc = 'insertloadingcodehere'
+            return redirect('save/'+lc, 307)
+        if form2.back.data:
+            return redirect(url_for('chooser'))
     return render_template('app.html', title=id, form=form, form2=form2, message=name)
 
 @app.route('/main/<id>/save/<code>', methods=['GET', 'POST'])
