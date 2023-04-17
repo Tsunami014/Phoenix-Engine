@@ -21,8 +21,10 @@ csrf = CSRFProtect(app)
 # see the route for "/" and "index.html" to see how this is used
 class Game(FlaskForm):
     inp = StringField('Input', validators=[DataRequired(), Length(1)])
-    save = SubmitField('Save')
     submit = SubmitField('Submit')
+
+class SaveForm(FlaskForm):
+    save = SubmitField('Save')
 
 class Selector(FlaskForm):
     myChoices = ['Forest out', 'hahahahahaAAAAA', 'making sure this works', 'by adding in more stuff'] #input SPECIFIC MAP NAMES HERE, MUST BE THE EXACT NAME OF THE MAP FILES IN THE 'maps/' FOLDER
@@ -45,16 +47,14 @@ def index(id):
     # you must tell the variable 'form' what you named the class, above
     # 'form' is the variable name used in this template: index.html
     form = Game()
+    form2 = SaveForm()
     name = ""
     if form.validate_on_submit():
-        if form.save.data:
-            lc = 'insertloadingcodehere'
-            return redirect('save/'+lc, 307)
-        elif form.submit.data:
-            name = form.inp.data
-        else:
-            raise KeyError('UNEXPECTED VALIDATION METHOD: %s' % [form[i].short_name for i in form._fields if form[i].data == True])
-    return render_template('app.html', title=id, form=form, message=name)
+        name = form.inp.data
+    if form2.validate_on_submit():
+        lc = 'insertloadingcodehere'
+        return redirect('save/'+lc, 307)
+    return render_template('app.html', title=id, form=form, form2=form2, message=name)
 
 @app.route('/main/<id>/save/<code>', methods=['GET', 'POST'])
 def save_slot(id, code):
