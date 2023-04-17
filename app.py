@@ -1,4 +1,3 @@
-import random
 from flask import Flask, render_template, redirect, url_for
 from flask_bootstrap import Bootstrap5
 
@@ -50,11 +49,6 @@ def load_room_desc():
     out += "You can see: " +                     '['+"".join([i['identifier']+", " if i['type'] == 6 else '' for i in croom['objects']])+']' + '\n'
     out += "There are these people/monsters: " + '['+"".join([i['identifier']+", " if i['type'] == 4 else '' for i in croom['objects']])+']' + '\n'
     return out
-
-@app.route('/fps')
-def fps():
-    the_answer = random.randint(25, 60)
-    return (str(the_answer))
 
 # all Flask routes below
 
