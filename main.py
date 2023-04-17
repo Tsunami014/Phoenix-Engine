@@ -39,3 +39,4 @@ while True:
     print()
     print(g(i))
     print(g.log)
+    print(s.PRINTS)

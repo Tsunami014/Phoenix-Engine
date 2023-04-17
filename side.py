@@ -14,8 +14,8 @@ else: #SET THIS TO FALSE if you downloaded en_core_web_sm using the .whl file th
     import en_core_web_sm
     nlp = en_core_web_sm.load()
 
-clear()
-print('loading functions and other global variables...')
+PRINTS = ''
+PRINTS += 'loading functions and other global variables...\n'
 
 cutoff = 0.85 #The cutoff for get closest matches (How close it needs to be for the match to work, 0=anything 1=same thing)
     
@@ -35,8 +35,8 @@ delete_numbers = ["self.fc['rooms']['{5}']['objects'][{4}[0]]"]
 
 class Game:
     def __init__(self):
-        clear()
-        print('loading other vars ...')
+        PRINTS = ''
+        PRINTS += 'loading other vars ...\n'
         
         self.roomnum = 1 #This is the starting room id
         
@@ -80,6 +80,7 @@ class Game:
                     #If you change something it changes both so it can save the original
 
         self.prev_action = None #What the previous action specified was
+        PRINTS = ''
     
     def to_tree(self, node):
         if len(list(node.children)) > 0:
@@ -192,7 +193,7 @@ class Game:
         for act in code.split(';'):
             if act[0] == '0':
                 #colour = act[1]
-                self.log.append(act[2:].format())
+                PRINTS += act[2:].format() + '\n'
             elif act[0] == '1':
                 spl = act[2:].split(' = ')
                 front = ('globals()[\'%s\']' if act[1] == '0' else 'self.%s') % spl[0]
