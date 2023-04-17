@@ -100,6 +100,7 @@ class Game:
                 if type(i) == dict:
                     for j in i:
                         m_t = self.parse(j)
+                        if m_t == False: continue
                         m_t[1].append(self.parse(i[j]))
                         try:
                             out[m_t[0]].append(m_t[1])
