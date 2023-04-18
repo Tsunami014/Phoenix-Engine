@@ -34,7 +34,7 @@ Action code:
 # print('"'+str([g.to_tree(sent.root) for sent in s.nlp("throw the pot").sents][0]).replace('(', '[').replace(')', ']')+'"'")
 # please note that the g.to_tree function uses tuples, so the code above replaces those with lists, so there shouldn't be any difference
 
-class NewTest(unittest.TestCase):
+class SideTests(unittest.TestCase):
     g = s.Game()
     
     def test_closest_num(self):
@@ -47,7 +47,6 @@ class NewTest(unittest.TestCase):
         
     #TODO: test self.g.parse_word
     
-    def test_parsing(self):
         with open('test cases/parse tests.json') as f:
             tests = loads(f.read())
             f.close()
@@ -62,35 +61,16 @@ class NewTest(unittest.TestCase):
             print(self.g.log)
             self.assertEqual(res, loads(test.replace("'", '"')))
     
-    def test_action(self):
-        #TODO: finish this test
-        #please note this is testing material the real inputs/outputs are different
-        self.assertEqual(self.g.action({'action': ['throw'], 'subjobj': [('pot', {'det': 'the'})]}, {'subjobj': 1, 'action': 'abcdefg'}), 'abcdefg')
-        self.assertEqual(self.g.action({'action': ['say'], 'subj': [('jeff'), ('joe')]}, {'subj': 2, 'action': '12345'}), '12345')
-        self.assertEqual(self.g.action({'action': ['talk'], 'subj': [('jeff')]}, {'subjobj': 1, 'action': 'abcdefg'}), None)
-        self.assertEqual(self.g.action({'action': ['die'], 'in': [('hole'), ('hole', ['another', 'a'])]}, {'in': 1, 'action': 'abcdefg'}), None)
-        self.assertIn('1', self.g.log[-1])
-        self.assertIn('in', self.g.log[-1])
-        self.assertIn('die', self.g.log[-1])
-        self.assertIn('2', self.g.log[-1])
-        #self.g.action({'action': ['die'], 'in': [('hole'), ('hole', ['another', 'a'])]}, {'subjobj': 1, 'action': 'abcdefg'})
-        #self.assertIn('')
+    #test_action is no longer used, as the feature is depracated since the arrival of the hash tags
     
     def test_hashes(self):
-        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': 'abcdefg', 'action#throwable': 'throw! YEAH!'}, '#throwable'), 'throw! YEAH!')
-        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': 'abcdefg', 'action#throwable': 'throw! YEAH!'}, ''), 'abcdefg')
-        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': 'abcdefg', 'action#throwable': 'throw! YEAH!'}, '#throwable#yeetable'), 'throw! YEAH!')
-        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': '!@#$%', 'action#throwable': 'throw! YEAH!'}, '#meltable'), '!@#$%')
-        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': '12345', 'action#throwable': 'throw! YEAH!'}, ''), '12345')
-        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': 'abcdefg', 'action#throwable': 'throw! YEAH!'}, '#throwable'), 'throw! YEAH!')
-        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': 'abcdefg', 'action#throwable': 'throw! YEAH!', 'action#niceable': 'be super super COOOOOOOL!'}, '#throwable#niceable'), ['throw! YEAH!', 'be super super COOOOOOOL!'])
-        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': 'abcdefg', 'action#throwable': 'throw! YEAH!'}, '#throwable'), 'throw! YEAH!')
-        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': 'abcdefg', 'action#throwable': 'throw! YEAH!'}, ''), 'abcdefg')
-        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': 'abcdefg', 'action#throwable': 'throw! YEAH!'}, '#throwable#yeetable'), 'throw! YEAH!')
-        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': '!@#$%', 'action#throwable': 'throw! YEAH!'}, '#meltable'), '!@#$%')
-        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': '12345', 'action#throwable': 'throw! YEAH!'}, ''), '12345')
-        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': 'abcdefg', 'action#throwable': 'throw! YEAH!'}, '#throwable'), 'throw! YEAH!')
-        self.assertEqual(self.g.hash_check({'some crap': 'some more crap', 'action': 'abcdefg', 'action#throwable#niceable': 'throw! YEAH!', 'action#niceable': 'be super super COOOOOOOL!'}, '#throwable#niceable'), 'throw! YEAH!')
+        self.assertEqual(self.g.hash_check({'action': 'abcdefg', 'action#throwable': 'throw! YEAH!'}, {'subjobj': [['pot', {'is': [['the']]}]], 'action': [['throw']]}), 'throw! YEAH!')
+        self.assertEqual(self.g.hash_check({'action': 'abcdefg', 'action#throwable': 'throw! YEAH!'}, {'subjobj': [['pot', {'is': [['the']]}], ['secondpot']], 'action': [['throw']]}), 'abcdefg')
+        self.assertEqual(self.g.hash_check({'action': 'abcdefg', 'action#throwable': 'throw! YEAH!'}, {'subjobj': [['pot', {'is': [['the']]}]], 'canbeyeeted': [['True']], 'action': [['throw']]}), 'throw! YEAH!')
+        self.assertEqual(self.g.hash_check({'action': '!@#$%', 'action#throwable': 'throw! YEAH!'}, {'meltedobjs': [['pot', {'is': [['the']]}]], 'action': [['throw']]}), '!@#$%')
+        self.assertEqual(self.g.hash_check({'action': '12345', 'action#throwable': 'throw! YEAH!'}, {'subj': [['I']], 'action': [['throw']]}), '12345')
+        self.assertEqual(self.g.hash_check({'action': 'abcdefg', 'action#throwable': 'throw! YEAH!'}, {'subjobj': [['pot', {'is': [['the']]}]], 'action': [['throw']]}), 'throw! YEAH!')
+        #TODO: self.assertEqual(self.g.hash_check({'action': 'abcdefg', 'action#throwable': 'throw! YEAH!', 'action#niceable': 'be super super COOOOOOOL!'}, '#throwable#niceable'), ['throw! YEAH!', 'be super super COOOOOOOL!'])
 
     def test_hash_code(self):
         #TODO: finish writing this test

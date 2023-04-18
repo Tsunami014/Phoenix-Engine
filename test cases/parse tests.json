@@ -2,7 +2,7 @@
     "{'subj': [['I']], 'subjobj': [['dog', {'owns': [['my']]}]], 'what': [['for', {'obj': [['walk', {'is': [['a']]}]]}]], 'action': [['took']]}": 
         "{['took', 'ROOT']: [['I', 'nsubj'], {['dog', 'dobj']: [['my', 'poss']]}, {['for', 'prep']: [{['walk', 'pobj']: [['a', 'det']]}]}]}",
     
-    "{'subj': [['dog', {'owns': [['my']]}]], 'time': [['just']], 'subjobj': [['haircut', {'is': [['a']]}]], 'action': [['got']]}":
+    "{'subj': [['dog', {'owns': [['my']], 'feature': [['beautiful']], 'colour': [['blue']]}]], 'time': [['just']], 'subjobj': [['haircut', {'is': [['a']]}]], 'action': [['got']]}":
         "{['got', 'ROOT']: [{['dog', 'nsubj']: [['my', 'poss'], ['beautiful', 'amod'], ['blue', 'amod']]}, ['just', 'advmod'], {['haircut', 'dobj']: [['a', 'det']]}]}",
     
     "{'subjobj': [['pot', {'is': [['the']]}]], 'action': [['throw']]}": 
