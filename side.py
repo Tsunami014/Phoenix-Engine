@@ -7,6 +7,10 @@ from nltk import Tree
 from copy import deepcopy
 from difflib import get_close_matches as GCM
 
+import other.friends_code
+import other.connector as c
+listener = c.EventListener()
+
 if True: #SET THIS TO TRUE if you downloaded en_core_web_sm using spacy install en_core_web_sm
     import spacy
     nlp = spacy.load('en_core_web_sm')
@@ -160,6 +164,7 @@ class Game:
             0 = print
             1 = set variable (if not exists then create variable)
             2 = delete variable
+            3 = log an event
         
         Second number:
             with the set variables:
@@ -169,8 +174,10 @@ class Game:
                 what colour
             with the delete variables:
                 0 = the object specified
+            with the log an event:
+                event name
         
-        Third string (not for first number=2):
+        Third string (not for first number=2 or 3):
             what variable name/what to print
         
         Delimeter: " = "
@@ -191,6 +198,8 @@ class Game:
                 exec(front.format() + " = " + fourth_numbers[int(spl[1])].format())
             elif act[0] == '2':
                 exec('del '+delete_numbers[int(act[1])].format())
+            elif act[0] == '3':
+                listener.event(act[1:])
     
     def get_closest_matches(self, inp, matchAgainst):
         #I CHOOSE YOU! RILEY/VIGGO! I'M DESIGNATING THIS TIME!!!!!!!! HAHAHAHA!!!!!
