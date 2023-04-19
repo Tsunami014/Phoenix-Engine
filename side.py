@@ -22,7 +22,7 @@ PRINTS = ''
 PRINTS += 'loading functions and other global variables...\n'
 
 cutoff = 0.85 #The cutoff for get closest matches (How close it needs to be for the match to work, 0=anything 1=same thing)
-    
+
 #Here are all the positions possible - notice sometimes there is "" between two items
 #And that is because it gets the closest direction to the one inputted and it is by 2 spaces so
 # [0, 2, 5] 1 would be close enough to 0, but 3 is too far away from 2 or 5
@@ -32,8 +32,6 @@ pos = ["north", "northeast", "east", "southeast", "south", "southwest", "west", 
 fourth_numbers = ["""
 try:
     self.fc['rooms']['{5}']['exits'][str(closest_num([int(i) for i in self.fc['rooms']['{5}']['exits'].keys()], pos.index('{3}')))]
-    self.title = True
-    self.desc = True
 except: pass"""]
 delete_numbers = ["self.fc['rooms']['{5}']['objects'][{4}[0]]"]
 
@@ -202,18 +200,28 @@ class Game:
                 listener.event(act[1:])
     
     def get_closest_matches(self, inp, matchAgainst):
-        #I CHOOSE YOU! RILEY/VIGGO! I'M DESIGNATING THIS TIME!!!!!!!! HAHAHAHA!!!!!
-        #What I want this function to do is this:
-        #Let's say we have a phrase, matchAgainst. I want to use a GCM function to find if inp is in the phrase.
-        #One hint is that you can use a sliding approach;
-        #E.g. if the inp is 3 words long check each 3 words to see if they have the match
-        #It is optional but nicer if you haev it so that you can have a word in the middle,
-        #like if you have the inp='nice doggo' and matchAgainst='nice brown doggo' it will count as a match
-        #If there is more than 1 then return them in a list
-        #The really easy way to find out if this code works is to NOT RUN IT but run the test in test.py
-        #Either by running the individual test or the whole file it makes no difference
-        #If the test fails then something went wrong in your code
-        pass
+        inp_words = inp.split()
+        l = len(inp_words)
+        match_words = matchAgainst.split()
+        matches = []
+        extra = 1
+        for i in range(len(match_words)+l):
+            amnt = 0
+            for j in match_words[i:i+l+extra]:
+                if GCM(j, inp_words, 1, cutoff):
+                    amnt += 1
+            if amnt >= l:
+                match_words[i:i+l+extra]
+                # inp = 'nice dog'
+                #matchAgainst = 'my beautiful nice dog'
+                #out = 'beautiful nice dog' --X
+                # match_words[i:i+l+extra] = ['beautiful', 'nice', 'dog']
+                #out = ['nice', 'dog']
+                #matches.append(" ".join(out))
+                #'beautiful' not in inp
+                #THERE MIGHT BE WORDS IN THE MIDDLE which are not in the inp list but keep those
+                #just get rid of the end/start words
+        return matches
     
     def __call__(self, txt):
         global PRINTS
@@ -252,7 +260,7 @@ class Game:
             self.run_action(parseAction)
         return PRINTS
     
-    def hash_code(self, t, code):
+    def hash_code(self, t, code): #NOTE: here are the hash codes
         """
         The hash codes are like this:
         each statement is split by a semi-colon;
@@ -268,7 +276,7 @@ class Game:
         
         for matching words:
             next text:
-                the word to match
+                the word to match (or series of words separated by " ~ ")
         
         for # of items:
             next digit:
@@ -283,9 +291,10 @@ class Game:
                 the number of items to check
         
         examples:
-         - 0subjobj ~ 02 (checks if it has 2 subjobjs)
-         - 0what ~ 54 (checks if there are less than 4 whats)
-         - 1action ~ throw (checks that the action is throwing (throwing is in the list of actions))
+            - 0subjobj ~ 02 (checks if it has 2 subjobjs)
+            - 0what ~ 54 (checks if there are less than 4 whats)
+            - 1action ~ throw (checks that the action is throwing (throwing is in the list of actions))
+            - 1subjobj ~ pot ~ pan ~ knife ~ jar (checks that the subjobjs contain a pot, pan, knife, or jar)
         """
         for i in code.split(';'):
             if i[0] == '0':
@@ -301,9 +310,7 @@ class Game:
             elif i[0] == '1':
                 try:
                     spl = i[1:].split(' ~ ')
-                    if len(GCM(spl[1], [t[spl[0]]], 1, cutoff)) == 1:
-                        pass
-                    else:
+                    if len(GCM(t[spl[0]][0][0], spl[1:], 1, cutoff)) != 1:
                         return False
                 except Exception as e:
                     self.log.append('ERROR: %s' % str(e))
@@ -330,7 +337,11 @@ class Game:
                 except:
                     self.log.append('You need at least %i %s(s) you are %sing!' % (inp[i], i, t['action'][-1][0]))
                     return False
-        if closest[0] == None: return inp['action']
+        if closest[0] == None:
+            try:
+                return inp['action']
+            except KeyError:
+                return '00'
         return closest[0]
 
 def closest_num(numbers, value):

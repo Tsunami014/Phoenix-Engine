@@ -1,10 +1,7 @@
 {
         "throw":
             {"subjobj": 1,
-            "action#throwable": "00You threw something! HUZZAH!!!!!! :);3throw",
-            "action": "00You cannot throw that you dot."},
+            "action#throwable": "00You threw something! HUZZAH!!!!!! :);3throw"},
         "move":
-            {"action": "12roomnum = 0"},
-        "help":
-            {"action": "12desc = True"}
+            {"action": "12roomnum = 0;3move"}
 }

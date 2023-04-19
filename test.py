@@ -58,7 +58,7 @@ class SideTests(unittest.TestCase):
                 testcase = testcase.replace(match, '(%s)' % match[1:-1])
             
             res = self.g.parse(ast.literal_eval(testcase))
-            print(self.g.log)
+            #print(self.g.log)
             self.assertEqual(res, loads(test.replace("'", '"')))
     
     #test_action is no longer used, as the feature is depracated since the arrival of the hash tags
@@ -82,6 +82,11 @@ class SideTests(unittest.TestCase):
         self.assertEqual(self.g.hash_code({'action': ['hey', 'hi'], 'words': ['hi', 'bye']}, '0words ~ 01'), False)
         self.assertEqual(self.g.hash_code({'action': ['hey', 'hi'], 'words': ['hi']}, '0words ~ 01;0action ~ 22'), True)
         self.assertEqual(self.g.hash_code({'action': ['hey', 'hi'], 'words': ['hi', 'bye']}, '0words ~ 11;0action ~ 510'), True)
+    
+    def test_GCM(self):
+        self.assertEqual(self.g.get_closest_matches('nice brown', 'I LOOVE my  nice brown dogggo !!!!!!'), ['nice brown'])
+        self.assertEqual(self.g.get_closest_matches('beautiful', 'beauutiful yellow doggos are best!'), ['beauutiful'])
+        self.assertEqual(self.g.get_closest_matches('nice brown', 'beauutiful nice lovelly brown doggos are best!'), ['nice lovelly brown'])
 
 if __name__ == '__main__':
     unittest.main()
