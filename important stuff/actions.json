@@ -3,5 +3,5 @@
             {"subjobj": 1,
             "action#throwable": "00You threw something! HUZZAH!!!!!! :);3throw"},
         "move":
-            {"action": "12roomnum = 0;3move"}
+            {"action": "12roomnum = 0;3'move'+str(self.roomnum)"}
 }

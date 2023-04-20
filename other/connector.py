@@ -16,11 +16,12 @@ class EventListener(object):
                     self.all_funcs[typ] = [func]
             return func
         return main
-    def event(self, type):
+    def event(self, type, otherself):
         endcode = ';'
-        if type in self.all_funcs.keys():
-            for i in self.all_funcs[type]:
-                endcode += i() + ';'
+        for t in self.all_funcs.keys():
+            if t in type:
+                for i in self.all_funcs[t]:
+                    endcode += i(otherself) + ';'
         return endcode[1:-1]
 
 #if __name__ == '__main__':

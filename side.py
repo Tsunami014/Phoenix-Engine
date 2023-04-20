@@ -6,7 +6,7 @@ from nltk import Tree
 from copy import deepcopy
 from difflib import get_close_matches as GCM
 
-import other.friends_code
+import other.externals
 import other.connector as c
 listener = c.EventListener()
 
@@ -28,17 +28,17 @@ cutoff = 0.85 #The cutoff for get closest matches (How close it needs to be for 
 #So the gap is because it does not want that number to be close enough to the others
 #That it will be counted as close enough to pass
 pos = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest", "", "up", "", "down", "", "left", "", "right", "", "in", "", "out"]
-fourth_numbers = ["""
-try:
-    self.fc['rooms']['{5}']['exits'][str(closest_num([int(i) for i in self.fc['rooms']['{5}']['exits'].keys()], pos.index('{3}')))]
-except: pass"""]
-delete_numbers = ["self.fc['rooms']['{5}']['objects'][{4}[0]]"]
+fourth_numbers = ["self.fc['rooms'][str(self.roomnum)]['exits'][str(closest_num([int(i) for i in self.fc['rooms'][str(self.roomnum)]['exits'].keys()], pos.index(self.p['move'][0][0])))]"]
+delete_numbers = ["self.fc['rooms'][str(self.roomnum)]['objects'][[i['name'] for i in self.fc['rooms'][str(self.roomnum)]['objects']].index[self.p['subjobj'][0][0]]]"]
 
 class Game:
     def __init__(self):
         global PRINTS
         PRINTS = ''
         PRINTS += 'loading other vars ...\n'
+        
+        self.cutoff = cutoff # for those of us who can't reach that far down - here you go :)
+        self.p = {} #A filler... just in case worst comes to worst
         
         self.roomnum = 1 #This is the starting room id
         
@@ -148,6 +148,7 @@ class Game:
             raise TypeError('What the hell is this type; "%s"?' % str(type(i)))
     
     def run_action(self, code): #TODO: make this even better than it is now
+        #NOTE: here I am!
         """
         This runs an action as defined by the formula below.
 
@@ -162,27 +163,49 @@ class Game:
             1 = set variable (if not exists then create variable)
             2 = delete variable
             3 = log an event
+            4 = reset a part of self.fc (set it back to its default value)
+            5 = set a part of self.fc (if not exists then create)
+            6 = delete a part of self.fc
         
-        Second number:
-            with the set variables:
-                0 = global
-                1 = class
-            with the print:
-                what colour
-            with the delete variables:
-                0 = the object specified
-            with the log an event:
-                event name
+        with 4/5/6:
+            second number:
+                room number ('~' for current room)
+            delimenar: '!!'
+            third digit:
+                0 = name
+                1 = description
+                2 = darkness
+                3 = shape
+                4 = exits
+                5 = objects
+            fourth value:
+                with exits/objects:
+                    key of the exit/object ('~' = all, '|' = delimener between multiple)
+            delimenar: '!!'
+            fourth/fifth value with 5:
+                what to set the value to (must be a python object)
         
-        Third string (not for first number=2 or 3):
-            what variable name/what to print
-        
-        Delimeter: " = "
-        
-        Fourth number (only for first number=1):
-            what value to set it to
-                0 = the closest exit to what was said
-        """
+        else:
+            Second value:
+                with the set variables:
+                    0 = global
+                    1 = class
+                with the print:
+                    what colour
+                with the delete variables:
+                    0 = the object specified
+                with the log an event:
+                    event (as a string that can be passed into eval func)
+            
+            Third string (not for first number=2 or 3):
+                what variable name/what to print
+            
+            Delimeter: " = "
+            
+            Fourth number (only for first number=1):
+                what value to set it to
+                    0 = the closest exit to what was said
+        """        
         global PRINTS
         for act in code.split(';'):
             if act[0] == '0':
@@ -191,13 +214,38 @@ class Game:
             elif act[0] == '1':
                 spl = act[2:].split(' = ')
                 front = ('globals()[\'%s\']' if act[1] == '0' else 'self.%s') % spl[0]
-                
                 exec(front.format() + " = " + fourth_numbers[int(spl[1])].format())
             elif act[0] == '2':
                 exec('del '+delete_numbers[int(act[1])].format())
             elif act[0] == '3':
-                listener.event(act[1:])
-    
+                listener.event(eval(act[1:]), self)
+            elif act[0] in ['4', '5', '6']:
+                spl = act[1:].split('!!')
+                def run(i='~'):
+                    c = 'self.fc["rooms"]["' + \
+                        (spl[1] if spl[1] != '~' else str(self.roomnum)) + '"]["' + \
+                        ["name", "description", "dark", "shape", "exits", "objects"][int(spl[1][0])] + \
+                        '"]' + ('["%s"]' % i if spl[1][0] in ['4', '5'] and i != '~' else '')
+                    if act[0] == '4':
+                        c += ' = ' + c[7:]
+                    elif act[0] == '5':
+                        c += ' = '+spl[2]
+                    else:
+                        t = eval(c)
+                        c += ' = '
+                        if type(t) == str:
+                            c += '""'
+                        elif type(t) == list:
+                            c += '[]'
+                        elif type(t) == dict:
+                            c += r'{}'
+                        else:
+                            c += 'None'
+                    exec(c)
+                if spl[1][1] == '~':
+                    run()
+                for i in spl[1][1:].split('|'):
+                    run(i)
     def get_closest_matches(self, inp, matchAgainst):
         inp_words = inp.split()
         l = len(inp_words)
@@ -247,13 +295,13 @@ class Game:
                     self.log.append("Sorry, you need to specify an action.")
                     continue
                     
-            p = self.parse(t)
+            self.p = self.parse(t)
             try:
-                acts = self.actions[p['action'][-1][0]]
+                acts = self.actions[self.p['action'][-1][0]]
             except KeyError:
-                self.log.append(p['action'][-1][0]+' is not in actions list')
+                self.log.append(self.p['action'][-1][0]+' is not in actions list')
                 continue
-            parseAction = self.hash_check(acts, p)
+            parseAction = self.hash_check(acts, self.p)
             if parseAction == False: continue
             #TODO: random chance of action
             self.run_action(parseAction)

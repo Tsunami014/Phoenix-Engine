@@ -18,7 +18,6 @@ csrf = CSRFProtect(app)
 
 import side as s
 g = s.Game()
-croom = g.fc['rooms'][str(g.roomnum)]
 
 # with Flask-WTF, each web form is represented by a class
 # "Game" can change; "(FlaskForm)" cannot
@@ -36,7 +35,7 @@ class Selector(FlaskForm):
     choice = SelectField(u'Field name', choices = myChoices, validators = [DataRequired()])
     submit = SubmitField('Submit')
     
-def load_room_desc():
+def load_room_desc(croom):
     out = ''
     out += "It is%s dark." % ("" if croom['dark'] else "n't") + '\n'
     
@@ -71,13 +70,14 @@ def index(id):
     if form.validate_on_submit():
         name = g(form.inp.data)
         form.inp.data = ''
+    croom = g.fc['rooms'][str(g.roomnum)]
     if form2.validate_on_submit():
         if form2.save.data:
             lc = 'insertloadingcodehere'
             return redirect('save/'+lc, 307)
         if form2.back.data:
             return redirect(url_for('chooser'))
-    return render_template('app.html', title=id, roomname=croom['name'].capitalize(), desc=croom['description'].strip(' \t\n'), bigdesc=load_room_desc().strip(' \t\n'), form=form, form2=form2, message=name.strip(' \t\n'), logs=str(g.log))
+    return render_template('app.html', title=id, roomname=croom['name'].capitalize(), desc=croom['description'].strip(' \t\n'), bigdesc=load_room_desc(croom).strip(' \t\n'), form=form, form2=form2, message=name.strip(' \t\n'), logs=str(g.log))
 
 @app.route('/main/<id>/save/<code>', methods=['GET', 'POST'])
 def save_slot(id, code):
