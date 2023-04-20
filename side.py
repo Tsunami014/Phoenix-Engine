@@ -1,7 +1,6 @@
 import json
 import os
 clear = lambda: os.system('cls' if os.name == 'nt' else 'clear')
-clear()
 
 from nltk import Tree
 from copy import deepcopy
