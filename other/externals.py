@@ -12,7 +12,7 @@ monsters = ['bokoblin']
 def wait_for_move(self):
     tot = []
     for i in self.fc['rooms'][str(self.roomnum)]['objects']:
-        l = GCM(i, monsters, n=1, cutoff=self.cutoff)
+        l = GCM(i['name'], monsters, n=1, cutoff=self.cutoff)
         if l:
             tot.append(l[0])
     if tot:

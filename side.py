@@ -208,22 +208,30 @@ class Game:
         """        
         global PRINTS
         for act in code.split(';'):
+            if act == '':
+                continue
             if act[0] == '0':
                 #colour = act[1]
                 PRINTS += act[2:].format() + '\n'
             elif act[0] == '1':
-                spl = act[2:].split(' = ')
-                front = ('globals()[\'%s\']' if act[1] == '0' else 'self.%s') % spl[0]
-                exec(front.format() + " = " + fourth_numbers[int(spl[1])].format())
+                try:
+                    spl = act[2:].split(' = ')
+                    front = ('globals()[\'%s\']' if act[1] == '0' else 'self.%s') % spl[0]
+                    exec(front.format() + " = " + fourth_numbers[int(spl[1])].format())
+                except Exception as e:
+                    self.log.append(str(e))
             elif act[0] == '2':
-                exec('del '+delete_numbers[int(act[1])].format())
+                try:
+                    exec('del '+delete_numbers[int(act[1])].format())
+                except Exception as e:
+                    self.log.append(str(e))
             elif act[0] == '3':
-                listener.event(eval(act[1:]), self)
+                self.run_action(listener.event(eval(act[1:]), self))
             elif act[0] in ['4', '5', '6']:
                 spl = act[1:].split('!!')
                 def run(i='~'):
                     c = 'self.fc["rooms"]["' + \
-                        (spl[1] if spl[1] != '~' else str(self.roomnum)) + '"]["' + \
+                        (spl[1] if spl[1][1] != '~' else str(self.roomnum)) + '"]["' + \
                         ["name", "description", "dark", "shape", "exits", "objects"][int(spl[1][0])] + \
                         '"]' + ('["%s"]' % i if spl[1][0] in ['4', '5'] and i != '~' else '')
                     if act[0] == '4':
@@ -241,7 +249,10 @@ class Game:
                             c += r'{}'
                         else:
                             c += 'None'
-                    exec(c)
+                    try:
+                        exec(c)
+                    except Exception as e:
+                        self.log.append(str(e))
                 if spl[1][1] == '~':
                     run()
                 for i in spl[1][1:].split('|'):
