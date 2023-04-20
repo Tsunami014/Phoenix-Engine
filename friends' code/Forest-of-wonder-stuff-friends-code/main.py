@@ -9,7 +9,7 @@ mapchoice=int(input("Chose a map. Type 1 for Ancient Egypt, Type 2 for Tech Labs
 if mapchoice==1:
     print("Loading Map- Ancient Egypt")
 elif mapchoice==2:
-     print("Loading Map- Tech Labs")
+    print("Loading Map- Tech Labs")
 elif mapchoice==3:
       print("Loading Map- Forest")
 

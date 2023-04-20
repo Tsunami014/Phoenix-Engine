@@ -79,7 +79,7 @@ if game_played in ["Space Invaders", "space invaders", "Space invaders", "space 
 elif game_played in ["Tetris", "tetris", "Portal", "portal", "Pacman", "pacman", "pac man", "Pac Man", "Pac man", "pac Man"]:
   print("You play " + game_played + ", and, somehow, you beat it! Nothing happened. What a waste of time.")
 else:
-  print("That's NOT A GAME")
+  print("That's NOT A GAME (at least not here)")
 
 #End of eLock
 #end of locks
@@ -126,9 +126,6 @@ else:
 
 
 
-
-
-#Sure, here's a step-by-step guide on how to solve the Obelisk Puzzle:
 
 #Step 1: Observe the Pillars
 #Start by observing the pillars in the room and try to identify any patterns or symbols on them. Take note of the number of pillars and their locations in the room.
