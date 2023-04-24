@@ -1,5 +1,6 @@
 import json
 import os
+from random import choice
 clear = lambda: os.system('cls' if os.name == 'nt' else 'clear')
 
 from nltk import Tree
@@ -180,7 +181,7 @@ class Game:
                 5 = objects
             fourth value:
                 with exits/objects:
-                    key of the exit/object ('~' = all, '|' = delimener between multiple)
+                    key of the exit/object ('~' = all, '|' = delimener between multiple, [__] = delete_numbers[__])
             delimenar: '!!'
             fourth/fifth value with 5:
                 what to set the value to (must be a python object)
@@ -233,7 +234,8 @@ class Game:
                     c = 'self.fc["rooms"]["' + \
                         (spl[1] if spl[1][1] != '~' else str(self.roomnum)) + '"]["' + \
                         ["name", "description", "dark", "shape", "exits", "objects"][int(spl[1][0])] + \
-                        '"]' + ('["%s"]' % i if spl[1][0] in ['4', '5'] and i != '~' else '')
+                        '"]' + ('["%s"]' % i if spl[1][0] in ['4', '5'] and i != '~' and not i == '[%s]' % i[1:-1]\
+                        else ('' if not i == '[%s]' % i[1:-1] else '[%s]' % delete_numbers[int(i[1:-1])]))
                     if act[0] == '4':
                         c += ' = ' + c[7:]
                     elif act[0] == '5':
@@ -291,16 +293,13 @@ class Game:
             m = self.get_closest_matches(i, txt)
             if len(m) != 0:
                 for j in m:
-                    txt = txt.replace(j, self.syns[i]) #WAITING FOR FRIENDS TO FINISH CODE SO I CAN UNCOMMENT THIS
+                    txt = txt.replace(j, self.syns[i])
                     
         doc = nlp(txt)
         trees = [self.to_tree(sent.root) for sent in doc.sents]
         for t in trees:       
             if type(t) == tuple:
                 if len(GCM(t[0], ['help'], cutoff=cutoff, n=1)) != 0:
-                    global desc, title
-                    title = True
-                    desc = True
                     continue
                 elif self.prev_action != None:
                     doc = nlp("%s %s" % (self.prev_action, t[0]))
@@ -310,6 +309,7 @@ class Game:
                     continue
                     
             self.p = self.parse(t)
+            self.prev_action = self.p['action'][-1][0]
             try:
                 acts = self.actions[self.p['action'][-1][0]]
             except KeyError:
@@ -318,7 +318,10 @@ class Game:
             parseAction = self.hash_check(acts, self.p)
             if parseAction == False: continue
             #TODO: random chance of action
-            self.run_action(parseAction)
+            if type(parseAction) == list:
+                self.run_action(choice(parseAction))
+            else:
+                self.run_action(parseAction)
         return PRINTS
     
     def hash_code(self, t, code): #NOTE: here are the hash codes

@@ -1,7 +1,9 @@
 {
         "throw":
             {"subjobj": 1,
-            "action#throwable": "00You threw something! HUZZAH!!!!!! :);3'throw'"},
+            "action#throwable": [
+                "00You threw it and it came back down to rest in the grass.;3'throw'",
+                "00You threw it and it flew off into the sunset never to be seen again.;6~!!5[0];3'throw away'"]},
         "move":
             {"action": "12roomnum = 0;3'move'+str(self.roomnum)"}
 }
