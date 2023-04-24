@@ -5,7 +5,10 @@ from flask_wtf import FlaskForm, CSRFProtect
 from wtforms import *
 from wtforms.validators import DataRequired, Length
 
+import pickle as pkl
+
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = '/save slots'
 
 import secrets
 foo = secrets.token_urlsafe(16)
@@ -27,7 +30,10 @@ class Game(FlaskForm):
     submit = SubmitField('Submit')
 
 class SaveForm(FlaskForm):
+    myChoices = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    slot = SelectField(u'Save slot', choices=myChoices, validators=[DataRequired()])
     save = SubmitField('Save')
+    load = SubmitField('Load')
     back = SubmitField('Return to map selector')
 
 class Selector(FlaskForm):
@@ -61,33 +67,35 @@ def chooser():
 
 @app.route('/main/<id>/', methods=['GET', 'POST'])
 def index(id):
+    global g
     # you must tell the variable 'form' what you named the class, above
     # 'form' is the variable name used in this template: index.html
     form = Game()
     form2 = SaveForm()
     name = ""
+    savemsg = ""
     g.log = []
     if form.validate_on_submit():
         name = g(form.inp.data)
         form.inp.data = ''
-    croom = g.fc['rooms'][str(g.roomnum)]
     if form2.validate_on_submit():
-        if form2.save.data:
-            lc = 'insertloadingcodehere'
-            return redirect('save/'+lc, 307)
         if form2.back.data:
             return redirect(url_for('chooser'))
-    return render_template('app.html', title=id, roomname=croom['name'].capitalize(), desc=croom['description'].strip(' \t\n'), bigdesc=load_room_desc(croom).strip(' \t\n'), form=form, form2=form2, message=name.strip(' \t\n'), logs=str(g.log))
-
-@app.route('/main/<id>/save/<code>', methods=['GET', 'POST'])
-def save_slot(id, code):
-    print(id, code)
-    if id == "Unknown":
-        # redirect the browser to the error template
-        return render_template('404.html'), 404
-    else:
-        # pass all the data for the selected actor to the template
-        return redirect('..')
+        elif form2.save.data:
+            with open('saves/%s.save' % form2.slot.data, 'wb+') as f:
+                f.write(pkl.dumps(g))
+                f.close()
+                savemsg = 'SUCESSFULLY SAVED FILE!!'
+        elif form2.load.data:
+            try:
+                with open('saves/%s.save' % form2.slot.data, 'rb') as f:
+                    g = pkl.loads(f.read())
+                    f.close()
+                    savemsg = 'SUCESSFULLY LOADED FILE!!'
+            except Exception as e:
+                savemsg = 'UNABLE TO LOAD FILE BECAUSE: %s' % e
+    croom = g.fc['rooms'][str(g.roomnum)]
+    return render_template('app.html', title=id, roomname=croom['name'].capitalize(), desc=croom['description'].strip(' \t\n'), bigdesc=load_room_desc(croom).strip(' \t\n'), form=form, form2=form2, message=name.strip(' \t\n'), logs=str(g.log), savemsg=savemsg)
 
 # 2 routes to handle errors - they have templates too
 
@@ -95,10 +103,9 @@ def save_slot(id, code):
 def page_not_found(e):
     return render_template('404.html'), 404
 
-#use this if u want to.... I think you just copy the 404.html and rename it to 500
-#@app.errorhandler(500)
-#def internal_server_error(e):
-#    return render_template('500.html'), 500
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('500.html'), 500
 
 @app.errorhandler(400)
 def internal_server_error(e):
@@ -106,4 +113,4 @@ def internal_server_error(e):
 
 # keep this as is
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
