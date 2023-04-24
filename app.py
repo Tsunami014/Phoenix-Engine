@@ -75,10 +75,10 @@ def index(id):
     name = ""
     savemsg = ""
     g.log = []
-    if form.validate_on_submit():
+    if form.submit.data and form.validate():
         name = g(form.inp.data)
         form.inp.data = ''
-    if form2.validate_on_submit():
+    if (form2.back.data or form2.save.data or form2.load.data) and form2.validate():
         if form2.back.data:
             return redirect(url_for('chooser'))
         elif form2.save.data:

@@ -257,6 +257,7 @@ class Game:
                     run()
                 for i in spl[1][1:].split('|'):
                     run(i)
+                    
     def get_closest_matches(self, inp, matchAgainst):
         inp_words = inp.split()
         l = len(inp_words)
@@ -265,30 +266,32 @@ class Game:
         extra = 1
         for i in range(len(match_words)+l):
             amnt = 0
+            found = []
             for j in match_words[i:i+l+extra]:
                 if GCM(j, inp_words, 1, cutoff):
+                    found.append(j)
                     amnt += 1
             if amnt >= l:
-                match_words[i:i+l+extra]
-                # inp = 'nice dog'
-                #matchAgainst = 'my beautiful nice dog'
-                #out = 'beautiful nice dog' --X
-                # match_words[i:i+l+extra] = ['beautiful', 'nice', 'dog']
-                #out = ['nice', 'dog']
-                #matches.append(" ".join(out))
-                #'beautiful' not in inp
-                #THERE MIGHT BE WORDS IN THE MIDDLE which are not in the inp list but keep those
-                #just get rid of the end/start words
+                out = []
+                for j in match_words[i:i+l+extra]:
+                    if j in found:
+                        out.append(j)
+                        found.remove(j)
+                    if not found:
+                        break
+                if " ".join(out) not in matches:
+                    matches.append(" ".join(out))
+                    extra = l - len(out)
         return matches
-    
+
     def __call__(self, txt):
         global PRINTS
         PRINTS = ''
-        """for i in self.syns.keys():
+        for i in self.syns.keys():
             m = self.get_closest_matches(i, txt)
             if len(m) != 0:
                 for j in m:
-                    txt = txt.replace(j, self.syns[i])""" #WAITING FOR FRIENDS TO FINISH CODE SO I CAN UNCOMMENT THIS
+                    txt = txt.replace(j, self.syns[i]) #WAITING FOR FRIENDS TO FINISH CODE SO I CAN UNCOMMENT THIS
                     
         doc = nlp(txt)
         trees = [self.to_tree(sent.root) for sent in doc.sents]

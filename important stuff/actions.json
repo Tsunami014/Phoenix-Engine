@@ -1,7 +1,7 @@
 {
         "throw":
             {"subjobj": 1,
-            "action#throwable": "00You threw something! HUZZAH!!!!!! :);3throw"},
+            "action#throwable": "00You threw something! HUZZAH!!!!!! :);3'throw'"},
         "move":
             {"action": "12roomnum = 0;3'move'+str(self.roomnum)"}
 }
