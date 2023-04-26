@@ -1,5 +1,5 @@
 from copy import deepcopy
-import side as s
+import game as s
 import tkinter as tk
 from tkinter import scrolledtext
 

@@ -193,6 +193,7 @@ else:
 
 
 
-#PUZZLE/LOCK 5
+#The Smell Lock
+  #If the player has an Incense Stick in their inventory, the player can set it on fire with an oven to unlock the smell lock
 
 #End of Codes

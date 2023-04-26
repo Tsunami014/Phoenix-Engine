@@ -19,7 +19,7 @@ bootstrap = Bootstrap5(app)
 # Flask-WTF requires this line
 csrf = CSRFProtect(app)
 
-import side as s
+import game as s
 g = s.Game()
 
 # with Flask-WTF, each web form is represented by a class
@@ -97,7 +97,7 @@ def index(id):
     croom = g.fc['rooms'][str(g.roomnum)]
     return render_template('app.html', title=id, roomname=croom['name'].capitalize(), desc=croom['description'].strip(' \t\n'), bigdesc=load_room_desc(croom).strip(' \t\n'), form=form, form2=form2, message=name.strip(' \t\n'), logs=str(g.log), savemsg=savemsg)
 
-# 2 routes to handle errors - they have templates too
+# 3 routes to handle errors - they have templates too
 
 @app.errorhandler(404)
 def page_not_found(e):

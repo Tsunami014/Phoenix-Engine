@@ -1,4 +1,4 @@
-import side as s
+import game as s
 
 g = s.Game()
 
