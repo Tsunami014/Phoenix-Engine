@@ -1,10 +1,10 @@
-# Actions to put in:
+# Actions to put in
 
 | tag               | name       | Description                | synonyms (if any)         |
 | ----------------- | ---------- | -------------------------- | -----------------------   |
 | #moveable         | throw      | Throw an object            | yeet, chuck, toss,        |
 | #inventory        | take       | put an object in inventory | grab, etc.                |
-| #smashable        | smash      | Smash an object            | break,shatter,crash       | 
+| #smashable        | smash      | Smash an object            | break,shatter,crash       |
 | #shoot            | purportal  | Shoot the purple portal    | purpshoot,myportal,purple |
 | #shoot            | yellportal | Shoot the yellow portal    | yellshoot,dogportal,yellow|
 | #moveable         | lift       | Lift item                  | pickup,gather, hoist      |

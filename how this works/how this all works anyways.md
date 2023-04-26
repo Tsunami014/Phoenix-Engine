@@ -1,25 +1,26 @@
 ### Explaining our Code
 
-# How our Locks and Puzzles  work 
+# How our Locks and Puzzles  work
+
 [paste in code here and explain it]
 >Locks,Puzzles and traps are stored in this file so they are easy to read and edit.
-#Boring Digital Lock
+# Boring Digital Lock
 > Define the file to store the combination
     import random
     filename = "combination.txt"
 
  Read the initial combination from the file
 
-	with open(filename, "r") as file:
+ with open(filename, "r") as file:
         combination = file.read().strip()
 
  Ask user if they want to change the combination
 
-	change = input("Would you like to change the combination? (y/n): ")
+ change = input("Would you like to change the combination? (y/n): ")
 
 If user wants to change the combination, ask for the original and new combinations
 
-	if change == "y":
+ if change == "y":
     old_combination = input("Enter the current combination: ")
     if old_combination == combination:
         new_combination = input("Enter the new combination: ")
@@ -32,28 +33,22 @@ If user wants to change the combination, ask for the original and new combinatio
 
 Ask user for the combination
 
-	user_input = input("Enter the combination: ")
+ user_input = input("Enter the combination: ")
 
  Check if the combination is correct
 
-	if user_input == combination:
+ if user_input == combination:
         print("Access granted!")
     else:
         print("Access denied.")
 
-
 # Next Lock
 
-#Swap Lock can be modified to Work with Viggo's Music Lock
-#Diffrent Colours Must be lined together. To work 
+# Swap Lock can be modified to Work with Viggo's Music Lock
+# Diffrent Colours Must be lined together. To work
 
-
-
-
-
-
-#This is code to order a set of Orbs or an Orb lock
-> Don't forget this I have it above but will be needed normally; import random 
+# This is code to order a set of Orbs or an Orb lock
+> Don't forget this I have it above but will be needed normally; import random
 orb_lock_solved=False
 number_clue=random.randint(1,3)
 codeinput=["Red","yellow","blue","green"]
@@ -72,11 +67,10 @@ else:
   print(orb_last_set_clue)
 cluepart2=["What do you bury when it's alive and dig up when it's dead?","What's bought by the Yard but worn by the foot?"]
 
-
 Solution_orb_text=["The Books rustle jumping around only for the books to splinter in a shower of paper, showing their true form as Orbs with four being coloured and the rest a mystical white." "The Orbs spin circling in a "]
-#End of Basic Locks which can be slightly modified to fit most other Locks
+# End of Basic Locks which can be slightly modified to fit most other Locks
 
-#Arcade lock 
+# Arcade lock
  A lock where you have to select the correct arcade game to solve it.
 game_played = input("There are multiple different arcade machines here... Tetris, Space Invaders, Portal and Pacman. Which do you play? > ")
 el_solved = False
@@ -90,140 +84,127 @@ elif game_played in ["Tetris", "tetris", "Portal", "portal", "Pacman", "pacman",
 else:
   print("That's NOT A GAME")
 
-#End of eLock
-#end of locks
-#PUZZLE 1
+# End of eLock
+# end of locks
+# PUZZLE 1
  How the door puzzle works
-#The room is a square with four doors, one on each wall, and each door is marked with a symbol. The walls are decorated with hieroglyphs, and a small pedestal sits in the center of the room with a single object on top. The object is a golden scarab beetle with a series of symbols carved into its back.
+# The room is a square with four doors, one on each wall, and each door is marked with a symbol. The walls are decorated with hieroglyphs, and a small pedestal sits in the center of the room with a single object on top. The object is a golden scarab beetle with a series of symbols carved into its back.
 
-#Your task is to decipher the symbols on the scarab beetle and use that information to figure out which door to take in order to escape the room.
+# Your task is to decipher the symbols on the scarab beetle and use that information to figure out which door to take in order to escape the room.
 
-#Clues:
+# Clues:
 
-#The hieroglyphs on the walls depict a series of symbols that are similar to those on the scarab beetle.
-#Each door is marked with a different symbol, but only one of them leads to the exit.
-#The symbols on the scarab beetle are arranged in a circular pattern, with one symbol at the center and six others arranged around it.
-#To solve the puzzle, you must do the following:
+# The hieroglyphs on the walls depict a series of symbols that are similar to those on the scarab beetle.
+# Each door is marked with a different symbol, but only one of them leads to the exit.
+# The symbols on the scarab beetle are arranged in a circular pattern, with one symbol at the center and six others arranged around it.
+# To solve the puzzle, you must do the following:
 
-#Decipher the symbols on the scarab beetle by matching them to the hieroglyphs on the walls.
-#Arrange the symbols in the correct order by starting with the central symbol and following the circular pattern.
-#Use the resulting sequence of symbols to figure out which door to take by matching them to the symbols on the doors.
-#For example, if the symbols on the scarab beetle are:
+# Decipher the symbols on the scarab beetle by matching them to the hieroglyphs on the walls.
+# Arrange the symbols in the correct order by starting with the central symbol and following the circular pattern.
+# Use the resulting sequence of symbols to figure out which door to take by matching them to the symbols on the doors.
+# For example, if the symbols on the scarab beetle are:
 
-#[Central symbol] - [Symbol A] - [Symbol B] - [Symbol C] - [Symbol D] - [Symbol E] - [Symbol F]
+# [Central symbol] - [Symbol A] - [Symbol B] - [Symbol C] - [Symbol D] - [Symbol E] - [Symbol F]
 
-#And the symbols on the doors are:
+# And the symbols on the doors are:
 
-#Door 1: Symbol C
-#Door 2: Symbol E
-#Door 3: Symbol F
-#Door 4: Symbol B
-#Then you would take Door 4, since Symbol B is the second symbol in the sequence on the scarab beetle.
+# Door 1: Symbol C
+# Door 2: Symbol E
+# Door 3: Symbol F
+# Door 4: Symbol B
+# Then you would take Door 4, since Symbol B is the second symbol in the sequence on the scarab beetle.
 
+# PUZZLE 2
+# The Obelisk Puzzle is a challenging puzzle game that requires players to navigate a room filled with pillars and scorpions. The goal is to arrange the pillars in the correct order to progress to the next level, while avoiding the scorpions and staying alive.
 
+# To begin, the player must first observe the pillars and try to determine the correct order in which they should be arranged. Each pillar may have a symbol or a series of symbols engraved on it, which can provide clues as to their correct sequence. For example, the symbols could be letters or numbers arranged in a specific pattern.
 
-#PUZZLE 2
-#The Obelisk Puzzle is a challenging puzzle game that requires players to navigate a room filled with pillars and scorpions. The goal is to arrange the pillars in the correct order to progress to the next level, while avoiding the scorpions and staying alive.
+# Once the player has figured out the correct order, they must then approach each pillar and move it into place. However, each pillar is guarded by a group of scorpions that will attack the player if they get too close. The player must use their wits to outmaneuver the scorpions and move the pillars into the correct position.
 
-#To begin, the player must first observe the pillars and try to determine the correct order in which they should be arranged. Each pillar may have a symbol or a series of symbols engraved on it, which can provide clues as to their correct sequence. For example, the symbols could be letters or numbers arranged in a specific pattern.
+# As the player progresses through the levels, the puzzles become increasingly difficult, with more pillars to arrange and more scorpions to avoid. The player must use their problem-solving skills and strategic thinking to succeed.
 
-#Once the player has figured out the correct order, they must then approach each pillar and move it into place. However, each pillar is guarded by a group of scorpions that will attack the player if they get too close. The player must use their wits to outmaneuver the scorpions and move the pillars into the correct position.
+# Overall, the Obelisk Puzzle is a fun and challenging game that requires both mental and physical agility. It is a great way to test your problem-solving abilities and improve your strategic thinking skills.
 
-#As the player progresses through the levels, the puzzles become increasingly difficult, with more pillars to arrange and more scorpions to avoid. The player must use their problem-solving skills and strategic thinking to succeed.
+# Sure, here's a step-by-step guide on how to solve the Obelisk Puzzle:
 
-#Overall, the Obelisk Puzzle is a fun and challenging game that requires both mental and physical agility. It is a great way to test your problem-solving abilities and improve your strategic thinking skills.
+# Step 1: Observe the Pillars
+# Start by observing the pillars in the room and try to identify any patterns or symbols on them. Take note of the number of pillars and their locations in the room.
 
+# Step 2: Identify the Correct Order
+# Based on the symbols or patterns on the pillars, try to determine the correct order in which they should be arranged. Look for any clues or hints in the room that may help you identify the correct sequence.
 
+# Step 3: Move the Pillars
+# Approach each pillar and move it into place. Be careful not to get too close to the scorpions guarding the pillars, as they will attack if you get too close.
 
+# Step 4: Check Your Progress
+# As you move each pillar into place, check your progress to see if you are getting closer to the correct sequence. If you realize that you have made a mistake, don't panic. Simply backtrack and try again.
 
+# Step 5: Navigate the Room
+# As you move the pillars, you will need to navigate the room and avoid the scorpions. Be strategic and use your movement to outmaneuver the scorpions and reach the next pillar.
 
-#Sure, here's a step-by-step guide on how to solve the Obelisk Puzzle:
+# Step 6: Complete the Puzzle
+# Once all the pillars are in the correct order, the puzzle will be complete and you can progress to the next level.
 
-#Step 1: Observe the Pillars
-#Start by observing the pillars in the room and try to identify any patterns or symbols on them. Take note of the number of pillars and their locations in the room.
+# Tips:
 
-#Step 2: Identify the Correct Order
-#Based on the symbols or patterns on the pillars, try to determine the correct order in which they should be arranged. Look for any clues or hints in the room that may help you identify the correct sequence.
+# Take your time and don't rush. It's better to move slowly and carefully than to make a mistake and have to start over.
+# Use your movement to your advantage. Try to lure the scorpions away from the pillars you need to move, so that you can approach them safely.
+# Keep an eye out for any clues or hints in the room that may help you identify the correct sequence.
+# If you get stuck, don't be afraid to backtrack and try again. It may take a few tries to figure out the correct sequence, but with patience and perseverance, you can solve the puzzle.
+# End of Obilisk puzzle
 
-#Step 3: Move the Pillars
-#Approach each pillar and move it into place. Be careful not to get too close to the scorpions guarding the pillars, as they will attack if you get too close.
+# PUZZLE 3
 
-#Step 4: Check Your Progress
-#As you move each pillar into place, check your progress to see if you are getting closer to the correct sequence. If you realize that you have made a mistake, don't panic. Simply backtrack and try again.
+# The Mirror Puzzle is one of the more complex challenges in the Puzzle Room. The room contains a large mirror on one wall with hieroglyphs etched into its surface. Across the room, there is another wall with a series of hieroglyphs. The players must reflect a beam of light from a source (e.g., a crystal or a torch) onto a specific hieroglyph on the opposite wall.
 
-#Step 5: Navigate the Room
-#As you move the pillars, you will need to navigate the room and avoid the scorpions. Be strategic and use your movement to outmaneuver the scorpions and reach the next pillar.
+# To do this, the players must use a series of levers and switches to manipulate the mirror and direct the beam of light towards the correct hieroglyph. Each lever or switch corresponds to a different angle or direction that the mirror can be adjusted, and the players must experiment with different combinations to find the correct angle to reflect the beam.
 
-#Step 6: Complete the Puzzle
-#Once all the pillars are in the correct order, the puzzle will be complete and you can progress to the next level.
+# However, if the players reflect the beam onto the wrong hieroglyph, a trap will be triggered, releasing poisonous gas into the room. The gas will quickly fill the room, making it difficult for the players to breathe and putting them in danger.
 
-#Tips:
+# To make the puzzle more challenging, the hieroglyphs on the opposite wall may be written in code or require a specific order to be solved. The players must decipher the clues and use their problem-solving skills to solve the Mirror Puzzle and move on to the next challenge
 
-#Take your time and don't rush. It's better to move slowly and carefully than to make a mistake and have to start over.
-#Use your movement to your advantage. Try to lure the scorpions away from the pillars you need to move, so that you can approach them safely.
-#Keep an eye out for any clues or hints in the room that may help you identify the correct sequence.
-#If you get stuck, don't be afraid to backtrack and try again. It may take a few tries to figure out the correct sequence, but with patience and perseverance, you can solve the puzzle.
-#End of Obilisk puzzle
+# To solve the Mirror Puzzle, the players need to follow these steps:
 
+# Identify the hieroglyph that needs to be illuminated: The players must carefully study the wall with the hieroglyphs and determine which one needs to be illuminated. This could be indicated by a clue or a symbol in the room.
 
-#PUZZLE 3
+# Find the light source: The players need to locate the source of the beam of light. It could be a crystal, a torch, or some other object in the room.
 
+# Adjust the levers and switches: The players must use the levers and switches to manipulate the mirror and direct the beam of light towards the correct hieroglyph. They can experiment with different combinations until they find the right angle to reflect the beam.
 
-#The Mirror Puzzle is one of the more complex challenges in the Puzzle Room. The room contains a large mirror on one wall with hieroglyphs etched into its surface. Across the room, there is another wall with a series of hieroglyphs. The players must reflect a beam of light from a source (e.g., a crystal or a torch) onto a specific hieroglyph on the opposite wall.
+# Check the hieroglyph: Once the players believe they have reflected the beam of light onto the correct hieroglyph, they need to check it. They can do this by looking at the hieroglyph and verifying that it has been illuminated.
 
-#To do this, the players must use a series of levers and switches to manipulate the mirror and direct the beam of light towards the correct hieroglyph. Each lever or switch corresponds to a different angle or direction that the mirror can be adjusted, and the players must experiment with different combinations to find the correct angle to reflect the beam.
+# Move on to the next challenge: If the correct hieroglyph has been illuminated, the players can move on to the next challenge. If not, they need to continue adjusting the mirror until they get it right.
 
-#However, if the players reflect the beam onto the wrong hieroglyph, a trap will be triggered, releasing poisonous gas into the room. The gas will quickly fill the room, making it difficult for the players to breathe and putting them in danger.
+# It's essential to be careful and deliberate when solving the Mirror Puzzle, as reflecting the beam of light onto the wrong hieroglyph will trigger the trap, releasing poisonous gas into the room.
 
-#To make the puzzle more challenging, the hieroglyphs on the opposite wall may be written in code or require a specific order to be solved. The players must decipher the clues and use their problem-solving skills to solve the Mirror Puzzle and move on to the next challenge
+# PUZZLE 4
 
+# The players enter a dark chamber with a large stone scale in the center. The scale has two plates, each with different hieroglyphs engraved on them. The players notice that the scale is unbalanced, with one plate tilted downwards.
+# The players examine the hieroglyphs on the plates and see that each symbol has a numerical value. They also notice that the scale has markings on each side, indicating the weight needed to balance it.
 
+# The players must quickly calculate which combination of hieroglyphs will balance the scale and place them on the plates. If they choose the wrong combination, the scale will tip, and snakes will fall...
 
-#To solve the Mirror Puzzle, the players need to follow these steps:
+# Once the players correctly balance the scale, the snakes retreat back into the ceiling, and a door opens, leading to the next chamber.
 
-#Identify the hieroglyph that needs to be illuminated: The players must carefully study the wall with the hieroglyphs and determine which one needs to be illuminated. This could be indicated by a clue or a symbol in the room.
+# PUZZLE/LOCK 5
 
-#Find the light source: The players need to locate the source of the beam of light. It could be a crystal, a torch, or some other object in the room.
+# End of Codes
 
-#Adjust the levers and switches: The players must use the levers and switches to manipulate the mirror and direct the beam of light towards the correct hieroglyph. They can experiment with different combinations until they find the right angle to reflect the beam.
-
-#Check the hieroglyph: Once the players believe they have reflected the beam of light onto the correct hieroglyph, they need to check it. They can do this by looking at the hieroglyph and verifying that it has been illuminated.
-
-#Move on to the next challenge: If the correct hieroglyph has been illuminated, the players can move on to the next challenge. If not, they need to continue adjusting the mirror until they get it right.
-
-#It's essential to be careful and deliberate when solving the Mirror Puzzle, as reflecting the beam of light onto the wrong hieroglyph will trigger the trap, releasing poisonous gas into the room.
-
-#PUZZLE 4
-
-#The players enter a dark chamber with a large stone scale in the center. The scale has two plates, each with different hieroglyphs engraved on them. The players notice that the scale is unbalanced, with one plate tilted downwards.
-#The players examine the hieroglyphs on the plates and see that each symbol has a numerical value. They also notice that the scale has markings on each side, indicating the weight needed to balance it.
-
-#The players must quickly calculate which combination of hieroglyphs will balance the scale and place them on the plates. If they choose the wrong combination, the scale will tip, and snakes will fall...
-
-#Once the players correctly balance the scale, the snakes retreat back into the ceiling, and a door opens, leading to the next chamber.
-
-
-
-
-#PUZZLE/LOCK 5
-
-#End of Codes
-
-# This is how side.py works.
+# This is how side.py works
 
 ## first we do the imports
 
 this line is for importing the regular expressions used in the code and also for the line following
 
-	import os, re 
+ import os, re 
 
 this line is for clearing the screen. It is the only use of the os library. it basically sets the function 'clear' to clear the screen, so whenever you need to clear the screen you call "clear()"
-    
+
     clear = lambda: os.system('cls' if os.name == 'nt' else 'clear')
     clear()
 
 This is whether to include debug mode or not. Its default is true, but it gets set to false in files like main.py where you play the game, not debug it.
-    
+
     debug = True 
 
 more importing
@@ -250,10 +231,10 @@ this is for loading the files.
 
     import json
 
-
 ### SET THIS TO TRUE if you downloaded en_core_web_sm using spacy install en_core_web_sm
 
 ### SET THIS TO FALSE if you downloaded en_core_web_sm using the .whl file that you download from the internet
+
     if True:
         import spacy
         nlp = spacy.load('en_core_web_sm')
@@ -263,13 +244,12 @@ this is for loading the files.
 
 then it sets up the game by clearing the screen and setting some variables.
 
-	clear()
-	print('loading functions and other global variables...')
+ clear()
+ print('loading functions and other global variables...')
 
 The cutoff is... the cutoff for get closest matches (How close it needs to be for the match to work, 0=anything 1=same thing)
 
-	cutoff = 0.85
-
+ cutoff = 0.85
 
 the next variable pos is all the positions possible - notice sometimes there is "" between two items
 
@@ -281,56 +261,56 @@ So the gap is because it does not want that number to be close enough to the oth
 
 That it will be counted as close enough to pass
 
-	pos = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest", "", "up", "", "down", "", "left", "", "right", "", "in", "", "out"]
+ pos = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest", "", "up", "", "down", "", "left", "", "right", "", "in", "", "out"]
 
 This is the fourth number and delete expressions. More on all this below.
 
-	fourth_numbers = ["""
-	try:
-	    self.fc['rooms']['{5}']['exits'][str(closest_num([int(i) for i in self.fc['rooms']['{5}']['exits'].keys()], pos.index('{3}')))]
-	    self.title = True
-	    self.desc = True
-	except: pass"""]
+ fourth_numbers = ["""
+ try:
+     self.fc['rooms']['{5}']['exits'][str(closest_num([int(i) for i in self.fc['rooms']['{5}']['exits'].keys()], pos.index('{3}')))]
+     self.title = True
+     self.desc = True
+ except: pass"""]
 
-	 delete_numbers = ["self.fc['rooms']['{5}']['objects'][{4}[0]]"]
+  delete_numbers = ["self.fc['rooms']['{5}']['objects'][{4}[0]]"]
 
 The main game class!
 
-	class Game:
-	    def __init__(self):
-	        clear()
-	        print('loading other vars...')
+ class Game:
+     def __init__(self):
+         clear()
+         print('loading other vars...')
 
 set some variables, mostly self explanitory
 
-	        self.roomnum = 1 #This is the starting room id
-	        self.log = [] #Instead of printing errors, return them in this list!
-	        self.output = [] #Instead of printing the output, return them in this list
-	        #lemmatizer = WordNetLemmatizer() #doesn't work... yet
+         self.roomnum = 1 #This is the starting room id
+         self.log = [] #Instead of printing errors, return them in this list!
+         self.output = [] #Instead of printing the output, return them in this list
+         #lemmatizer = WordNetLemmatizer() #doesn't work... yet
 
 These next vars we load from a file:
 
-	        fp = "actions, words & syns/" #The filepath to all the json files
+         fp = "actions, words & syns/" #The filepath to all the json files
 
 This gets the marker tags, dollas_wrds, etc. More on that in the \_\_call__ function.
 
-	        #Gets marker_tags, dollars_wrds, and other_names from words&tags.json
-	        with open(fp+"words&tags.json") as f:
-	            fc = json.load(f)
-	        self.marker_tags = fc['marker_tags']
-	        self.dollars_wrds = fc['dollars_wrds']
-	        self.other_names = fc['other_names']
+         #Gets marker_tags, dollars_wrds, and other_names from words&tags.json
+         with open(fp+"words&tags.json") as f:
+             fc = json.load(f)
+         self.marker_tags = fc['marker_tags']
+         self.dollars_wrds = fc['dollars_wrds']
+         self.other_names = fc['other_names']
 
-	        #Get actions, valid actions and action_deps from actions.json
-	        with open(fp+"actions.json") as f:
-	            fc = json.load(f)
-	        #Do a little formatting with the actions and valid actions
-	        self.actions = fc['actions']
-	        self.actions = {eval(i): self.actions[i] for i in self.actions}
-	        self.valid_actions = fc['valid_actions']
-	        self.valid_actions = {eval(i): self.valid_actions[i] for i in self.valid_actions}
+         #Get actions, valid actions and action_deps from actions.json
+         with open(fp+"actions.json") as f:
+             fc = json.load(f)
+         #Do a little formatting with the actions and valid actions
+         self.actions = fc['actions']
+         self.actions = {eval(i): self.actions[i] for i in self.actions}
+         self.valid_actions = fc['valid_actions']
+         self.valid_actions = {eval(i): self.valid_actions[i] for i in self.valid_actions}
 
-	        self.action_deps = fc['action_dependencies']
+         self.action_deps = fc['action_dependencies']
 
 This gets all the adjectives and stores them in variables.
 
@@ -357,36 +337,36 @@ so it takes all the keys in the dictionary, and then all the lists of synonyms a
 
 And this is the code:
 
-	        #Get all adjective and word and sentence_word (checked against all words in sentence) synonyms from syns.json and do some formatting with them
-	        with open(fp+"syns.json") as f:
-	            syns = json.load(f)
-	        self.all_adj_syns = {}
-	        for i in syns['adjs']:
-	            for j in syns['adjs'][i]:
-	                self.all_adj_syns[j] = i
-	        self.all_wrd_syns = {}
-	        for i in syns['words']:
-	            for j in syns['words'][i]:
-	                self.all_wrd_syns[j] = i
-	        self.sent_wrd_syns = {}
-	        for i in syns['sent_wrds']:
-	            for j in syns['sent_wrds'][i]:
-	                self.sent_wrd_syns[j] = i
+         #Get all adjective and word and sentence_word (checked against all words in sentence) synonyms from syns.json and do some formatting with them
+         with open(fp+"syns.json") as f:
+             syns = json.load(f)
+         self.all_adj_syns = {}
+         for i in syns['adjs']:
+             for j in syns['adjs'][i]:
+                 self.all_adj_syns[j] = i
+         self.all_wrd_syns = {}
+         for i in syns['words']:
+             for j in syns['words'][i]:
+                 self.all_wrd_syns[j] = i
+         self.sent_wrd_syns = {}
+         for i in syns['sent_wrds']:
+             for j in syns['sent_wrds'][i]:
+                 self.sent_wrd_syns[j] = i
 
 This takes the map from the file and loads it.
 
 One thing to notice is that the self.fc and self.tosavefc are the same - this is because when we change something in the gameplay we want to not change it in the actual file to do everything again, but if we change something in debug mode and we want to save that we change self.tosavefc.
 
-	        #Get the map from the file
-	        with open("maps/Forest out.json") as f:
-	            self.fc = json.load(f)
-	            self.tosavefc = deepcopy(fc)
+         #Get the map from the file
+         with open("maps/Forest out.json") as f:
+             self.fc = json.load(f)
+             self.tosavefc = deepcopy(fc)
 
 and lastly a few more self explanitory actions
 
-	        self.title = True
-	        self.desc = True
-	        self.prev_action = None
+         self.title = True
+         self.desc = True
+         self.prev_action = None
 
 this next function is the function to run the action.
 
@@ -397,8 +377,9 @@ Args:
     values (list): This also follows a specific formula that is needed. See below.
     debug (optional, bool): Whether or not to apply the action to both the debug and normal or just normal. Defaults to False (just normal).
     set_values_3 (optional, bool): Whether or not to set the third value in the list values or to just leave it. Defaults to True (change it).
-        
+
 Values:
+
 - out (dict): The parsed dictionary of the nlp parsed sentence.
 - action (str): The action that is being done. For printing reasons.
 - closests (list) - the words in the output that match the action in actions.json
@@ -409,6 +390,7 @@ Values:
 - room_id (int) - the id of the current room. This is also the variable roomnum, but... still needed in this list.
 
 UNLESS IF YOU WANT ANOTHER SET OF VALUES FOR THE ACTIONS THEN:
+
 1. set_values_3=False
 Then you should be fine :)
 
@@ -440,9 +422,9 @@ Fourth number (only for first number=1):
 
 TODO: explain bit by bit what this does
 
-	def run_action(self, code, values, debug=False, set_values_3=True):
-	        if set_values_3:
-	            try:
+ def run_action(self, code, values, debug=False, set_values_3=True):
+         if set_values_3:
+             try:
                 values[3] = values[2][0]
             except:
                 values[3] = []

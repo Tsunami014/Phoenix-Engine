@@ -1,25 +1,45 @@
-import json
-import os
-from random import choice
-clear = lambda: os.system('cls' if os.name == 'nt' else 'clear')
+import json # reads the maps
+import os # for the clear function
+from random import choice # for the choice function so there are random events that happen, not the same ones all the time
 
-from nltk import Tree
-from copy import deepcopy
-from difflib import get_close_matches as GCM
+clear = lambda: os.system('cls' if os.name == 'nt' else 'clear') # this is the clear function
+#to use it, use `clear()`
+#it clears the terminal
 
-import other.externals
-import other.connector as c
-listener = c.EventListener()
+from nltk import Tree # this is... i'm not afctually sure, it says 'not used'... maybe i removed its use??
+from copy import deepcopy # this is bcos python has some special behavior towards stuff so I need to make copys of things
+from difflib import get_close_matches as GCM # this is the get closest matches function.
+#This is probably the coolest function you'll ever see
+#you use it like this:
+#GCM('woord', ['word', 'bee'], n=1, cutoff=cutoff)
+# the first input is the word to match against
+# the second input is the possible words that it can be
+# n=1 means it will find the best match, and only the best
+# cutoff=cutoff means how close to one of the words in the list it has to be, from 0=any word to 1=exact match, and cutoff is 0.85
+# this is used so you can type spelling errors and it will pick it up as one of the actions in the list.
+# it still has false positives and negatives, so it is not perfect, but it is darned good enough.
 
-if True: #SET THIS TO TRUE if you downloaded en_core_web_sm using spacy install en_core_web_sm
+import other.externals # this, even though it is not used, is used (see below)
+import other.connector as c # this imports the connector
+#see so how this works is the others.externals contains some functions that bind itself to other.connector
+#so when we import other.connector, it has those functions from other.externals in it
+#don't worry, its very confusing
+listener = c.EventListener() # this is the thing that we sent info to
+
+try:
     import spacy
     nlp = spacy.load('en_core_web_sm')
-else: #SET THIS TO FALSE if you downloaded en_core_web_sm using the .whl file that you download from the internet
+except:
     import en_core_web_sm
     nlp = en_core_web_sm.load()
 
-PRINTS = ''
-PRINTS += 'loading functions and other global variables...\n'
+#See so on the school computers, they block nlp.download, so you have to get the .whl file from the internet of a different thing,
+#but they are basically the same.
+
+PRINTS = '' # this is so that instead of printing out things, we put it in this list.
+# this makes it so that even in things like app.py where it does not use the terminal, you can still get access to 
+# the things it prints. In times where it does use the terminal, you just go `print(side.PRINTS)`
+PRINTS += 'loading functions and other global variables...\n' #see, made use of it already :)
 
 cutoff = 0.85 #The cutoff for get closest matches (How close it needs to be for the match to work, 0=anything 1=same thing)
 
@@ -43,7 +63,7 @@ class Game:
         
         self.roomnum = 1 #This is the starting room id
         
-        self.log = []
+        self.log = [] # the logs, including the errors
 
         #lemmatizer = WordNetLemmatizer() #doesn't work... yet
 
@@ -51,27 +71,27 @@ class Game:
 
         #Gets marker_tags, dollars_wrds, and other_names from words&tags.json
         with open(fp+"words&tags.json") as f:
-            fc = json.load(f)
-            
+            fc = json.load(f) # opens and loads
+        
+        #gets and sets each individual var
         self.marker_tags = fc['marker_tags']
         self.dollars_wrds = fc['dollars_wrds']
         self.other_names = fc['other_names']
 
         #Get actions, valid actions and action_deps from actions.json
         with open(fp+"actions.json") as f:
-            fc = json.load(f)
-
-        #Do a little formatting with the actions and valid actions
-        self.actions = fc
+            self.actions = json.load(f)
 
         #Get all adjective and word and sentence_word (checked against all words in sentence) synonyms from syns.json and do some formatting with them
         with open(fp+"syns.json") as f:
             syns = json.load(f)
 
+        #what this next piece of code does is turn it from {'a': ['b', 'c']} to {'b': 'a', 'c': 'a'}
         self.syns = {}
-        for i in syns:
-            for j in syns[i]:
-                self.syns[j] = i
+        for i in syns: # for each in the dict (in the above, it would be ['a'])
+            for j in syns[i]: # for each in the dict with value i (in the above, it would be ['b', 'c'] when i='a')
+                self.syns[j] = i # this sets j ('b' or 'c') to i ('a')
+        #if you don't get it, don't stress
         
         with open(fp+"hashtags.json") as f:
             self.hashtags = json.load(f)
@@ -84,17 +104,15 @@ class Game:
 
         self.prev_action = None #What the previous action specified was
         PRINTS = ''
-        self.run_action(listener.event('init', self)) # get listeners to ahve their turn for init
+        self.run_action(listener.event('init', self)) # get listeners to have their turn for init
     
-    def to_tree(self, node):
+    def to_tree(self, node): # I got this code from the internet and BARELY know how it works
         if len(list(node.children)) > 0:
             return {(node.orth_, node.dep_): [self.to_tree(child) for child in node.children]}
         else:
             return (node.orth_, node.dep_)
     
-    def parse(self, t):
-        #{['took', 'ROOT']: [['I', 'nsubj'], {['dog', 'dobj']: [['my', 'poss']]}, {['for', 'prep']: [{['walk', 'pobj']: [['a', 'det']]}]}]}
-        
+    def parse(self, t): #this... well... is hard to explain. see `how this works/parse func.md`
         if type(t) == str:
             return t
         elif type(t) == list:
@@ -150,6 +168,7 @@ class Game:
             raise TypeError('What the hell is this type; "%s"?' % str(type(i)))
     
     def run_action(self, code): #TODO: make this even better than it is now
+        # this runs an action. See `how this works/actions and hashtags.md`
         #NOTE: here I am!
         """
         This runs an action as defined by the formula below.
@@ -262,6 +281,7 @@ class Game:
                     run(i)
                     
     def get_closest_matches(self, inp, matchAgainst):
+        #This is (mine and) Viggo's and Riley's code
         inp_words = inp.split()
         l = len(inp_words)
         match_words = matchAgainst.split()
@@ -327,6 +347,7 @@ class Game:
         return PRINTS
     
     def hash_code(self, t, code): #NOTE: here are the hash codes
+        # this checks if a hash code meets the requirements. See `how this works/actions and hashtags.md`
         """
         The hash codes are like this:
         each statement is split by a semi-colon;
@@ -384,6 +405,7 @@ class Game:
         return True
 
     def hash_check(self, inp, t):
+        # this... well... See `how this works/actions and hashtags.md`.
         closest = (None, -1)
         for i in inp:
             if 'action' in i and i != 'action':
@@ -415,18 +437,18 @@ def closest_num(numbers, value):
     Find the closest number in the list values to the number value
 
     Args:
-        numbers ([int]): the list of numbers to search over to fi
-        value (int): _description_
+        numbers ([int]): the list of numbers to search over to find the value
+        value (int): the value to search for
     
     Returns:
         int/None: the closest number, but if it is not found then it returns None
     """
     
-    closesst = (2, None)
-    for i in numbers:
-        if abs(i-value) < closesst[0]:
-            closesst = (abs(i-value), i)
+    closesst = (2, None) # start off with 2 and None. Change how close the closest number can be by changing the 2
+    for i in numbers: # for each number in the list of numbers:
+        if abs(i-value) < closesst[0]: # if the value is closer to i than the last one (in the case of the first one, it must be less than 2 distance away)
+            closesst = (abs(i-value), i) # if it is then update the closest value
     
-    return closesst[1]
+    return closesst[1] # return the closest value
 
 
