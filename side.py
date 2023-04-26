@@ -84,6 +84,7 @@ class Game:
 
         self.prev_action = None #What the previous action specified was
         PRINTS = ''
+        self.run_action(listener.event('init', self)) # get listeners to ahve their turn for init
     
     def to_tree(self, node):
         if len(list(node.children)) > 0:
@@ -322,6 +323,7 @@ class Game:
                 self.run_action(choice(parseAction))
             else:
                 self.run_action(parseAction)
+            self.run_action(listener.event('action:'+self.prev_action, self)) #assuming prev_action is the current action
         return PRINTS
     
     def hash_code(self, t, code): #NOTE: here are the hash codes
