@@ -2,6 +2,8 @@ import unittest
 import game as s
 from json import loads
 import re, ast
+import other.externals as ext
+import other.connector as c
 
 """
 Action code:
@@ -33,6 +35,18 @@ Action code:
 
 # print('"'+str([g.to_tree(sent.root) for sent in s.nlp("throw the pot").sents][0]).replace('(', '[').replace(')', ']')+'"'")
 # please note that the g.to_tree function uses tuples, so the code above replaces those with lists, so there shouldn't be any difference
+
+"""class ExternalsTest(unittest.TestCase):
+    l = c.EventListener()
+    
+    def CTG(self, names_of_objects): # Create Temporary Game
+        temp = 'temporary game'
+        temp.fc = {'rooms': {'1': {'objects': [{'name': i} for i in names_of_objects]}}}
+        self.l.event('init', temp)
+        return temp
+    
+    def test_battle(self):
+        self.l.event('throw', self.CTG(['stick', 'bin']))"""
 
 class SideTests(unittest.TestCase):
     g = s.Game()
