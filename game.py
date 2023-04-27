@@ -251,8 +251,9 @@ class Game:
             elif act[0] in ['4', '5', '6']:
                 spl = act[1:].split('!!')
                 def run(i='~'):
+                    print(act)
                     c = 'self.fc["rooms"]["' + \
-                        (spl[1] if spl[1][1] != '~' else str(self.roomnum)) + '"]["' + \
+                        (spl[0] if spl[0][0] != '~' else str(self.roomnum)) + '"]["' + \
                         ["name", "description", "dark", "shape", "exits", "objects"][int(spl[1][0])] + \
                         '"]' + ('["%s"]' % i if spl[1][0] in ['4', '5'] and i != '~' and not i == '[%s]' % i[1:-1]\
                         else ('' if not i == '[%s]' % i[1:-1] else '[%s]' % delete_numbers[int(i[1:-1])]))
