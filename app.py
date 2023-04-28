@@ -113,4 +113,4 @@ def internal_server_error(e):
 
 # keep this as is
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)

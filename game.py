@@ -50,7 +50,7 @@ cutoff = 0.85 #The cutoff for get closest matches (How close it needs to be for 
 #That it will be counted as close enough to pass
 pos = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest", "", "up", "", "down", "", "left", "", "right", "", "in", "", "out"]
 fourth_numbers = ["self.fc['rooms'][str(self.roomnum)]['exits'][str(closest_num([int(i) for i in self.fc['rooms'][str(self.roomnum)]['exits'].keys()], pos.index(self.p['move'][0][0])))]"]
-delete_numbers = ["self.fc['rooms'][str(self.roomnum)]['objects'][[i['name'] for i in self.fc['rooms'][str(self.roomnum)]['objects']].index[self.p['subjobj'][0][0]]]"]
+delete_numbers = ["[i['name'] for i in self.fc['rooms'][str(self.roomnum)]['objects']].index(self.p['subjobj'][0][0])"]
 
 class Game:
     def __init__(self):
@@ -187,6 +187,7 @@ class Game:
             4 = reset a part of self.fc (set it back to its default value)
             5 = set a part of self.fc (if not exists then create)
             6 = delete a part of self.fc
+            7 = change a variable
         
         with 4/5/6:
             second number:
@@ -208,7 +209,7 @@ class Game:
         
         else:
             Second value:
-                with the set variables:
+                with the set/change variables:
                     0 = global
                     1 = class
                 with the print:
@@ -226,21 +227,34 @@ class Game:
             Fourth number (only for first number=1):
                 what value to set it to
                     0 = the closest exit to what was said
+            Fourth digit (only for first number=7):
+                0 = increase
+                1 = decrease
+                2 = set to
+            Fourth number (only for first number=7):
+                what number
         """        
         global PRINTS
+        globals().update({'self': self}) # It needs this for some very odd reason
         for act in code.split(';'):
             if act == '':
                 continue
             if act[0] == '0':
                 #colour = act[1]
                 PRINTS += act[2:].format() + '\n'
-            elif act[0] == '1':
+            elif act[0] == '1' or act[0] == '7':
                 try:
                     spl = act[2:].split(' = ')
                     front = ('globals()[\'%s\']' if act[1] == '0' else 'self.%s') % spl[0]
-                    exec(front.format() + " = " + fourth_numbers[int(spl[1])].format())
-                except Exception as e:
-                    self.log.append(str(e))
+                    if act[0] == '1':
+                        exec(front.format() + " = " + fourth_numbers[int(spl[1])].format())
+                    else:
+                        exec(front.format() + ["+=", "-=", " = "][spl[1][0]] + spl[1][1:])
+                except KeyError as e:
+                    if str(e.args[0]) == 'None':
+                        PRINTS += 'WRONG DIRECTION.\n'
+                    else:
+                        raise e
             elif act[0] == '2':
                 try:
                     exec('del '+delete_numbers[int(act[1])].format())
@@ -250,8 +264,7 @@ class Game:
                 self.run_action(listener.event(eval(act[1:]), self))
             elif act[0] in ['4', '5', '6']:
                 spl = act[1:].split('!!')
-                def run(i='~'):
-                    print(act)
+                def run(i='~', ln=1):
                     c = 'self.fc["rooms"]["' + \
                         (spl[0] if spl[0][0] != '~' else str(self.roomnum)) + '"]["' + \
                         ["name", "description", "dark", "shape", "exits", "objects"][int(spl[1][0])] + \
@@ -263,23 +276,28 @@ class Game:
                         c += ' = '+spl[2]
                     else:
                         t = eval(c)
-                        c += ' = '
-                        if type(t) == str:
-                            c += '""'
-                        elif type(t) == list:
-                            c += '[]'
-                        elif type(t) == dict:
-                            c += r'{}'
+                        if ln == 1:
+                            c = 'del ' + c
                         else:
-                            c += 'None'
+                            c += ' = '
+                            if type(t) == str:
+                                c += '""'
+                            elif type(t) == list:
+                                c += '[]'
+                            elif type(t) == dict:
+                                c += r'{}'
+                            else:
+                                c += 'None'
                     try:
                         exec(c)
                     except Exception as e:
                         self.log.append(str(e))
                 if spl[1][1] == '~':
                     run()
-                for i in spl[1][1:].split('|'):
-                    run(i)
+                else:
+                    l = len(spl[1][1:].split('|'))
+                    for i in spl[1][1:].split('|'):
+                        run(i, l)
                     
     def get_closest_matches(self, inp, matchAgainst):
         #This is (mine and) Viggo's and Riley's code
