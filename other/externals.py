@@ -61,7 +61,7 @@ def wait_for_move(self):
     if tot:
         global fight, curmonsters
         fight = 1
-        curmonsters.extend([Monster(j) for j in tot])
+        curmonsters = [Monster(j) for j in tot]
         return '00OH NO! THERE IS A ' + " AND A ".join(tot) + "! THEY START A FIGHT!!! (you can no longer exit);6~!!4~"#code to print and no longer exit
     return ''
 

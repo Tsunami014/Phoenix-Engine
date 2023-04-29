@@ -246,10 +246,13 @@ class Game:
                 try:
                     spl = act[2:].split(' = ')
                     front = ('globals()[\'%s\']' if act[1] == '0' else 'self.%s') % spl[0]
-                    if act[0] == '1':
-                        exec(front.format() + " = " + fourth_numbers[int(spl[1])].format())
-                    else:
-                        exec(front.format() + ["+=", "-=", " = "][spl[1][0]] + spl[1][1:])
+                    try:
+                        if act[0] == '1':
+                            exec(front.format() + " = " + fourth_numbers[int(spl[1])].format())
+                        else:
+                            exec(front.format() + ["+=", "-=", " = "][int(spl[1][0])] + spl[1][1:])
+                    except Exception as e:
+                        self.log.append(str(e))
                 except KeyError as e:
                     if str(e.args[0]) == 'None':
                         PRINTS += 'WRONG DIRECTION.\n'
@@ -275,19 +278,22 @@ class Game:
                     elif act[0] == '5':
                         c += ' = '+spl[2]
                     else:
-                        t = eval(c)
-                        if ln == 1:
+                        if ln != 1:
                             c = 'del ' + c
                         else:
-                            c += ' = '
-                            if type(t) == str:
-                                c += '""'
-                            elif type(t) == list:
-                                c += '[]'
-                            elif type(t) == dict:
-                                c += r'{}'
-                            else:
-                                c += 'None'
+                            try:
+                                t = eval(c)
+                                c += ' = '
+                                if type(t) == str:
+                                    c += '""'
+                                elif type(t) == list:
+                                    c += '[]'
+                                elif type(t) == dict:
+                                    c += r'{}'
+                                else:
+                                    c += 'None'
+                            except Exception as e:
+                                self.log.append(str(e))
                     try:
                         exec(c)
                     except Exception as e:
@@ -343,7 +349,7 @@ class Game:
                     continue
                 elif self.prev_action != None:
                     doc = nlp("%s %s" % (self.prev_action, t[0]))
-                    t = [self.to_nltk_tree(sent.root) for sent in doc.sents][0]
+                    t = [self.to_tree(sent.root) for sent in doc.sents][0]
                 else:
                     self.log.append("Sorry, you need to specify an action.")
                     continue
