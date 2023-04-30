@@ -1,3 +1,4 @@
+# IN PROGRESS STOP TALKING ABOUT THE ERROR BCOS IT IS BCOS I DID NOT FINISH 1 LINE OF CODE AAAAARGH
 from copy import deepcopy
 import game as s
 import tkinter as tk
@@ -182,7 +183,7 @@ class DebugInterface:
                 if destroy: self.debugs[1].destroy()
                 if self.debugs[0].get() == 'delete selected': pass
                 elif self.debugs[0].get() == 'insert new': pass
-                self.debugs[1] = 
+                self.debugs[1] = []
             l = [i['name'] for i in self.end[prev]]
             l.extend(['delete selected', 'insert new'])
             self.debugs = [Dropdown(self.top, func, ), None]

@@ -1,18 +1,43 @@
 import json
 import random
 import time
+from yachalk import chalk
 
-def Voicelines():
-  print('Vaules')
+def animateText(text):
+    storyColour=chalk.bg_rgb(16,19,26).yellow
+    for char in text:
+        print(storyColour(char), end='', flush=True)
+        if char == '.':
+          time.sleep(1)
+        else:
+          time.sleep(0.075)
+
+with open("Cooltext.md", "r") as f:
+  gameText = f.read()
+  testwrite = gameText.split('\n\n')
+ 
+
+
 #It is chosing map
-mapchoice=int(input("Chose a map. Type 1 for Ancient Egypt, Type 2 for Tech Labs and Type 3 for Forest.\n" ))
+animateText(testwrite[0])
+mapchoice=int(input(""))
 if mapchoice==1:
-    print("Loading Map- Ancient Egypt")
+    animateText(testwrite[1])
 elif mapchoice==2:
-    print("Loading Map- Tech Labs")
+    animateText(testwrite[2])
 elif mapchoice==3:
-      print("Loading Map- Forest")
+    animateText(testwrite[3])
 
 else: 
          print("Error")
 
+def Voicelines():
+  print('Vaules')
+
+def Lives():
+  Livecount=3
+  Death=False
+  if Death==True:
+    choice=random.randint (1,5)
+    if choice==(-1):
+      pass
