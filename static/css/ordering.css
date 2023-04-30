@@ -1,0 +1,30 @@
+.text-title { /*title of the map*/
+    grid-area: text-title;
+}
+.text-rname { /*room name*/
+    grid-area: text-rname;
+}
+.text-rdesc { /*room description*/
+    grid-area: text-rdesc;
+}
+.text-savem { /*save message (success/failiure)*/
+    grid-area: text-savem;
+}
+.text-prmsg { /*print message (the output of your actions)*/
+    grid-area: text-prmsg;
+}
+.form-gamef { /*form game (the form to input the action you are going to do)*/
+    grid-area: form-gamef;
+}
+.form-savef { /*form save (the form to save your game)*/
+    grid-area: form-savef;
+}
+.text-rdesc { /*room description*/
+    grid-area: text-rdesc;
+}
+.text-glogs { /*game logs*/
+    grid-area: text-glogs;
+}
+.text-rstuf { /*room stuff*/
+    grid-area: text-rstuf;
+}

@@ -9,7 +9,7 @@
 
     {{ bootstrap.load_css() }}
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/mouse.css') }}"> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mouse.css') }}">
 
     <style>
       body {
@@ -25,37 +25,64 @@
       p {white-space: pre-line}
       h1 {display: inline}
     </style>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ordering.css') }}">
+
+    <style>
+      .row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-areas:  "text-title text-rname"
+                              "text-rstuf text-rdesc"
+                              "text-prmsg text-savem"
+                              "form-gamef form-gamef"
+                              "form-savef form-savef"
+                              "text-glogs text-glogs";
+        height: 100vh;
+      }
+      /*FYI
+      text-title = title of the map
+      text-rname = room name
+      text-rdesc = room description
+      text-savem = save message (success/failiure)
+      text-prmsg = print message (the output of your actions)
+      form-gamef = form game (the form to input the action you are going to do)
+      form-savef = form save (the form to save your game)
+      text-rdesc = room description
+      text-glogs = game logs
+      text-rstuf = room stuff
+      */
+    </style>
   </head>
   <body>
     <!-- 
 	TIPS about using Bootstrap-Flask:
 	https://github.com/helloflask/bootstrap-flask
 	https://bootstrap-flask.readthedocs.io/
- -->
+    -->
 
     <script>document.getElementById("inp").focus();</script>
 
     <div class="container">
       <div class="row">
-        <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
-          <h1 class="pt-5 pb-2">{{ title }}</h1>
-          <h2>{{ roomname }}</h2>
-          <h3>
-            {{ desc }}
-          </h3>
-          <h2>{{ savemsg }}</h2>
-          <span class="pt-5" id=messanger>
+        <!--div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto"-->
+          <div class="text-title"><h1 class="pt-5 pb-2">{{ title }}</h1></div>
+          <div class="text-rname"><h2>{{ roomname }}</h2></div>
+          <div class="text-rdesc"><h3>{{ desc }}</h3></div>
+          <div class="text-savem"><h2>{{ savemsg }}</h2></div>
+          <span class="pt-5" id="text-prmsg">
             <strong>{{ message }}</strong>
           </span>
-          {{ render_form(form) }}
+          <div class="form-gamef">{{ render_form(form) }}</div>
           <br>
-          {{ render_form(form2) }}
-          <p class="lead">
+          <div class="form-savef">{{ render_form(form2) }}</div>
+          <div class="text-rstuf"><p class="lead">
             {{ bigdesc }}
-          </p>
-          <p>logs:</p>
-          <p>{{ logs }}</p>
-        </div>
+          </p></div>
+          <div class="text-glogs"><p>logs:</p>
+          <p>{{ logs }}</p></div>
+        <!--/div-->
       </div>
     </div>
 
