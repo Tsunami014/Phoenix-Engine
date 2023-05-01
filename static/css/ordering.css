@@ -28,3 +28,6 @@
 .text-rstuf { /*room stuff*/
     grid-area: text-rstuf;
 }
+.text-ginfo { /*game info*/
+    grid-area: text-ginfo;
+}

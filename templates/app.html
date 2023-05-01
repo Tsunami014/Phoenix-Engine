@@ -37,6 +37,7 @@
                               "text-rstuf text-rdesc"
                               "text-prmsg text-savem"
                               "form-gamef form-gamef"
+                              "text-ginfo text-ginfo"
                               "form-savef form-savef"
                               "text-glogs text-glogs";
         height: 100vh;
@@ -52,6 +53,7 @@
       text-rdesc = room description
       text-glogs = game logs
       text-rstuf = room stuff
+      text-ginfo = game info
       */
     </style>
   </head>
@@ -71,6 +73,7 @@
           <div class="text-rname"><h2>{{ roomname }}</h2></div>
           <div class="text-rdesc"><h3>{{ desc }}</h3></div>
           <div class="text-savem"><h2>{{ savemsg }}</h2></div>
+          <div class="text-ginfo"><p>{{ gameinfo }}</p></div>
           <span class="pt-5" id="text-prmsg">
             <strong>{{ message }}</strong>
           </span>

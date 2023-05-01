@@ -96,7 +96,8 @@ def index(id):
             except Exception as e:
                 savemsg = 'UNABLE TO LOAD FILE BECAUSE: %s' % e
     croom = g.fc['rooms'][str(g.roomnum)]
-    return render_template('app.html', title=id, roomname=croom['name'].capitalize(), desc=croom['description'].strip(' \t\n'), bigdesc=load_room_desc(croom).strip(' \t\n'), form=form, form2=form2, message=name.strip(' \t\n'), logs=str(g.log), savemsg=savemsg)
+    gameinfo = 'Inventory: ' + str(g.inventory) + ' HP: ' + str(g.hp)
+    return render_template('app.html', title=id, roomname=croom['name'].capitalize(), desc=croom['description'].strip(' \t\n'), bigdesc=load_room_desc(croom).strip(' \t\n'), form=form, form2=form2, message=name.strip(' \t\n'), logs=str(g.log), savemsg=savemsg, gameinfo=gameinfo)
 
 # 3 routes to handle errors - they have templates too
 
