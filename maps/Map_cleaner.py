@@ -1,13 +1,18 @@
 print("Please bear with me as we do the imports...")
-import spacy
 import json
 import tkinter.filedialog as fd
 
+try:
+    import spacy
+    nlp = spacy.load('en_core_web_sm')
+except:
+    import en_core_web_sm
+    nlp = en_core_web_sm.load()
+
 print("Now we're loading the map. Please choose a map to load from.")
-data = json.loads(fd.askopenfile(filetypes=["JSON_file {json}"]).read().replace('\n', '/n'))
+data = json.loads(open(fd.askopenfilename(filetypes=["JSON_file {json}"]), encoding="utf8").read().replace('\n', '/n'))
 
 print("Now it's time to make the map work......")
-nlp = spacy.load('en_core_web_sm')
 
 rooms = {}
 
@@ -30,8 +35,9 @@ for element in data['elements']:
                 if obj['_name'].find(" ") != -1:
                     i = ' '
                     tags = [tok.dep_ for tok in nlp(obj['_name'])]
+                    tags2 = [tok.name for tok in nlp(obj['_name'])]
                     while i.find(" ") != -1:
-                        i = obj['_name'].split(' ')[(tags.index("ROOT") if 'dobj' not in tags else tags.index("dobj")) if 'nsubj' not in tags else tags.index("nsubj")]
+                        i = tags2[(tags.index("ROOT") if 'dobj' not in tags else tags.index("dobj")) if 'nsubj' not in tags else tags.index("nsubj")]
                         #i = input("The object with name '%s' has more than one word in its name.\n\
                         #Please input a one word name.\n> " % obj['_name'])
                     obj_data['name'] = i
