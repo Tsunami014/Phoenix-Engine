@@ -6,3 +6,8 @@ Loading Map - Tech Labs...
 
 Loading Map - Forest...
 
+Would you like to change the combination? (y/n) > 
+
+Enter the current combination > 
+
+Enter the new combination > 

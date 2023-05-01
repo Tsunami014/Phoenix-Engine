@@ -1,4 +1,4 @@
-# this is the terminal version that uses the game engine (python) and prints all the results.
+# this is the terminal version that uses the game engine and prints all the results.
 import game as s
 
 g = s.Game()

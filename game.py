@@ -1,3 +1,4 @@
+#This is the game engine which is needed to run with an output version e.g Terminal.py 
 import json # reads the maps
 import os # for the clear function
 from random import choice # for the choice function so there are random events that happen, not the same ones all the time
@@ -53,13 +54,15 @@ fourth_numbers = ["self.fc['rooms'][str(self.roomnum)]['exits'][str(closest_num(
 delete_numbers = ["[i['name'] for i in self.fc['rooms'][str(self.roomnum)]['objects']].index(self.p['subjobj'][0][0])"]
 
 class Game:
-    def __init__(self):
+    def __init__(self, mapname="Forest of Wonder"):
         global PRINTS
         PRINTS = ''
         PRINTS += 'loading other vars ...\n'
         
         self.cutoff = cutoff # for those of us who can't reach that far down - here you go :)
         self.p = {} #A filler... just in case worst comes to worst
+
+        self.inventory = {} # sets inventory to blank
         
         self.roomnum = 1 #This is the starting room id
         
@@ -97,7 +100,7 @@ class Game:
             self.hashtags = json.load(f)
 
         #Get the map from the file
-        with open("maps/Forest out.json") as f:
+        with open("maps/%s.json" % mapname) as f:
             self.fc = json.load(f) #This is the game object which is a json object
             self.tosavefc = deepcopy(fc) #This is the game to save so that in debug mode
                     #If you change something it changes both so it can save the original
@@ -278,22 +281,7 @@ class Game:
                     elif act[0] == '5':
                         c += ' = '+spl[2]
                     else:
-                        if ln != 1:
-                            c = 'del ' + c
-                        else:
-                            try:
-                                t = eval(c)
-                                c += ' = '
-                                if type(t) == str:
-                                    c += '""'
-                                elif type(t) == list:
-                                    c += '[]'
-                                elif type(t) == dict:
-                                    c += r'{}'
-                                else:
-                                    c += 'None'
-                            except Exception as e:
-                                self.log.append(str(e))
+                        c = 'del ' + c
                     try:
                         exec(c)
                     except Exception as e:
@@ -456,6 +444,29 @@ class Game:
             except KeyError:
                 return '00'
         return closest[0]
+    
+    def hp (self):
+        #insert stuff here
+        pass
+
+
+    def inventory_check(self):
+        self.inventory # {'item1': stack size, 'item2': stack size, etc.}
+        # self.inventory.keys() is all the items in the inventory.
+        # self.inventory['item1'] is the stack size of item 1, if item1 does not exist it will throw an eror
+        inventory_slots=20 #Inventory Size
+        #Are any Items the same if so stack
+        item_match= True 
+        stack_limit= 10 #Stack Limit
+        Diff_Item_Count=0  #How many Diffrent items?
+        inventory_slots_filled= Diff_Item_Count # Working out the amount of Room in Inventory
+        if  inventory_slots_filled < 20:
+            print("Inventory is full, please remove items to pickup more.")
+        else: 
+            print(Diff_Item_Count)
+            inventory_take=input("Input a number 1-20 to grab an item slot spefic out of inventory, if you would like to see which items are where then Press V.")
+            if inventory_take == 1:
+                print(item_slot_one + "") 
 
 def closest_num(numbers, value):
     """
@@ -475,5 +486,3 @@ def closest_num(numbers, value):
             closesst = (abs(i-value), i) # if it is then update the closest value
     
     return closesst[1] # return the closest value
-
-

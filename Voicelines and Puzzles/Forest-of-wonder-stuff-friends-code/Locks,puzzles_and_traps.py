@@ -3,19 +3,36 @@
 # Define the file to store the combination
 import random
 filename = "combination.txt"
+from yachalk import chalk
+import time
 
+def animateText(text):
+    storyColour=chalk.bg_rgb(16,19,26).yellow
+    for char in text:
+        print(storyColour(char), end='', flush=True)
+        if char == '.':
+          time.sleep(1)
+        else:
+          time.sleep(0.075)
+
+with open("Cooltext.md", "r") as f:
+  gameText = f.read()
+  testwrite = gameText.split('\n\n')
 # Read the initial combination from the file
 with open(filename, "r") as file:
     combination = file.read().strip()
 
 # Ask user if they want to change the combination
-change = input("Would you like to change the combination? (y/n): ")
+animateText(testwrite[4])
+change = input()
 
 # If user wants to change the combination, ask for the original and new combinations
 if change == "y":
-    old_combination = input("Enter the current combination: ")
+    animateText(testwrite[5])
+    old_combination = input()
     if old_combination == combination:
-        new_combination = input("Enter the new combination: ")
+        animateText (testwrite[6])
+        new_combination = input()
         with open(filename, "w") as file:
             file.write(new_combination)
         combination = new_combination
