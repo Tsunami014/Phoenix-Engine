@@ -4,6 +4,11 @@ except ModuleNotFoundError:
     import other.connector as c
 from difflib import get_close_matches as GCM
 
+class CodingError(Exception):
+    """
+    Exception raised when something in the code happens that isn't meant to happen
+    """
+
 from json import load
 from random import randint, choice
 
