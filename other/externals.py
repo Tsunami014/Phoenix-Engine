@@ -4,11 +4,6 @@ except ModuleNotFoundError:
     import other.connector as c
 from difflib import get_close_matches as GCM
 
-class CodingError(Exception):
-    """
-    Exception raised when something in the code happens that isn't meant to happen
-    """
-
 from json import load
 from random import randint, choice
 
@@ -85,7 +80,7 @@ def action(self):
                 deps = battle[self.prev_action][i]
                 break
         if deps == None:
-            raise CodingError('Oh deer... something went wrong.')
+            deps = battle[self.prev_action]['else']
         if type(deps) == list:
             value = randint(0, deps[0])
             for i in deps[1:].keys(): # for each number in the list of numbers:

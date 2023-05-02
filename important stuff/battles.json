@@ -1,5 +1,6 @@
 {
     "throw": {
-        "0subjobj ~ 01": "00Hello! You threw a stick in battle!"
+        "0subjobj ~ 01;": "00Hello! You threw a stick in battle!",
+        "else": "00"
     }
 }
