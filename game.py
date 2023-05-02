@@ -53,6 +53,11 @@ pos = ["north", "northeast", "east", "southeast", "south", "southwest", "west", 
 fourth_numbers = ["self.fc['rooms'][str(self.roomnum)]['exits'][str(closest_num([int(i) for i in self.fc['rooms'][str(self.roomnum)]['exits'].keys()], pos.index(self.p['move'][0][0])))]"]
 delete_numbers = ["[i['name'] for i in self.fc['rooms'][str(self.roomnum)]['objects']].index(self.p['subjobj'][0][0])"]
 
+class CodingError(Exception):
+    """
+    Exception raised when something in the code happens that isn't meant to happen
+    """
+
 class Game:
     def __init__(self, mapname="Forest of Wonder"):
         global PRINTS
@@ -140,7 +145,7 @@ class Game:
                     except:
                         out[end[0]] = [end[1]]
                 else:
-                    raise TypeError("Unexpected type %s!!!!! (CODING EROR)" % type(end))
+                    raise CodingError("Unexpected type %s!!!!!" % type(end))
             return out
         elif type(t) == tuple:
             try:

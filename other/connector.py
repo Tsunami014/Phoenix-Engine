@@ -20,6 +20,6 @@ class EventListener(object):
                 for i in self.all_funcs[t]:
                     try:
                         endcode += i(otherself) + ';'
-                    except:
-                        endcode += '00some error occured with the %s function in externals!!;' % str(i)
+                    except Exception as e:
+                        endcode += '00some error occured with the %s function in externals!! Error: %s;' % (str(i), str(e))
         return endcode[1:-1]

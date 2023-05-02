@@ -80,7 +80,7 @@ def action(self):
                 deps = battle[self.prev_action][i]
                 break
         if deps == None:
-            raise ValueError('Oh deer... something went wrong.')
+            raise CodingError('Oh deer... something went wrong.')
         if type(deps) == list:
             value = randint(0, deps[0])
             for i in deps[1:].keys(): # for each number in the list of numbers:
