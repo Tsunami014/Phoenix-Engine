@@ -21,5 +21,5 @@ class EventListener(object):
                     try:
                         endcode += i(otherself) + ';'
                     except:
-                        pass
+                        endcode += '00some error occured with the %s function in externals!!;' % str(i)
         return endcode[1:-1]

@@ -349,14 +349,19 @@ class Game:
             except KeyError:
                 self.log.append(self.p['action'][-1][0]+' is not in actions list')
                 continue
-            parseAction = self.hash_check(acts, self.p)
-            if parseAction == False: continue
-            #TODO: random chance of action
-            if type(parseAction) == list:
-                self.run_action(choice(parseAction))
+            nact = listener.event('action:'+self.prev_action, self)
+            #If at any time you want to stop the current action from being applied, then in the externals just pop in a "の" anywhere. It will get removed before being executed.
+            if 'の' in nact:
+                nact.replace('の', '')
             else:
-                self.run_action(parseAction)
-            self.run_action(listener.event('action:'+self.prev_action, self)) #assuming prev_action is the current action
+                parseAction = self.hash_check(acts, self.p, self.hashtags)
+                if parseAction == False: continue
+                #TODO: random chance of action
+                if type(parseAction) == list:
+                    self.run_action(choice(parseAction))
+                else:
+                    self.run_action(parseAction)
+            self.run_action(nact) #assuming prev_action is the current action
         return PRINTS
     
     def hash_code(self, t, code): #NOTE: here are the hash codes
@@ -417,13 +422,13 @@ class Game:
                     return
         return True
 
-    def hash_check(self, inp, t):
+    def hash_check(self, inp, t, hashtags):
         # this... well... See `how this works/actions and hashtags.md`.
         closest = (None, -1)
         for i in inp:
             if 'action' in i and i != 'action':
                 j = i.split('#')[1:]
-                l = [self.hash_code(t, self.hashtags[k]) for k in j]
+                l = [self.hash_code(t, hashtags[k]) for k in j]
                 if all(l):
                     if closest[1] < len(l):
                         closest = (inp[i], len(l))

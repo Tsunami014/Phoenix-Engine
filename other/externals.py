@@ -4,7 +4,10 @@ except ModuleNotFoundError:
     import other.connector as c
 from difflib import get_close_matches as GCM
 
+from json import load
 from random import randint, choice
+
+#If at any time you want to stop the current action from being applied, then in the externals just pop in a "の" anywhere. It will get removed before being executed.
 
 listener = c.EventListener()
 
@@ -12,7 +15,8 @@ monsters = {'bokoblin': 0}
 curmonsters = []
 powers = [(10, {6:['tried to hit you... But it missed!', '... tried to hit you but you blocked!', 'hit you...r shield!'], 11: 'hit you for {5} HP!;71hp = 1{5}'})]
 
-fight = 0
+with open('important stuff/battles.json') as f:
+    battle = load(f)
 
 class Monster:
     def __init__(self, name: str, power: int=-1):
@@ -59,25 +63,36 @@ def wait_for_move(self):
         if l:
             tot.append(l[0])
     if tot:
-        global fight, curmonsters
-        fight = 1
+        global curmonsters
+        self.fight = True
         curmonsters = [Monster(j) for j in tot]
-        return '00OH NO! THERE IS A ' + " AND A ".join(tot) + "! THEY START A FIGHT!!! (you can no longer exit);6~!!4~"#code to print and no longer exit
+        return '00OH NO! THERE IS A ' + " AND A ".join(tot) + r"! THEY START A FIGHT!!! (you can no longer exit);5~!!4~!!{}"#code to print and no longer exit
     return ''
 
 @listener.wait(types=['action'])
 def action(self):
     # self.prev_action, counterproductively, is the current action and you can use said variable here!
     if self.fight:
-        return monster_turn(self)
-    else:
-        global fight
-        if fight == 1:
-            fight = 0
-            self.fight = True
+        mt = turns(self)
+        deps = None
+        for i in battle[self.prev_action]:
+            if self.hash_code(self.p, i):
+                deps = battle[self.prev_action][i]
+                break
+        if deps == None:
+            raise ValueError('Oh deer... something went wrong.')
+        if type(deps) == list:
+            value = randint(0, deps[0])
+            for i in deps[1:].keys(): # for each number in the list of numbers:
+                if i >= value: # if the value is closer to i than the last one (in the case of the first one, it must be less than 2 distance away)
+                    end = deps[1:][i] if type(deps[1:][i]) == str else choice(deps[1:][i])
+                    return ('の%s%s%s' % (mt, (';' if mt else ''), end))
+            return '00CODING ERROR: %s' % str(self)
+        else:
+            return ('の%s%s%s' % (mt, (';' if mt else ''), deps))
     return ''
 
-def monster_turn(player_self):
+def turns(player_self):
     global curmonsters
     end = ';'
     for i in curmonsters:
