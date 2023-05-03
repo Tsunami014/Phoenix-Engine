@@ -1,4 +1,9 @@
-# Forest-of-wonder-stuff
+# Assement Text adventure
+
+## How to play?
+
+- ### Run app.py
+- Select a map
 
 > This is the TAS assessment task :)
 >

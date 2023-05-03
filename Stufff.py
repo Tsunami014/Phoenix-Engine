@@ -31,6 +31,13 @@ elif mapchoice==3:
 else: 
          print("Error")
 
+"Choose a map. Type 1 for Ancient Egypt, Type 2 for Tech Labs and Type 3 for Forest. > "
+
+"Loading Map - Ancient Egypt..."
+
+"Loading Map - Tech Labs..."
+
+"Loading Map - Forest..."
 def Voicelines():
   print('Vaules')
 

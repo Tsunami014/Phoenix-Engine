@@ -454,11 +454,6 @@ class Game:
             except KeyError:
                 return '00'
         return closest[0]
-    
-    def hp (self):
-        #insert stuff here
-        pass
-
 
     def inventory_check(self):
         self.inventory # {'item1': stack size, 'item2': stack size, etc.}
@@ -474,9 +469,9 @@ class Game:
             print("Inventory is full, please remove items to pickup more.")
         else: 
             print(Diff_Item_Count)
-            inventory_take=input("Input a number 1-20 to grab an item slot spefic out of inventory, if you would like to see which items are where then Press V.")
+            inventory_take=input("Input a number 1-20 to grab an item slot specific out of inventry, if you would like to see which items are where then press V.")
             if inventory_take == 1:
-                print(item_slot_one + "") 
+                print() 
 
 def closest_num(numbers, value):
     """
