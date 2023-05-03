@@ -1,4 +1,8 @@
 # This is the web app that uses game.py to run the game
+import sys
+
+sys.dont_write_bytecode = True
+
 from flask import Flask, render_template, redirect, url_for
 from flask_bootstrap import Bootstrap5
 

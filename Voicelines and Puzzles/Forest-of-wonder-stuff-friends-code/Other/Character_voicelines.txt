@@ -3,7 +3,21 @@ Explorer Voice lines
 *screams in explorer*
 *angry explorer noises*
 “Heh *snorts* according to my calculations...* 
+"no"
+"you speak english, yes? 
+"tu parles anglais, oui?"
+"ты говоришь по-английски, да?"
+"你会说英语，是吗？你會說英語，是嗎"
+"आप अंग्रेजी बोलते हैं, हाँ?"
+"hablas ingles, si?"
+"loqueris anglicus, ita?"
+"Du sprichst Englisch, ja?"
+"あなたは英語を話しますよね？"
+"no do not go in there"
 
-
-
-
+Brute Voice listeners
+"hmm"
+*grumbles*
+*grunts*
+*whimpers*
+*

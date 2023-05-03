@@ -62,7 +62,7 @@ def wait_for_move(self):
         global fight, curmonsters
         fight = 1
         curmonsters = [Monster(j) for j in tot]
-        return '00OH NO! THERE IS A ' + " AND A ".join(tot) + "! THEY START A FIGHT!!! (you can no longer exit);6~!!4~"#code to print and no longer exit
+        return '00OH NO! THERE IS A ' + " AND A ".join(tot) + r"! THEY START A FIGHT!!! (you can no longer exit);5~!!4~!!{}"#code to print and no longer exit
     return ''
 
 @listener.wait(types=['action'])
