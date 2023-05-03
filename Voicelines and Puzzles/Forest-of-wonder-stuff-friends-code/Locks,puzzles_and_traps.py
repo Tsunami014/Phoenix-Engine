@@ -3,36 +3,19 @@
 # Define the file to store the combination
 import random
 filename = "combination.txt"
-from yachalk import chalk
-import time
-
-def animateText(text):
-    storyColour=chalk.bg_rgb(16,19,26).yellow
-    for char in text:
-        print(storyColour(char), end='', flush=True)
-        if char == '.':
-          time.sleep(1)
-        else:
-          time.sleep(0.075)
-
-with open("Cooltext.md", "r") as f:
-  gameText = f.read()
-  testwrite = gameText.split('\n\n')
+atempt_count=int(0)
 # Read the initial combination from the file
 with open(filename, "r") as file:
     combination = file.read().strip()
 
 # Ask user if they want to change the combination
-animateText(testwrite[4])
-change = input()
+change = input("Would you like to change the combination? (y/n): ")
 
 # If user wants to change the combination, ask for the original and new combinations
-if change == "y":
-    animateText(testwrite[5])
-    old_combination = input()
+if change.lower() == "y":
+    old_combination = input("Enter the current combination: ")
     if old_combination == combination:
-        animateText (testwrite[6])
-        new_combination = input()
+        new_combination = int(input("Enter the new combination: "))
         with open(filename, "w") as file:
             file.write(new_combination)
         combination = new_combination
@@ -45,12 +28,10 @@ user_input = input("Enter the combination: ")
 
 # Check if the combination is correct
 if user_input == combination:
-  print("Access granted!")
+    atempt_count+1
+    print("Access granted!")
 else:
-  print("Access denied.")
-
-
-
+    print("Access denied.")
 
 #Swap Lock can be modified to Work with Viggo's Music Lock
 #Diffrent Colours Must be lined together. To work 
