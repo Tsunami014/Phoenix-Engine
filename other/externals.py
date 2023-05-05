@@ -108,6 +108,11 @@ def wait_for_kill_boss_1():
     print('YOU KILLED BOSS 1!!!')
     return 'open up doorway'
 
+@listener.wait(types=['one word:hi']) # example for 1 word
+def say hi():
+    print('HI!!!!')
+    return '00hi'
+
 @listener.wait(types=['killboss2'])
 def wait_for_kill_boss_2():
     print('CONGRATS! YOU KILLED BOSS 2!!!')

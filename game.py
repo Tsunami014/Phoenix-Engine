@@ -336,17 +336,23 @@ class Game:
                     
         doc = nlp(txt)
         trees = [self.to_tree(sent.root) for sent in doc.sents]
-        for t in trees:       
+        for t in trees:
             if type(t) == tuple:
-                if len(GCM(t[0], ['help'], cutoff=cutoff, n=1)) != 0:
-                    continue
-                elif self.prev_action != None:
-                    doc = nlp("%s %s" % (self.prev_action, t[0]))
-                    t = [self.to_tree(sent.root) for sent in doc.sents][0]
+                nact = listener.event('one word:'+t[0], self)
+                #If at any time you want to stop the current action from being applied, then in the externals just pop in a "の" anywhere. It will get removed before being executed.
+                if 'の' in nact:
+                    nact.replace('の', '')
                 else:
-                    self.log.append("Sorry, you need to specify an action.")
-                    continue
-                    
+                    if len(GCM(t[0], ['help'], cutoff=cutoff, n=1)) != 0:
+                        continue
+                    elif self.prev_action != None:
+                        doc = nlp("%s %s" % (self.prev_action, t[0]))
+                        t = [self.to_tree(sent.root) for sent in doc.sents][0]
+                    else:
+                        self.log.append("Sorry, you need to specify an action.")
+                        continue
+                self.run_action(nact)
+                
             self.p = self.parse(t)
             self.prev_action = self.p['action'][-1][0]
             try:

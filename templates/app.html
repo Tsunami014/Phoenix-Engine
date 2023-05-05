@@ -30,6 +30,10 @@
       }
       p {white-space: pre-line}
       h1 {display: inline}
+      p.lead {
+        font-style: oblique;
+        
+      }
     </style>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/ordering.css') }}">
@@ -87,10 +91,6 @@
           <br>
           <div class="form-savef">{{ render_form(form2) }}</div>
           <div class="text-rstuf"><p class="lead">
-            p.lead {
-              font-style: oblique;
-              
-            }
             {{ bigdesc }}
           </p></div>
           <div class="text-glogs"><p>logs:</p>
