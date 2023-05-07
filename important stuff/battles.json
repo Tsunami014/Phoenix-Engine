@@ -1,6 +1,7 @@
 {
     "throw": {
-        "0subjobj ~ 01;": "00Hello! You threw a stick in battle!",
-        "else": "00"
+        "0subjobj ~ 01;1subjobj ~ stick": "00You threw a valid object!!! YAY!!!",
+        "0subjobj ~ 01": "00You cannot throw that!",
+        "else": "00You cannot do that! (try rephrasing your sentence!)"
     }
 }
