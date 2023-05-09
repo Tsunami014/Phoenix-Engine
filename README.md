@@ -22,7 +22,8 @@
 
 - ### **make a video demonstration** (Riley was working on the script)
 
-- ## Make sure everything works properly. To do that we need to make a new release soon
+- ## Make sure everything works properly. To do that we need to make a new release soon (maybe once we are done?)
+- Agreed - Riley =)
 
 ## More to do about the code
 
@@ -36,6 +37,6 @@
 | redo side.py          | DONE!       | Max    | redo side.py to make it more cleaner and simpler |
 | map selection         |             | Riley  | finish the map selection that I started          |
 | website aesthetics    | IN PROGRESS | Viggo  | make the website look beautiful.                 |
-| --------------------- | In Progress | Riley  | Script for video                                 |
+| Video Script          | In Progress | Riley  | Script for video                                 |
 | Poster/ Game Slip     | In Progress | Riley  | Help us have a better video                      | 
 | Naming the Game       | In Progress | ALL!!  | Every good game needs a name                     |
