@@ -15,9 +15,11 @@ Explorer Voice lines
 "あなたは英語を話しますよね？"
 "no do not go in there"
 
-Brute Voice listeners
+Brute (Brutus) Voice listeners
 "hmm"
 *grumbles*
 *grunts*
 *whimpers*
-*
+"arar"
+*yeses in brutus*
+

@@ -7,7 +7,7 @@
   "rooms": {
     "1": {
       "name": "forest",
-      "description": "This is the forest, where you must go and find the legendary pool of the daemons. This is a mythical location which is rumored to be hidden deep within this forest. You are on a quest to find it.",
+      "description": "This is the forest, where you must go and find the legendary pool of the daemons. This is a mythical location which is rumored to be hidden deep within this forest. You are on a quest to find it and claim the ultimate treasure... The Gaurof Sword.",
       "dark": false,
       "shape": 0,
       "exits": {
@@ -621,7 +621,15 @@
         "6": 37,
         "2": 42
       },
-      "objects": []
+      "objects": [
+        {
+          "name": "The Gaurof Sword",
+          "identifier": "Ultimate Sword",
+          "description": "The sword that Lonk pulled and accidentally destroyed his town with the Tiwlight Raelm",
+          "content": [],
+          "type": 5
+        }
+      ]
     },
     "42": {
       "name": "top of mountain day",
