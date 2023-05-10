@@ -2,11 +2,16 @@
         "throw":
             {"subjobj": 1,
             "action#throwable": [
-                "00You threw it and it came back down to rest in the grass.;3'throw'",
+                "00You threw it and it came back down to rest.;3'throw'",
                 "00You threw it and it flew off into the sunset never to be seen again.;6~!!5[0];3'throw away'"]},
         "take":
             {"subjobj": 1,
             "action#takeable": "00You collected it and it is now in your inventory.;3'take'"},
         "move":
-            {"action": "12roomnum = 0;3'move'+str(self.roomnum)"}
+            {"move": 1,
+            "action": "12roomnum = 0;3'move'+str(self.roomnum)"},
+        "smash":
+            {"subjobj": 1,
+            "action#smashable": "",
+            "action": ""}
 }

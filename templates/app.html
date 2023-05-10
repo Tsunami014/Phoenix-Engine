@@ -32,7 +32,7 @@
       h1 {display: inline}
       p.lead {
         font-style: oblique;
-        
+        font-family: monospace;
       }
     </style>
 
@@ -80,8 +80,25 @@
       <div class="row">
         <!--div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto"-->
           <div class="text-title"><h1 class="pt-5 pb-2">{{ title }}</h1></div>
-          <div class="text-rname"><h2>{{ roomname }}</h2></div>
-          <div class="text-rdesc"><h3>{{ desc }}</h3></div>
+          <div class="text-rname">
+            <h2>{{ roomname }}
+            <style>
+              h2{
+                font-size: 4rem;
+                font-family: fangsong;
+              }
+            </style>
+          </h2>
+        </div> 
+          <div class="text-rdesc"><h3>{{ desc }}
+           <style>
+            h3{
+              font-family: fangsong;
+              font-style: oblique;
+            }
+          </style>
+          </h3>
+        </div>
           <div class="text-savem"><h2>{{ savemsg }}</h2></div>
           <div class="text-ginfo"><p>{{ gameinfo }}</p></div>
           <span class="pt-5" id="text-prmsg">
