@@ -12,6 +12,41 @@
             "action": "12roomnum = 0;3'move'+str(self.roomnum)"},
         "smash":
             {"subjobj": 1,
-            "action#smashable": "",
-            "action": ""}
-}
+            "action#smashable": ""},
+        "lift":
+            {"subjobj":1,
+          "action#liftable" :""},
+        "play":
+            {"subjobj":1,
+          "action#playable":""},
+        "sleep":
+            {"subjobj":1,
+            "action#sleepable": ""},
+        "break": 
+            {"subobj":1,
+            "action#breakable":""},
+        "push":
+            {"subjobj":1,
+            "action#moveable":""},
+        "catch":
+            {"subjobj":1,
+            "action#catchable":""},
+        "snap":
+            {"subjobj":1,
+            "action#snapable":""},
+        "consume":
+            {"subjobj":1,
+            "action#consumable":""},
+        "drink":
+            {"subjobj":1,
+            "action#drinkable":""},
+        "burn":
+            {"subjobj":1,
+            "action#burnable":""},
+        "purchase":
+            {"subjobj":1,
+            "action#burnavle":""}
+
+        
+          
+
