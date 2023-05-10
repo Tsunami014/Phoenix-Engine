@@ -5,9 +5,9 @@
 | #moveable         | throw      | Throw an object            | yeet,chuck,toss,          |
 | #inventory        | take       | put an object in inventory | grab,etc.                 |
 | #smashable        | smash      | Smash an object            | break,shatter,crash       |
-| #moveable         | lift       | Lift item                  | pickup,gather,hoist       |
-| #playable         | play       | Play a game                | game,arcade               |
-| #sleepable        | sleep      | Sleep on the pillows       | rest,nap,liedown          |
+| #liftable         | lift       | Lift item                  | pickup,gather,hoist       |
+| #playable         | play       | Play a game or do a puzzle | game,arcade,begin         |
+| #sleepable        | sleep      | Able to sleep on           | rest,nap,liedown          |
 | #breakable        | break      | Break an item              | tear,rip,cut,hit          |
 | #moveable         | push       | Push an item or object     |                           |
 | #catchable        | catch      | Catch an item or object    |                           |
