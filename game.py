@@ -69,6 +69,8 @@ class Game:
 
         self.inventory = {} # sets inventory to blank
         
+        self.added = []
+        
         self.roomnum = 1 #This is the starting room id
         
         self.log = [] # the logs, including the errors
@@ -305,6 +307,12 @@ class Game:
                 continue
             nact = listener.event('action:'+self.prev_action, self)
             #If at any time you want to stop the current action from being applied, then in the externals just pop in a "の" anywhere. It will get removed before being executed.
+            for i in self.added: self.fc[self.roomnum]['objects'].remove(i)
+            self.added = []
+            for i in self.inventory:
+                self.added.extend([i for j in range(self.inventory[i])])
+            if self.prev_action != 'move':
+                self.fc[self.roomnum]['objects'].extend(self.added)
             if 'の' in nact:
                 nact.replace('の', '')
             else:
@@ -316,6 +324,8 @@ class Game:
                 else:
                     self.run_action(parseAction)
             self.run_action(nact) #assuming prev_action is the current action
+            if self.prev_action == 'move':
+                self.fc[self.roomnum]['objects'].extend(self.added)
         return PRINTS
     
     def hash_code(self, t, code):

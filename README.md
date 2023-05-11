@@ -17,26 +17,27 @@
 (This is not in order)
 
 ## MUST DO
+  ## We need to finish everything by Wednesday next week. We will spend that TAS period making sure everyone submits and stuff =D- Riley
+  ## Make sure everything works properly. To do that we need to make a new release soon (maybe once we are done?)
+- Agreed - Riley =D
 
-- ## **MAKE THE POSTER** (individually)
-
-- ### **make a video demonstration** (Riley was working on the script)
-
-- ## Make sure everything works properly. To do that we need to make a new release soon (maybe once we are done?)
-- Agreed - Riley =)
-
-## More to do about the code
+## To do list
 
 | what is it            | status      | who?   | Description                                      |
 | --------------------- | ----------- | ------ |------------------------------------------------- |
+| Poster                | In Progress | ALL    | Read criteria                                    |
 | finish inventory      |             | Max    | make the inventory accessable for the actions    |
 | add in all functions  | IN PROGRESS | all    | make all the map-specific functions              |
 | finish how this works | IN PROGRESS | M+R    | finish documenting how this all works            |
 | finish saving/loading |             | Max    | make sure saving/loading is as good as possible  |
 | work out the unitests |             | Max    | work out what to do with the unittests           |
+| Finalise Terminal.py  | CONSIDERING | Max    | Can you please do this Max- Riley =D             |
 | redo side.py          | DONE!       | Max    | redo side.py to make it more cleaner and simpler |
+| character selection   | Considering | Riley  | Add more personalisation to game                 |
+| Voicelines            | In progress | Riley  | Adds more fun to game                            |
 | map selection         |             | Riley  | finish the map selection that I started          |
 | website aesthetics    | IN PROGRESS | Viggo  | make the website look beautiful.                 |
 | Video Script          | In Progress | Riley  | Script for video                                 |
 | Poster/ Game Slip     | In Progress | Riley  | Help us have a better video                      | 
-| Naming the Game       | In Progress | ALL!!  | Every good game needs a name                     |
+| Naming the Game       | Done!!!!    | ALL!!  | Every good game needs a name                     |
+| Finish How to Play.md | In progress | Riley  | Make it nice and clear for audience              |
