@@ -10,11 +10,36 @@ also note that if you want to specify a hashtag you need to create it if it does
 # If you want to create a new action:
 
 1. Add a blank dictionary with the key being the name of the action to actions.json
-    example: `"smash": {}`
+    example: `"smash": {}` MAKE SURE THAT if the previous one has no comma put it in.
+    ```json
+    "smash": {}
+    "lift": {}```
+    ***does not work***, nor does ```json
+    "smash": {},
+    "lift": {},```
+    it HAS to be ```json
+    "smash": {},
+    "lift": {}```
+    ***notise the commas***
 2. run parsation.py and input a sample sentence
 3. find out what elements of that sentence you need
-    example:
+    example: 1 subjobj
+4. put that in the dictionary; e.g. `"smash": {"subjobj": 1}`
+5. then add in what would happen if you say that on a correct object by spaecifying a hash tag (you can have more than one)
+    example: `"smash": {"subjobj": 1, "action#smashable": ""}`
+6. MAKE SURE TO ADD IN an `action` tag as well by itself.
+    example: `"smash": {"subjobj": 1, "action#smashable": "", "action": ""}`
+7. Fill these in using the code below.
+    (not very good) example: `"smash": {"subjobj": 1, "action#smashable": "00You smashed an object!", "action": "That is not applicable."}`
+8. Create a hashtag for each new one that does not exist
+    example: If you specify a #smashable but you invented that and that does not exist yet you need to create one in hashtags.json; do step 1, 2, and 3 before using the hashtag code below. This time instead of being a dictionary it is a string.
+        example: ```json
+    "takeable":
+        "0subjobj ~ 01;1subjobj ~ stick ~ pot"
+        ```
 
+Other things to note:
+ - You can specify things happening at random chance by instead of writing the code as a string, write it as a list of all possible code strings.
 
 ```
 First number:
@@ -26,6 +51,11 @@ First number:
     5 = set a part of self.fc (if not exists then create)
     6 = delete a part of self.fc
     7 = change a variable
+    8 = run code ## THIS IS HIGHLY HIGHLY INADVISABLE ## NO ONE DO THIS EVER IF YOU SEE SOME CODE WITH THIS LEAVE IT THIS IS LAST RESORT ##
+
+with 8:
+    second text:
+        what code to run
 
 with 4/5/6:
     second number:
@@ -47,7 +77,7 @@ with 4/5/6:
 
 else:
     Second value:
-        with the set/change variables:
+        with the set/change to variables:
             0 = global
             1 = class
         with the print:

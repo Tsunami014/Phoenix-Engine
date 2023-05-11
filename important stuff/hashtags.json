@@ -1,4 +1,4 @@
 {
-    "throwable":
-    "0subjobj ~ 01;1subjobj ~ stick ~ pot"
+    "throwable": "0subjobj ~ 01;1subjobj ~ stick ~ pot",
+    "takeable": "0subjobj ~ 01;1subjobj ~ stick ~ pot"
 }

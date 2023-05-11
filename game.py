@@ -51,7 +51,7 @@ cutoff = 0.85 #The cutoff for get closest matches (How close it needs to be for 
 #That it will be counted as close enough to pass
 pos = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest", "", "up", "", "down", "", "left", "", "right", "", "in", "", "out"]
 fourth_numbers = ["self.fc['rooms'][str(self.roomnum)]['exits'][str(closest_num([int(i) for i in self.fc['rooms'][str(self.roomnum)]['exits'].keys()], pos.index(self.p['move'][0][0])))]"]
-delete_numbers = ["[i['name'] for i in self.fc['rooms'][str(self.roomnum)]['objects']].index(self.p['subjobj'][0][0])"]
+delete_numbers = [""]
 
 class CodingError(Exception):
     """
@@ -192,7 +192,9 @@ class Game:
         for act in code.split(';'):
             if act == '':
                 continue
-            if act[0] == '0':
+            if act[0] == '8':
+                exec(act[1:])
+            elif act[0] == '0':
                 #colour = act[1]
                 PRINTS += act[2:].format() + '\n'
             elif act[0] == '1' or act[0] == '7':
@@ -307,12 +309,12 @@ class Game:
                 continue
             nact = listener.event('action:'+self.prev_action, self)
             #If at any time you want to stop the current action from being applied, then in the externals just pop in a "の" anywhere. It will get removed before being executed.
-            for i in self.added: self.fc[self.roomnum]['objects'].remove(i)
+            for i in self.added: self.fc['rooms'][str(self.roomnum)]['objects'].remove(i)
             self.added = []
             for i in self.inventory:
                 self.added.extend([i for j in range(self.inventory[i])])
             if self.prev_action != 'move':
-                self.fc[self.roomnum]['objects'].extend(self.added)
+                self.fc['rooms'][str(self.roomnum)]['objects'].extend(self.added)
             if 'の' in nact:
                 nact.replace('の', '')
             else:
@@ -325,7 +327,7 @@ class Game:
                     self.run_action(parseAction)
             self.run_action(nact) #assuming prev_action is the current action
             if self.prev_action == 'move':
-                self.fc[self.roomnum]['objects'].extend(self.added)
+                self.fc['rooms'][str(self.roomnum)]['objects'].extend(self.added)
         return PRINTS
     
     def hash_code(self, t, code):
