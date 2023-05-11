@@ -16,4 +16,5 @@ with open("glitchtext.md", "r") as f:
   gameText = f.read()
   glitch = gameText.split('\n\n')
 
+print()
 glitchText(glitch[0])
