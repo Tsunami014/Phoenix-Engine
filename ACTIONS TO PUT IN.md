@@ -16,13 +16,13 @@
 | #drink            | drink      | drink a potion/liquid      | consume,chug              |
 | #burnable         | burn       | Burns stuff                | light up,flame,fire       |
 | #purchasable      | purchase   | Purchase an item in shop   |                           |
+
 ## if you want something to happen not listed above then write what for below and i'll see to it
 
 ## stuff with no tags
 
-
-
 ## Other (Map Specfic)
+
 Viggos Map
 | tag               | name       | Description                | synonyms (if any)         |
 | ----------------- | ---------- | -------------------------- | -----------------------   |

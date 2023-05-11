@@ -17,8 +17,11 @@
 (This is not in order)
 
 ## MUST DO
-  ## We need to finish everything by Wednesday next week. We will spend that TAS period making sure everyone submits and stuff =D- Riley
-  ## Make sure everything works properly. To do that we need to make a new release soon (maybe once we are done?)
+
+## We need to finish everything by Wednesday next week. We will spend that TAS period making sure everyone submits and stuff =D- Riley
+
+## Make sure everything works properly. To do that we need to make a new release soon (maybe once we are done?)
+
 - Agreed - Riley =D
 
 ## To do list
@@ -38,6 +41,6 @@
 | map selection         |             | Riley  | finish the map selection that I started          |
 | website aesthetics    | IN PROGRESS | Viggo  | make the website look beautiful.                 |
 | Video Script          | In Progress | Riley  | Script for video                                 |
-| Poster/ Game Slip     | In Progress | Riley  | Help us have a better video                      | 
+| Poster/ Game Slip     | In Progress | Riley  | Help us have a better video                      |
 | Naming the Game       | Done!!!!    | ALL!!  | Every good game needs a name                     |
 | Finish How to Play.md | In progress | Riley  | Make it nice and clear for audience              |
