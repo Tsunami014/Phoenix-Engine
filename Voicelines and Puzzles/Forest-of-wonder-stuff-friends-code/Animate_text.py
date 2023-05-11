@@ -10,5 +10,3 @@ def animateText(text):
           time.sleep(1)
         else:
           time.sleep(0.075)
-
-animateText('some text here...')
