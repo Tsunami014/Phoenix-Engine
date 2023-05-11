@@ -51,7 +51,9 @@ cutoff = 0.85 #The cutoff for get closest matches (How close it needs to be for 
 #That it will be counted as close enough to pass
 pos = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest", "", "up", "", "down", "", "left", "", "right", "", "in", "", "out"]
 fourth_numbers = ["self.fc['rooms'][str(self.roomnum)]['exits'][str(closest_num([int(i) for i in self.fc['rooms'][str(self.roomnum)]['exits'].keys()], pos.index(self.p['move'][0][0])))]"]
-delete_numbers = ["[i['name'] for i in self.fc['rooms'][str(self.roomnum)]['objects']].index(self.p['subjobj'][0][0])"]
+delete_numbers = ["[i['name'] for i in self.fc['rooms'][str(self.roomnum)]['objects']].index(self.p['subjobj'][0][0])", 
+                "self.fc['rooms'][str(self.roomnum)]['objects'][[i['name'] for i in self.fc['rooms'][str(self.roomnum)]['objects']].index(self.p['subjobj'][0][0])]"]
+item_groups = [["stick", "rock", "apple", "spider"]]
 
 class CodingError(Exception):
     """
@@ -248,13 +250,13 @@ class Game:
                         exec(c)
                     except Exception as e:
                         self.log.append(str(e))
-                        return
+                        return True
                 if spl[1][1] == '~':
-                    run()
+                    if run(): return
                 else:
                     l = len(spl[1][1:].split('|'))
                     for i in spl[1][1:].split('|'):
-                        run(i, l)
+                        if run(i, l): return
                     
     def get_closest_matches(self, inp, matchAgainst):
         #This is (mine and) Viggo's and Riley's code
@@ -324,7 +326,7 @@ class Game:
                 try:
                     self.fc['rooms'][str(self.roomnum)]['objects'].remove(i)
                 except:
-                    pass
+                    self.inventory.pop(i['name'])
             self.added = []
             for i in self.inventory:
                 self.added.extend([self.inventory[i][1] for j in range(self.inventory[i][0])])
@@ -343,6 +345,7 @@ class Game:
             self.run_action(nact) #assuming prev_action is the current action
             if self.prev_action in ['move', 'take']:
                 self.fc['rooms'][str(self.roomnum)]['objects'].extend(self.added)
+            self.reload_inventory()
         return PRINTS
     
     def all_non_inventory_items(self):
@@ -353,6 +356,17 @@ class Game:
             except:
                 pass
         return objs
+
+    def reload_inventory(self):
+        for i in self.added:
+            try:
+                self.fc['rooms'][str(self.roomnum)]['objects'].remove(i)
+            except:
+                self.inventory.pop(i['name'])
+        self.added = []
+        for i in self.inventory:
+            self.added.extend([self.inventory[i][1] for j in range(self.inventory[i][0])])
+        self.fc['rooms'][str(self.roomnum)]['objects'].extend(self.added)
     
     def hash_code(self, t, code):
         # this checks if a hash code meets the requirements. See `how this works/actions and hashtags.md`
@@ -376,6 +390,10 @@ class Game:
             elif i[0] == '1':
                 try:
                     spl = i[1:].split(' ~ ')
+                    for i in spl[1:]:
+                        if i == '[%s]' % i[1:-1]:
+                            spl.extend(item_groups[int(i[1:-1])])
+                            spl.remove(i)
                     if len(GCM(t[spl[0]][0][0], spl[1:], 1, cutoff)) != 1:
                         return False
                 except Exception as e:
@@ -408,7 +426,7 @@ class Game:
             try:
                 return inp['action']
             except KeyError:
-                return '00'
+                return '00You cannot do that!'
         return closest[0]
 
     def inventory_check(self):

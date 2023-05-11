@@ -58,9 +58,9 @@ def load_room_desc(g):
     
     #How these next 3 statements work: they basically make a string: "[item1, item2, item3]" for each item in the room's items that are of a certain type.
     out += "You have in your inventory: " +      '['+", ".join(['%i %ss' % (g.inventory[i][0], i) for i in g.inventory.keys()])+']' + '\n'
-    out += "There are these objects: " +         '['+", ".join([i['identifier'] if i['type'] == 5 else '' for i in objs])+']' + '\n'
-    out += "There are these people/monsters: " + '['+", ".join([i['identifier'] if i['type'] == 4 else '' for i in objs])+']' + '\n'
-    out += "You can see: " +                     '['+", ".join([i['identifier'] if i['type'] == 6 else '' for i in objs])+']' + '\n'
+    out += "There are these objects: " +         '['+", ".join([i['identifier'] for i in objs if i['type'] == 5])+']' + '\n'
+    out += "There are these people/monsters: " + '['+", ".join([i['identifier'] for i in objs if i['type'] == 4])+']' + '\n'
+    out += "You can see: " +                     '['+", ".join([i['identifier'] for i in objs if i['type'] == 6])+']' + '\n'
     return out
 
 # all Flask routes below

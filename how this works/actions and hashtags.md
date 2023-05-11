@@ -119,7 +119,7 @@ delimenar - " ~ "
 
 for matching words:
     next text:
-        the word to match (or series of words separated by " ~ ")
+        the word to match (or series of words separated by " ~ ", you can specify pre-made lists by going '[**]' which will use all the elements in item_groups[**])
 
 for # of items:
     next digit:
