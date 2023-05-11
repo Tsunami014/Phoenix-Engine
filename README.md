@@ -23,20 +23,19 @@
 
 | what is it            | status      | who?   | Description                                      |
 | --------------------- | ----------- | ------ |------------------------------------------------- |
-|Poster                 | In Progress | ALL    | Read criteria                                    |
+| Poster                | In Progress | ALL    | Read criteria                                    |
 | finish inventory      |             | Max    | make the inventory accessable for the actions    |
 | add in all functions  | IN PROGRESS | all    | make all the map-specific functions              |
 | finish how this works | IN PROGRESS | M+R    | finish documenting how this all works            |
 | finish saving/loading |             | Max    | make sure saving/loading is as good as possible  |
 | work out the unitests |             | Max    | work out what to do with the unittests           |
-|Finalise Terminal.py   |             | Max    | Can you please do this Max- Riley =D             |
+| Finalise Terminal.py  | CONSIDERING | Max    | Can you please do this Max- Riley =D             |
 | redo side.py          | DONE!       | Max    | redo side.py to make it more cleaner and simpler |
-|character selection    | IN Progress | Riley  | Add more personalisation to game                 |
-|Voicelines             | In progress | Riley  | Adds more fun to game                            |
+| character selection   | Considering | Riley  | Add more personalisation to game                 |
+| Voicelines            | In progress | Riley  | Adds more fun to game                            |
 | map selection         |             | Riley  | finish the map selection that I started          |
 | website aesthetics    | IN PROGRESS | Viggo  | make the website look beautiful.                 |
 | Video Script          | In Progress | Riley  | Script for video                                 |
 | Poster/ Game Slip     | In Progress | Riley  | Help us have a better video                      | 
 | Naming the Game       | Done!!!!    | ALL!!  | Every good game needs a name                     |
-|Simple Map for vid     | In Progress | Riley  | We dont have time to finish map in vid so basic  |
-|Finish How to Play.md  | In progress | Riley  | Make it nice and clear for audience              |
+| Finish How to Play.md | In progress | Riley  | Make it nice and clear for audience              |
