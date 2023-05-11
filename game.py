@@ -333,7 +333,7 @@ class Game:
             if self.prev_action not in ['move', 'take']:
                 self.fc['rooms'][str(self.roomnum)]['objects'].extend(self.added)
             if 'の' in nact:
-                nact.replace('の', '')
+                nact = nact.replace('の', '')
             else:
                 parseAction = self.hash_check(acts, self.p, self.hashtags)
                 if parseAction == False: continue

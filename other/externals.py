@@ -44,10 +44,6 @@ class Monster:
                 return '00The %s ' % self.name + end.format(*[str(randint(1, i+1)) for i in range(1, 10)]) # so you can go 'it hit you for {5} HP!' and that {5} will be replaced with a random number from 1 to 5
         return '00CODING ERROR: %s' % str(self)
 
-    def your_turn(self, player):
-        print(player.prev_action)
-        return ''
-
 @listener.wait(types=['init'])
 def init(self):
     self.fight = False
@@ -75,28 +71,30 @@ def action(self):
     if self.fight:
         mt = turns(self)
         deps = None
-        for i in battle[self.prev_action]:
-            if self.hash_code(self.p, i):
-                deps = battle[self.prev_action][i]
-                break
-        if deps == None:
-            deps = battle[self.prev_action]['else']
+        if self.prev_action in battle:
+            for i in battle[self.prev_action]:
+                if self.hash_code(self.p, i):
+                    deps = battle[self.prev_action][i]
+                    break
+            if deps == None:
+                deps = battle[self.prev_action]['else']
+        if deps == None: skip = ''
+        else: skip = 'の'
         if type(deps) == list:
             value = randint(0, deps[0])
             for i in deps[1:].keys(): # for each number in the list of numbers:
                 if i >= value: # if the value is closer to i than the last one (in the case of the first one, it must be less than 2 distance away)
                     end = deps[1:][i] if type(deps[1:][i]) == str else choice(deps[1:][i])
-                    return ('の%s%s%s' % (mt, (';' if mt else ''), end))
+                    return ('%s%s%s%s' % (skip, mt, (';' if mt else ''), end))
             return '00CODING ERROR: %s' % str(self)
         else:
-            return ('の%s%s%s' % (mt, (';' if mt else ''), deps))
+            return ('%s%s%s%s' % (skip, mt, (';' if mt else ''), deps))
     return ''
 
 def turns(player_self):
     global curmonsters
     end = ';'
     for i in curmonsters:
-        end += i.your_turn(player_self) + ';'
         end += i.its_turn() + ';'
     return end[1:-1]
 
