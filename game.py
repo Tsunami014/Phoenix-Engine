@@ -51,7 +51,7 @@ cutoff = 0.85 #The cutoff for get closest matches (How close it needs to be for 
 #That it will be counted as close enough to pass
 pos = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest", "", "up", "", "down", "", "left", "", "right", "", "in", "", "out"]
 fourth_numbers = ["self.fc['rooms'][str(self.roomnum)]['exits'][str(closest_num([int(i) for i in self.fc['rooms'][str(self.roomnum)]['exits'].keys()], pos.index(self.p['move'][0][0])))]"]
-delete_numbers = [""]
+delete_numbers = ["[i['name'] for i in self.fc['rooms'][str(self.roomnum)]['objects']].index(self.p['subjobj'][0][0])"]
 
 class CodingError(Exception):
     """
@@ -193,7 +193,11 @@ class Game:
             if act == '':
                 continue
             if act[0] == '8':
-                exec(act[1:])
+                try:
+                    exec(act[1:])
+                except Exception as e:
+                    self.log.append(str(e))
+                    return
             elif act[0] == '0':
                 #colour = act[1]
                 PRINTS += act[2:].format() + '\n'
@@ -208,6 +212,7 @@ class Game:
                             exec(front.format() + ["+=", "-=", " = "][int(spl[1][0])] + spl[1][1:])
                     except Exception as e:
                         self.log.append(str(e))
+                        return
                 except KeyError as e:
                     if str(e.args[0]) == 'None':
                         PRINTS += 'WRONG DIRECTION.\n'
@@ -218,6 +223,7 @@ class Game:
                     exec('del '+delete_numbers[int(act[1])].format())
                 except Exception as e:
                     self.log.append(str(e))
+                    return
             elif act[0] == '3':
                 self.run_action(listener.event(eval(act[1:]), self))
             elif act[0] in ['4', '5', '6']:
@@ -226,8 +232,12 @@ class Game:
                     c = 'self.fc["rooms"]["' + \
                         (spl[0] if spl[0][0] != '~' else str(self.roomnum)) + '"]["' + \
                         ["name", "description", "dark", "shape", "exits", "objects"][int(spl[1][0])] + \
-                        '"]' + ('["%s"]' % i if spl[1][0] in ['4', '5'] and i != '~' and not i == '[%s]' % i[1:-1]\
-                        else ('' if not i == '[%s]' % i[1:-1] else '[%s]' % delete_numbers[int(i[1:-1])]))
+                        '"]'
+                    if i != '~':
+                        if i == '[%s]' % i[1:-1] and not act[0] in ['4', '5']:
+                            c += '[%s]' % delete_numbers[int(i[1:-1])]
+                        else:
+                            c += '["%s"]' % i
                     if act[0] == '4':
                         c += ' = ' + c[7:]
                     elif act[0] == '5':
@@ -238,6 +248,7 @@ class Game:
                         exec(c)
                     except Exception as e:
                         self.log.append(str(e))
+                        return
                 if spl[1][1] == '~':
                     run()
                 else:
@@ -309,11 +320,15 @@ class Game:
                 continue
             nact = listener.event('action:'+self.prev_action, self)
             #If at any time you want to stop the current action from being applied, then in the externals just pop in a "の" anywhere. It will get removed before being executed.
-            for i in self.added: self.fc['rooms'][str(self.roomnum)]['objects'].remove(i)
+            for i in self.added:
+                try:
+                    self.fc['rooms'][str(self.roomnum)]['objects'].remove(i)
+                except:
+                    pass
             self.added = []
             for i in self.inventory:
-                self.added.extend([i for j in range(self.inventory[i])])
-            if self.prev_action != 'move':
+                self.added.extend([self.inventory[i][1] for j in range(self.inventory[i][0])])
+            if self.prev_action not in ['move', 'take']:
                 self.fc['rooms'][str(self.roomnum)]['objects'].extend(self.added)
             if 'の' in nact:
                 nact.replace('の', '')
@@ -326,9 +341,18 @@ class Game:
                 else:
                     self.run_action(parseAction)
             self.run_action(nact) #assuming prev_action is the current action
-            if self.prev_action == 'move':
+            if self.prev_action in ['move', 'take']:
                 self.fc['rooms'][str(self.roomnum)]['objects'].extend(self.added)
         return PRINTS
+    
+    def all_non_inventory_items(self):
+        objs = deepcopy(self.fc['rooms'][str(self.roomnum)]['objects'])
+        for i in self.added:
+            try:
+                objs.remove(i)
+            except:
+                pass
+        return objs
     
     def hash_code(self, t, code):
         # this checks if a hash code meets the requirements. See `how this works/actions and hashtags.md`
@@ -388,9 +412,9 @@ class Game:
         return closest[0]
 
     def inventory_check(self):
-        self.inventory # {'item1': stack size, 'item2': stack size, etc.}
+        self.inventory # {'item1': (stack size, full info), 'item2': (stack size, full info), etc.}
         # self.inventory.keys() is all the items in the inventory.
-        # self.inventory['item1'] is the stack size of item 1, if item1 does not exist it will throw an eror
+        # self.inventory['item1'][0] is the stack size of item 1, if item1 does not exist it will throw an eror
         inventory_slots=20 #Inventory Size
         #Are any Items the same if so stack
         item_match= True 

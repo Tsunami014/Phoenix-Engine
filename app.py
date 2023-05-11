@@ -48,6 +48,7 @@ class Selector(FlaskForm):
     
 def load_room_desc(g):
     croom = g.fc['rooms'][str(g.roomnum)]
+    objs = g.all_non_inventory_items()
     out = ''
     out += "It is%s dark." % ("" if croom['dark'] else "n't") + '\n'
     
@@ -56,10 +57,10 @@ def load_room_desc(g):
             g.fc["rooms"][str(croom['exits'][i])]["name"]) for i in croom['exits']]))) + '\n'
     
     #How these next 3 statements work: they basically make a string: "[item1, item2, item3]" for each item in the room's items that are of a certain type.
-    out += "You have in your inventory: " +      '['+", ".join(['%i %ss' % (g.inventory[i], i) for i in g.inventory.keys()])+']' + '\n'
-    out += "There are these objects: " +         '['+"".join([i['identifier']+", " if i['type'] == 5 else '' for i in croom['objects']])+']' + '\n'
-    out += "There are these people/monsters: " + '['+"".join([i['identifier']+", " if i['type'] == 4 else '' for i in croom['objects']])+']' + '\n'
-    out += "You can see: " +                     '['+"".join([i['identifier']+", " if i['type'] == 6 else '' for i in croom['objects']])+']' + '\n'
+    out += "You have in your inventory: " +      '['+", ".join(['%i %ss' % (g.inventory[i][0], i) for i in g.inventory.keys()])+']' + '\n'
+    out += "There are these objects: " +         '['+", ".join([i['identifier'] if i['type'] == 5 else '' for i in objs])+']' + '\n'
+    out += "There are these people/monsters: " + '['+", ".join([i['identifier'] if i['type'] == 4 else '' for i in objs])+']' + '\n'
+    out += "You can see: " +                     '['+", ".join([i['identifier'] if i['type'] == 6 else '' for i in objs])+']' + '\n'
     return out
 
 # all Flask routes below
