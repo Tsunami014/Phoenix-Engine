@@ -31,7 +31,7 @@ g = s.Game()
 # "Game" can change; "(FlaskForm)" cannot
 # see the route for "/" and "index.html" to see how this is used
 class Game(FlaskForm):
-    inp = StringField('Input', validators=[DataRequired(), Length(1)])
+    inp = StringField('Input', validators=[DataRequired(), Length(1)], render_kw={'autofocus': True})
     submit = SubmitField('Submit')
 
 class SaveForm(FlaskForm):
@@ -123,4 +123,4 @@ def internal_server_error(e):
 
 # keep this as is
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=False)
