@@ -24,9 +24,6 @@
         "sleep":
             {"subjobj":1,
             "action#sleepable": ""},
-        "break": 
-            {"subobj":1,
-            "action#doable":"5~!!5[0]!!eval(delete_numbers[1]) | {'name': 'part of a '+eval(delete_numbers[1])['name']};00You broke it in half. Good job."},
         "push":
             {"subjobj":1,
             "action#doable":"00You pushed it. Nothing happened. What did you expect?"},
@@ -35,7 +32,7 @@
             "action#catchable":""},
         "snap":
             {"subjobj":1,
-            "action#doable":"5~!!5[0]!!eval(delete_numbers[1]) | {'name': 'part of a '+eval(delete_numbers[1])['name']};00You snapped it in half."},
+            "action#doable":"5~!!5[0]!!eval(delete_numbers[1]) | {'identifier': 'part of a '+eval(delete_numbers[1])['name']};00You snapped it in half."},
         "consume":
             {"subjobj":1,
             "action#consumable":""},

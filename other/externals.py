@@ -11,8 +11,8 @@ from random import randint, choice
 
 listener = c.EventListener()
 
-monsters = {'bokoblin': 0}
-curmonsters = []
+#monsters dict in format: {name: [power (see below list powers for the number), hp]}
+monsters = {'bokoblin': [0, 50]}
 powers = [(10, {6:['tried to hit you... But it missed!', '... tried to hit you but you blocked!', 'hit you...r shield!'], 11: 'hit you for {5} HP!;71hp = 1{5}'})]
 
 with open('important stuff/battles.json') as f:
@@ -21,9 +21,10 @@ with open('important stuff/battles.json') as f:
 class Monster:
     def __init__(self, name: str, power: int=-1):
         self.name = name
-        self.power = powers[power if power != -1 else monsters[name]]
+        self.power = powers[power if power != -1 else monsters[name][0]]
         self.roll = self.power[0]
         self.power = self.power[1]
+        self.hp = monsters[name][1]
     
     def __str__(self):
         return 'Monster <%s>' % (self.name)
@@ -49,6 +50,7 @@ def init(self):
     self.fight = False
     self.hp = 100
     self.inv = {}
+    self.curmonsters = {}
     return ''
 
 @listener.wait(types=['move']) # check each move to see if it sparks a fight
@@ -59,9 +61,8 @@ def wait_for_move(self):
         if l:
             tot.append(l[0])
     if tot:
-        global curmonsters
         self.fight = True
-        curmonsters = [Monster(j) for j in tot]
+        self.curmonsters = [Monster(j) for j in tot]
         return '00OH NO! THERE IS A ' + " AND A ".join(tot) + r"! THEY START A FIGHT!!! (you can no longer exit);5~!!4~!!{}"#code to print and no longer exit
     return ''
 
@@ -85,16 +86,16 @@ def action(self):
             for i in deps[1:].keys(): # for each number in the list of numbers:
                 if i >= value: # if the value is closer to i than the last one (in the case of the first one, it must be less than 2 distance away)
                     end = deps[1:][i] if type(deps[1:][i]) == str else choice(deps[1:][i])
+                    end = end.format(*[str(randint(1, i+1)) for i in range(1, 10)]) # so you can go 'it hit you for {5} HP!' and that {5} will be replaced with a random number from 1 to 5
                     return ('%s%s%s%s' % (skip, mt, (';' if mt else ''), end))
             return '00CODING ERROR: %s' % str(self)
         else:
-            return ('%s%s%s%s' % (skip, mt, (';' if mt else ''), deps))
+            return ('%s%s%s%s' % (skip, mt, (';' if mt else ''), deps.format(*[str(randint(1, i+1)) for i in range(1, 10)]))) # so you can go 'it hit you for {5} HP!' and that {5} will be replaced with a random number from 1 to 5
     return ''
 
-def turns(player_self):
-    global curmonsters
+def turns(self):
     end = ';'
-    for i in curmonsters:
+    for i in self.curmonsters:
         end += i.its_turn() + ';'
     return end[1:-1]
 

@@ -236,7 +236,7 @@ class Game:
                         ["name", "description", "dark", "shape", "exits", "objects"][int(spl[1][0])] + \
                         '"]'
                     if i != '~':
-                        if i == '[%s]' % i[1:-1] and not act[0] in ['4', '5']:
+                        if i == '[%s]' % i[1:-1]:
                             c += '[%s]' % delete_numbers[int(i[1:-1])]
                         else:
                             c += '["%s"]' % i
@@ -288,6 +288,7 @@ class Game:
     def __call__(self, txt):
         global PRINTS
         PRINTS = ''
+        txt = txt.lower()
         for i in self.syns.keys():
             m = self.get_closest_matches(i, txt)
             if len(m) != 0:
