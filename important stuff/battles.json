@@ -1,6 +1,6 @@
 {
     "throw": {
-        "0subjobj ~ 01;1subjobj ~ stick": "00You hit a monster with a stick you threw!;71curmonsters[0].hp = 1{5}",
+        "0subjobj ~ 01;1subjobj ~ stick": "00You threw a stick and it hit the monster!;71curmonsters[0].hp = 1{5}",
         "0subjobj ~ 01": "00You cannot throw that!",
         "else": "00You cannot do that! (try rephrasing your sentence!)"
     }
