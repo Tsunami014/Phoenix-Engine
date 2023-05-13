@@ -32,10 +32,11 @@ for element in data['elements']:
             end = []
             for obj in objs:
                 obj_data = {}
+                obj['_name'] = obj['_name'].lower()
                 if obj['_name'].find(" ") != -1:
                     i = ' '
                     tags = [tok.dep_ for tok in nlp(obj['_name'])]
-                    tags2 = [tok.name for tok in nlp(obj['_name'])]
+                    tags2 = [tok.lower_ for tok in nlp(obj['_name'])]
                     while i.find(" ") != -1:
                         i = tags2[(tags.index("ROOT") if 'dobj' not in tags else tags.index("dobj")) if 'nsubj' not in tags else tags.index("nsubj")]
                         #i = input("The object with name '%s' has more than one word in its name.\n\
@@ -48,10 +49,6 @@ for element in data['elements']:
                 obj_data['description'] = obj['_description']
                 obj_data['content'] = [] if obj['_content'] == [] else clean_objs(obj['_content'])
                 obj_data['type'] = obj['_kind']
-                try:
-                    obj_data['status'] = obj['_status']
-                except:
-                    obj_data['status'] = 0
                 end.append(obj_data)
             return end
         room['objects'] = clean_objs(element['objects'])
