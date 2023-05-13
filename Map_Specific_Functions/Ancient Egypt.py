@@ -7,6 +7,17 @@ shoe_slot_filled=True
 charm_slot_filled=False
 r_hand_slot_filled=False
 l_hand_slot_filled=False
+
+
+
+
+
+
+
+
+
+
+
 #Swap lock
 
 #Pushing Boulder
