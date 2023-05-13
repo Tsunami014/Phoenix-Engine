@@ -1,12 +1,21 @@
 import random
 import time
 #Amour Snapping
-helmet_slot_filled=False
-amour_slot_filled=False
-shoe_slot_filled=True
-charm_slot_filled=False
-r_hand_slot_filled=False
-l_hand_slot_filled=False
+def amour_snapping_mechanism(item):
+    helmet_slot_filled=False
+    amour_slot_filled=False
+    shoe_slot_filled=True
+    charm_slot_filled=False
+    shield_slot_filled=False
+    
+    amour_slot=={}
+if "#amour" in item.tag:
+    amour_slot =item
+elif"#helmet" in item.tag:
+    helmet_slot =item
+elif "#charm" in item.tag:
+     charm_slot =item
+     
 
 
 

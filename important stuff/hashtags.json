@@ -1,4 +1,5 @@
 {
     "doable": "0subjobj ~ 01;1subjobj ~ [0]",
+    "openable": "0subjobj ~ 01;1subjobj ~ chest",
     "takeable": "0subjobj ~ 01;1subjobj ~ [0]"
 }

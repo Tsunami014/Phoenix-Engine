@@ -91,7 +91,7 @@ def action(self):
                     deps = battle[self.prev_action][i]
                     break
             if deps == None:
-                deps = battle[self.prev_action]['else']
+                deps = '00You cannot do that!' if 'else' not in battle[self.prev_action] else battle[self.prev_action]['else']
         if deps == None: skip = ''
         else: skip = 'の'
         if type(deps) == list:
