@@ -13,7 +13,7 @@ listener = c.EventListener()
 
 #monsters dict in format: {name: [power (see below list powers for the number), hp]}
 monsters = {'bokoblin': [0, 50]}
-powers = [(10, {6:['tried to hit you... But it missed!', '... tried to hit you but you blocked!', 'hit you...r shield!'], 11: 'hit you for {5} HP!;71hp = 1{5}'})]
+powers = [(10, {6:['tried to hit you... But it missed!', '... tried to hit you but you blocked!', 'hit your shield!'], 11: 'hit you for {5} HP!;71hp = 1{5}'})]
 
 with open('important stuff/battles.json') as f:
     battle = load(f)
