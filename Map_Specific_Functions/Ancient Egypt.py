@@ -32,7 +32,7 @@ elif riddle_num==3:
     if ans_riddle_3==(""):
         print("error")
 elif riddle_num==4:
-
+    print("hi")
 else:
     ans_riddle_5=input( "What goes up, but never comes down?")
 
