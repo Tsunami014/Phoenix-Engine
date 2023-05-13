@@ -81,7 +81,7 @@ def wait_for_move(self):
 
 @listener.wait(types=['action'])
 def action(self):
-    # self.prev_action, counterproductively, is the current action and you can use said variable here!
+    # self.prev_action, ironically, is the current action and you can use said variable here!
     if self.fight:
         mt = turns(self)
         deps = None
@@ -102,6 +102,8 @@ def action(self):
                     end = end.format(*[str(randint(1, i+1)) for i in range(1, 10)]) # so you can go 'it hit you for {5} HP!' and that {5} will be replaced with a random number from 1 to 5
                     return ('%s%s%s%s' % (skip, mt, (';' if mt else ''), end))
             return '00CODING ERROR: %s' % str(self)
+        elif deps == None:
+            return ('%s%s' % (skip, mt))
         else:
             return ('%s%s%s%s' % (skip, mt, (';' if mt else ''), deps.format(*[str(randint(1, i+1)) for i in range(1, 10)]))) # so you can go 'it hit you for {5} HP!' and that {5} will be replaced with a random number from 1 to 5
     return ''

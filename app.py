@@ -67,13 +67,15 @@ def load_room_desc(g):
 
 @app.route('/', methods = ['GET', 'POST'])
 def chooser():
+    global g
     form = Selector()
     if form.validate_on_submit():
         name = form.choice.data
+        g.redirect = ''
         return redirect("main/"+name+'/', 303)
     return render_template('selector.html', form=form)
 
-@app.route('/main/<id>/', methods=['GET', 'POST'])
+@app.route('/main/<id>/', methods = ['GET', 'POST'])
 def index(id):
     global g
     # you must tell the variable 'form' what you named the class, above
@@ -85,6 +87,9 @@ def index(id):
     g.log = []
     if form.submit.data and form.validate():
         name = g(form.inp.data)
+        if g.redirect:
+            r = redirect(url_for(g.redirect))
+            return r
         form.inp.data = ''
     if (form2.back.data or form2.save.data or form2.load.data) and form2.validate():
         if form2.back.data:
@@ -106,6 +111,10 @@ def index(id):
     gameinfo = ' HP: %s\nMonster health: ' % str(g.hp)
     gameinfo += str({i.name: i.hp for i in g.curmonsters})
     return render_template('app.html', title=id, roomname=croom['name'].capitalize(), desc=croom['description'].strip(' \t\n'), bigdesc=load_room_desc(g).strip(' \t\n'), form=form, form2=form2, message=name.strip(' \t\n'), logs=str(g.log), savemsg=savemsg, gameinfo=gameinfo)
+
+@app.route('/death')
+def death():
+    return render_template('death.html', error='You appeared to have fallen during your adventure. Your grave was just a stick, rising into the cold, unforgiving air. No one will be around to mourn for your death.')
 
 # 3 routes to handle errors - they have templates too
 
