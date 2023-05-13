@@ -53,6 +53,18 @@ def init(self):
     self.curmonsters = {}
     return ''
 
+@listener.wait(types=['finish'])
+def finish(self):
+    if self.hp <= 0:
+        return '00YOU DIED!!!;11redirect = "death"'
+    for m in self.curmonsters:
+        if m.hp <= 0:
+            self.curmonsters.remove(m)
+    if not self.curmonsters and self.fight:
+        self.fight = False
+        return '00YOU WON THE FIGHT!!!;4~!!4~'
+    return ''
+
 @listener.wait(types=['move']) # check each move to see if it sparks a fight
 def wait_for_move(self):
     tot = []
@@ -60,6 +72,7 @@ def wait_for_move(self):
         l = GCM(i['name'], monsters.keys(), n=1, cutoff=self.cutoff)
         if l:
             tot.append(l[0])
+            self.fc['rooms'][str(self.roomnum)]['objects'].remove(i)
     if tot:
         self.fight = True
         self.curmonsters = [Monster(j) for j in tot]

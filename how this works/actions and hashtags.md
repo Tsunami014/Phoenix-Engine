@@ -97,6 +97,7 @@ else:
     Fourth number (only for first number=1):
         what value to set it to
             0 = the closest exit to what was said
+            anything else: the value to set it to
     Fourth digit (only for first number=7):
         0 = increase
         1 = decrease

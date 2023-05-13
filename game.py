@@ -68,14 +68,11 @@ class Game:
         
         self.cutoff = cutoff # for those of us who can't reach that far down - here you go :)
         self.p = {} #A filler... just in case worst comes to worst
-
         self.inventory = {} # sets inventory to blank
-        
         self.added = []
-        
         self.roomnum = 1 #This is the starting room id
-        
         self.log = [] # the logs, including the errors
+        self.redirect = ''
 
         #lemmatizer = WordNetLemmatizer() #doesn't work... yet
 
@@ -111,7 +108,7 @@ class Game:
         #Get the map from the file
         with open("maps/%s.json" % mapname) as f:
             self.fc = json.load(f) #This is the game object which is a json object
-            self.tosavefc = deepcopy(fc) #This is the game to save so that in debug mode
+            self.tosavefc = deepcopy(self.fc) #This is the game to save so that in debug mode
                     #If you change something it changes both so it can save the original
 
         self.prev_action = None #What the previous action specified was
@@ -209,9 +206,9 @@ class Game:
                     front = ('globals()[\'%s\']' if act[1] == '0' else 'self.%s') % spl[0]
                     try:
                         if act[0] == '1':
-                            exec(front.format() + " = " + fourth_numbers[int(spl[1])].format())
+                            exec(front + " = " + (spl[1] if not spl[1] in [str(i) for i in range(len(fourth_numbers))] else fourth_numbers[int(spl[1])]))
                         else:
-                            exec(front.format() + ["+=", "-=", " = "][int(spl[1][0])] + spl[1][1:])
+                            exec(front + ["+=", "-=", " = "][int(spl[1][0])] + spl[1][1:])
                     except Exception as e:
                         self.log.append(str(e))
                         return
@@ -241,7 +238,7 @@ class Game:
                         else:
                             c += '["%s"]' % i
                     if act[0] == '4':
-                        c += ' = ' + c[7:]
+                        c += ' = self.tosavefc' + c[7:]
                     elif act[0] == '5':
                         c += ' = '+spl[2]
                     else:
@@ -347,6 +344,7 @@ class Game:
             if self.prev_action in ['move', 'take']:
                 self.fc['rooms'][str(self.roomnum)]['objects'].extend(self.added)
             self.reload_inventory()
+        self.run_action(listener.event('finish', self))
         return PRINTS
     
     def all_non_inventory_items(self):
