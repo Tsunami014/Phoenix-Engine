@@ -27,6 +27,9 @@ import other.connector as c # this imports the connector
 #don't worry, its very confusing
 listener = c.EventListener() # this is the thing that we sent info to
 
+
+# python -m spacy download en_core_web_sm
+# or install the wheel file, which is the same
 try:
     import spacy
     nlp = spacy.load('en_core_web_sm')
@@ -42,7 +45,7 @@ PRINTS = '' # this is so that instead of printing out things, we put it in this 
 # the things it prints. In times where it does use the terminal, you just go `print(side.PRINTS)`
 PRINTS += 'loading functions and other global variables...\n' #see, made use of it already :)
 
-cutoff = 0.85 #The cutoff for get closest matches (How close it needs to be for the match to work, 0=anything 1=same thing)
+cutoff = 0.83 #The cutoff for get closest matches (How close it needs to be for the match to work, 0=anything 1=same thing)
 
 #Here are all the positions possible - notice sometimes there is "" between two items
 #And that is because it gets the closest direction to the one inputted and it is by 2 spaces so

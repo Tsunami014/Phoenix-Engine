@@ -42,7 +42,7 @@ class Monster:
         for i in self.power.keys(): # for each number in the list of numbers:
             if i >= value: # if the value is closer to i than the last one (in the case of the first one, it must be less than 2 distance away)
                 end = self.power[i] if type(self.power[i]) == str else choice(self.power[i])
-                return '00The %s ' % self.name + end.format(*[str(randint(1, i+1)) for i in range(1, 10)]) # so you can go 'it hit you for {5} HP!' and that {5} will be replaced with a random number from 1 to 5
+                return '00The %s ' % self.name + end.format(*[str(randint(1, i+1)) for i in range(1, 12)]) # so you can go 'it hit you for {5} HP!' and that {5} will be replaced with a random number from 1 to 5
         return '00CODING ERROR: %s' % str(self)
 
 @listener.wait(types=['init'])
@@ -95,17 +95,11 @@ def action(self):
         if deps == None: skip = ''
         else: skip = 'の'
         if type(deps) == list:
-            value = randint(0, deps[0])
-            for i in deps[1:].keys(): # for each number in the list of numbers:
-                if i >= value: # if the value is closer to i than the last one (in the case of the first one, it must be less than 2 distance away)
-                    end = deps[1:][i] if type(deps[1:][i]) == str else choice(deps[1:][i])
-                    end = end.format(*[str(randint(1, i+1)) for i in range(1, 10)]) # so you can go 'it hit you for {5} HP!' and that {5} will be replaced with a random number from 1 to 5
-                    return ('%s%s%s%s' % (skip, mt, (';' if mt else ''), end))
-            return '00CODING ERROR: %s' % str(self)
+            return ('%s%s%s%s' % (skip, mt, (';' if mt else ''), choice(deps).format(*[str(randint(1, i+1)) for i in range(1, 12)]))) # so you can go 'it hit you for {5} HP!' and that {5} will be replaced with a random number from 1 to 5
         elif deps == None:
             return ('%s%s' % (skip, mt))
         else:
-            return ('%s%s%s%s' % (skip, mt, (';' if mt else ''), deps.format(*[str(randint(1, i+1)) for i in range(1, 10)]))) # so you can go 'it hit you for {5} HP!' and that {5} will be replaced with a random number from 1 to 5
+            return ('%s%s%s%s' % (skip, mt, (';' if mt else ''), deps.format(*[str(randint(1, i+1)) for i in range(1, 12)]))) # so you can go 'it hit you for {5} HP!' and that {5} will be replaced with a random number from 1 to 5
     return ''
 
 def turns(self):
@@ -122,7 +116,7 @@ def wait_for_kill_boss_1():
     print('YOU KILLED BOSS 1!!!')
     return 'open up doorway'
 
-@listener.wait(types=['one word:hi']) # example for 1 word
+@listener.wait(types=['one word:hi']) # example for 1 word (you JUST type 'hi' and nothing else)
 def say hi():
     print('HI!!!!')
     return '00hi'

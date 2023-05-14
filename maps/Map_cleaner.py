@@ -54,14 +54,16 @@ for element in data['elements']:
         room['objects'] = clean_objs(element['objects'])
         rooms[element["id"]] = room
     if element['_type'] == 'Connector':
+        g = lambda x: x // 2 if x < 17 else 8 + (x - 8)
         try:
-            rooms[element['_dockStart']]['exits'][round(element['_startDir'] / 2)] =  element['_dockEnd']
+            rooms[element['_dockStart']]['exits'][g(element['_startDir'])] =  element['_dockEnd']
         except:
             pass
-        try:
-            rooms[element['_dockEnd']]['exits'][round(element['_endDir'] / 2)] = element['_dockStart']
-        except:
-            pass
+        if element['_oneWay'] == False:
+            try:
+                rooms[element['_dockEnd']]['exits'][g(element['_endDir'])] = element['_dockStart']
+            except:
+                pass
 
 map_data = {'card': {'title': data['title'], 'author': data['author'], 'description': data['description']}, 'rooms': rooms, 'actions': {}, 'startRoom': data['startRoom'], 'endRoom': end_room}
 print("Now we're done! Please choose a file to output to.")
