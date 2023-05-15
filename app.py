@@ -88,11 +88,11 @@ def index(id):
     name = ""
     savemsg = ""
     g.log = []
-    if form.submit.data and form.validate():
-        name = g(form.inp.data)
-        if g.redirect:
+    if g.redirect:
             r = redirect(url_for(g.redirect))
             return r
+    if form.submit.data and form.validate():
+        name = g(form.inp.data)
         form.inp.data = ''
     if (form2.back.data or form2.save.data or form2.load.data) and form2.validate():
         if form2.back.data:
