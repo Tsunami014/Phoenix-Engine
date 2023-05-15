@@ -2,45 +2,61 @@
 
 > This is the TAS assessment task :)
 
+    This game uses input/output in app.py using flask forms
+    This game uses class variables to store game information
+    This game has comments and files describing things
+    This game uses if/elif/else loops to parse the input to find what the output should be
+    This game uses dictionaries and lists when parsing the input to find what the output should be
+    This game uses json files to store the map created on trizbort.io and parsed by my map parser to be very useful and stores everything about each room in it.
+    Dictionaries and lists are also used to store information about the actions you can do and other things like that.
+
+## If you don't understand what something does then poke around in the file directories bcos everything is a bit of a mess right now sry
+
 ## How to play?
 
-- Run app.py or Terminal.py
+- Run app.py
+- Wait for it to load (some computers load faster than others)
+- Once it says `debugger active! website avaliable on localhost:5000` or whatever then go to the website it says.
+- If it doesn't work then check you haveall of these:
+
+    flask
+    flask_bootstrap
+    flask_wtf
+    wtforms
+    bootstrap-flask
+    nltk 
+    
+- if that still does not work try going `python -m spacy download en_core_web_sm` ***THIS IS VERY IMPORTANT***
 - Select a map
 - Input your action into the box and press enter
 - You can do any action you want!*
 - If at any time you want to save/load your adventure choose your save slot and press save/load
-- If you want to repeat an action you can press the back arrow and it will go back to your previous action
+- If you want to repeat an action you can press the back arrow and it will go back to your previous action *please note* it will show previous and possibly incorrect information if you go back to the previous page but when you press enter to submit the action it will correct it
 - Certain Functions might be spefic so rember to read all of the instructions
 - Don't get frustrated if you can't complete a puzzle don't worry as most of the time you will get it with a bit of patience.
 - If you get into a battle than you need to read all of the stats of your enemies, but a reminder that you cannot leave the room during a battle
+- You can put stuff on you! (like armor and trinkets and stuff)
+- this is a good game
 *Most things
 (This is not in order)
-
-## MUST DO
-
-## We need to finish everything by Wednesday next week. We will spend that TAS period making sure everyone submits and stuff =D- Riley
-
-## Make sure everything works properly. To do that we need to make a new release soon (maybe once we are done?)
-
-- Agreed - Riley =D
 
 ## To do list
 
 | what is it            | status      | who?   | Description                                      |
 | --------------------- | ----------- | ------ |------------------------------------------------- |
 | Poster                | In Progress | ALL    | Read criteria                                    |
-| finish inventory      |             | Max    | make the inventory accessable for the actions    |
+| finish inventory      | Done        | Max    | make the inventory accessable for the actions    |
 | add in all functions  | IN PROGRESS | all    | make all the map-specific functions              |
-| finish how this works | IN PROGRESS | M+R    | finish documenting how this all works            |
-| finish saving/loading |             | Max    | make sure saving/loading is as good as possible  |
-| work out the unitests |             | Max    | work out what to do with the unittests           |
-| Finalise Terminal.py  | CONSIDERING | Max    | Can you please do this Max- Riley =D             |
+| finish how this works | IN PROGRESS | M+R+V  | finish documenting how this all works            |
+| finish saving/loading | CONSIDERING | Max    | make sure saving/loading is as good as possible  |
+| work out the unitests | ...         | Max    | work out what to do with the unittests           |
 | redo side.py          | DONE!       | Max    | redo side.py to make it more cleaner and simpler |
 | character selection   | Considering | Riley  | Add more personalisation to game                 |
-| Voicelines            | In progress | Riley  | Adds more fun to game                            |
-| map selection         |             | Riley  | finish the map selection that I started          |
+| Voicelines            | In progress | Henry  | Adds more fun to game                            |
 | website aesthetics    | IN PROGRESS | Viggo  | make the website look beautiful.                 |
 | Video Script          | In Progress | Riley  | Script for video                                 |
-| Poster/ Game Slip     | In Progress | Riley  | Help us have a better video                      |
+| Poster/ Game Slip     | Done!!!!!!! | Riley  | Help us have a better video                      |
 | Naming the Game       | Done!!!!    | ALL!!  | Every good game needs a name                     |
-| Finish How to Play.md | In progress | Riley  | Make it nice and clear for audience              |
+| Replit Units          | Done!!!!    |ALL     | To know how to do da codes                       |
+|finish how it works.md | IN progress |All     | Explain stuff                                    |
+|amour snapping         | In progress | Riley  |                                                  |
