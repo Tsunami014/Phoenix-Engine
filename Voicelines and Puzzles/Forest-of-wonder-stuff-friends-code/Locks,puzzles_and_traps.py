@@ -35,6 +35,19 @@ else:
 
 #Swap Lock can be modified to Work with Viggo's Music Lock
 #Diffrent Colours Must be lined together. To work 
+colour_options={"red","yellow","blue","green"}
+empty_slots={"Empty,Empty"}
+colour_lock_solution=random.shuffle(colour_options)
+print(colour_options)
+#Make the colour options assinable to a number or a slot
+slot_1=random.choice(colour_options+empty_slots)
+colour_options.remove(slot_1)
+slot_2=random.choice(colour_options+empty_slots)
+colour_options.remove(slot_2)
+slot_3=random.choice(colour_options+empty_slots)
+colour_options.remove(slot_3)
+slot_4=random.choice(colour_options+empty_slots)
+slot_5=random.choice(colour_options+empty_slots)
 
 
 

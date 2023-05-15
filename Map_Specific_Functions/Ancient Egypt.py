@@ -1,21 +1,26 @@
 import random
 import time
 #Amour Snapping
+#work in progress
 def amour_snapping_mechanism(item):
     helmet_slot_filled=False
     amour_slot_filled=False
-    shoe_slot_filled=True
     charm_slot_filled=False
-    shield_slot_filled=False
+   
     
     amour_slot=={}
 if "#amour" in item.tag:
     amour_slot =item
+    amour_slot_filled=True
 elif"#helmet" in item.tag:
     helmet_slot =item
+    helmet_slot_filled=True
 elif "#charm" in item.tag:
      charm_slot =item
-     
+     charm_slot_filled=True
+else:
+     print("No amour or helmet or charm slot found")
+     exit()
 
 
 
@@ -31,8 +36,14 @@ elif "#charm" in item.tag:
 
 #Pushing Boulder
 
+
 #Character Choosing
+character_choice=input("Choose a character")
+
 #NPC Dialogue
+if character_choice=="hi":
+     print("filler")
+
 
 #Spinx code
 print("Welcome Mortal solve this riddle to continue or DIE")
@@ -55,6 +66,10 @@ elif riddle_num==4:
     print("hi")
 else:
     ans_riddle_5=input( "What goes up, but never comes down?")
+    if ans_riddle_5==(""):
+         print("Correct answer, proceed")
+    else:
+         print("Wrong Answer")
 
 #The more you take, the more you leave behind. What am I?
 
