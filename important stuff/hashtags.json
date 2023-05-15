@@ -1,5 +1,8 @@
 {
     "doable": "0subjobj ~ 01;1subjobj ~ [0]",
-    "openable": "0subjobj ~ 01;1subjobj ~ chest",
-    "takeable": "0subjobj ~ 01;1subjobj ~ [0]"
+    "chest": "0subjobj ~ 01;1subjobj ~ chest",
+    "closet": "0subjobj ~ 01;1subjobj ~ closet",
+    "takeable": "0subjobj ~ 01;1subjobj ~ [0]",
+    "talkable": "2with ~ 01 ~ obj;3with ~ jeremy ~ obj",
+    "drinkable": "0subjobj ~ 01;1subjobj ~ potion"
 }

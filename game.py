@@ -56,7 +56,7 @@ pos = ["north", "northeast", "east", "southeast", "south", "southwest", "west", 
 fourth_numbers = ["self.fc['rooms'][str(self.roomnum)]['exits'][str(closest_num([int(i) for i in self.fc['rooms'][str(self.roomnum)]['exits'].keys()], pos.index(self.p['move'][0][0])))]"]
 delete_numbers = ["[i['name'] for i in self.fc['rooms'][str(self.roomnum)]['objects']].index(self.p['subjobj'][0][0])", 
                 "self.fc['rooms'][str(self.roomnum)]['objects'][[i['name'] for i in self.fc['rooms'][str(self.roomnum)]['objects']].index(self.p['subjobj'][0][0])]"]
-item_groups = [["stick", "rock", "apple", "spider"]]
+item_groups = [["stick", "rock", "apple", "spider", "key", "bed"]]
 
 class CodingError(Exception):
     """
@@ -71,7 +71,7 @@ class Game:
         
         self.cutoff = cutoff # for those of us who can't reach that far down - here you go :)
         self.p = {} #A filler... just in case worst comes to worst
-        self.inventory = {} # sets inventory to blank
+        self.inventory = {"health potion": [3, {'name': 'potion', 'identifier': 'potion'}]} # sets inventory to blank
         self.added = []
         self.roomnum = 1 #This is the starting room id
         self.log = [] # the logs, including the errors
@@ -397,6 +397,30 @@ class Game:
                             spl.extend(item_groups[int(i[1:-1])])
                             spl.remove(i)
                     if len(GCM(t[spl[0]][0][0], spl[1:], 1, cutoff)) != 1:
+                        return False
+                except Exception as e:
+                    self.log.append('ERROR: %s' % str(e))
+                    return
+            elif i[0] == '2':
+                try:
+                    spl = i[1:].split(' ~ ')
+                    for i in spl[1:]:
+                        if i == '[%s]' % i[1:-1]:
+                            spl.extend(item_groups[int(i[1:-1])])
+                            spl.remove(i)
+                    if len(GCM(t[spl[0]][0][1][spl[1]][0][0], spl[1:], 1, cutoff)) != 1:
+                        return False
+                except Exception as e:
+                    self.log.append('ERROR: %s' % str(e))
+                    return
+            elif i[0] == '3':
+                try:
+                    spl = i[1:].split(' ~ ')
+                    for i in spl[1:]:
+                        if i == '[%s]' % i[1:-1]:
+                            spl.extend(item_groups[int(i[1:-1])])
+                            spl.remove(i)
+                    if len(GCM(t[spl[0]][0][1][spl[1]][0][0], spl[1:], 1, cutoff)) != 1:
                         return False
                 except Exception as e:
                     self.log.append('ERROR: %s' % str(e))

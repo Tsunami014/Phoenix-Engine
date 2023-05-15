@@ -40,7 +40,7 @@
             "action#consumable":""},
         "drink":
             {"subjobj":1,
-            "action#drinkable":""},
+            "action#drinkable":"00You drink the health potion and gain 50 health!;6~!!5[0];71hp = 050"},
         "burn":
             {"subjobj":1,
             "action#burnable":"6~!!5[0];00You WATCHED IT BURRRRRRRN! :D"},
@@ -49,5 +49,9 @@
             "action#purchasable":""},
         "open":
             {"subjobj":1,
-            "action#openable":"6~!!5[0];00You opened it.;5~!!5sword = {'name': 'sword', 'identifier': 'sword'}"}
+            "action#chest":"6~!!5[0];00You opened it.;5~!!5sword = {'name': 'sword', 'identifier': 'sword'}",
+            "action#closet":"6~!!5[0];00You opened it.;5~!!5sword = {'name': 'ladder', 'identifier': 'ladder'}"},
+        "talk":
+            {"action#talkable": "00he says, 'what do you want to talk about?'",
+            "action": "00You talk to yourself. Great. Now what?"}
 }

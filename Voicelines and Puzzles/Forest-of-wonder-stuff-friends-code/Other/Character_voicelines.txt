@@ -2,24 +2,30 @@ Explorer Voice lines
 “Ha ha treasu! Oh wait nevermind”
 *screams in explorer*
 *angry explorer noises*
-“Heh *snorts* according to my calculations...* 
+“Heh *snorts* according to my calculations...(drones on)"
 "no"
-"you speak english, yes? 
-"tu parles anglais, oui?"
-"ты говоришь по-английски, да?"
-"你会说英语，是吗？你會說英語，是嗎"
-"आप अंग्रेजी बोलते हैं, हाँ?"
-"hablas ingles, si?"
-"loqueris anglicus, ita?"
-"Du sprichst Englisch, ja?"
-"あなたは英語を話しますよね？"
-"no do not go in there"
+"do you speak english? 
+*sneezes*
+*grunts*
 
-Brute (Brutus) Voice listeners
+Brute (Brutus) Voice lines
 "hmm"
 *grumbles*
 *grunts*
-*whimpers*
-"arar"
+"me like"
+"you friend"
 *yeses in brutus*
 
+steve voice lines
+"ok"
+"sure"
+*mocks explorer*
+"no"
+"nah its alright"
+"moans"
+*grunts*
+*struggles*
+"what the *profanity* is that"
+"how are we supposed to get past that"
+"how are we supposed to get through that"
+"there is too many to fight through"

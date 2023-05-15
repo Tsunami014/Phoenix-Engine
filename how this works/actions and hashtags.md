@@ -112,6 +112,8 @@ else:
 first digit:
     0 - matching number of items
     1 - matching words
+    2 - matching word one level down the tree
+    3 - matching number of items one level down the tree
 
 next text:
     the part of speech ('subjobj', 'action', 'what')
@@ -133,6 +135,10 @@ for # of items:
 
     next number:
         the number of items to check
+
+for each level down the tree:
+    delimenar - " ~ "
+    the name of the next item down to check (so the thing to check is first then the rest)
 
 examples:
     - 0subjobj ~ 02 (checks if it has 2 subjobjs)
