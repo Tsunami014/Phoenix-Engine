@@ -1,5 +1,6 @@
 {
     "doable": "0subjobj ~ 01;1subjobj ~ [0]",
+    "doable2": "0subjobj ~ 01;1subjobj ~ stick",
     "chest": "0subjobj ~ 01;1subjobj ~ chest",
     "closet": "0subjobj ~ 01;1subjobj ~ closet",
     "takeable": "0subjobj ~ 01;1subjobj ~ [0]",

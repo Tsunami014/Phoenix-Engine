@@ -36,5 +36,30 @@
     "the": [
         "le",
         "da"
+    ],
+    "hit": [
+        "hurt",
+        "annoy",
+        "destroy"
+    ],
+    "take": [
+        "grab",
+        "keep"
+    ],
+    "smash": [
+        "break"
+    ],
+    "open": [
+        "claim"
+    ],
+    "talk": [
+        "chat",
+        "converse"
+    ],
+    "drink": [
+        "chug"
+    ],
+    "push": [
+        "shove"
     ]
 }

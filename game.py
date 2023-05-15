@@ -71,7 +71,7 @@ class Game:
         
         self.cutoff = cutoff # for those of us who can't reach that far down - here you go :)
         self.p = {} #A filler... just in case worst comes to worst
-        self.inventory = {"health potion": [3, {'name': 'potion', 'identifier': 'potion'}]} # sets inventory to blank
+        self.inventory = {"health potion": [3, {'name': 'potion', 'identifier': 'health potion'}]} # sets inventory to have 3 health potions
         self.added = []
         self.roomnum = 1 #This is the starting room id
         self.log = [] # the logs, including the errors

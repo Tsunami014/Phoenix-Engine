@@ -12,8 +12,11 @@ from random import randint, choice
 listener = c.EventListener()
 
 #monsters dict in format: {name: [power (see below list powers for the number), hp]}
-monsters = {'bokoblin': [0, 50]}
-powers = [(10, {6:['tried to hit you... But it missed!', '... tried to hit you but you blocked!', 'hit your shield!'], 11: 'hit you for {5} HP!;71hp = 1{5}'})]
+monsters = {'bokoblin': [0, 25], 'lizard monster': [0, 30], 'lizard monster boss': [1, 40]}
+powers = [(10, {6:['tried to hit you... But it missed!', '... tried to hit you but you blocked!', 'hit your shield!'], 11: 'hit you for {5} HP!;71hp = 1{5}'}), (10, {4:['tried to hit you... But it missed!', '... tried to hit you but you blocked!', 'hit your shield!'], 7: 'hit you for {4} HP!;71hp = 1{4}', 11: 'hit you for {7} HP!!;71hp = 1{7}'})]
+
+#{'name of object': [(roomnum, 'codewhenitactivates'), etc.], etc.}
+room_connections = {'key': [(23, '6~!!5[0];5~!!426!!"6";00Your key opened the door of the house!')]}
 
 with open('important stuff/battles.json') as f:
     battle = load(f)
@@ -67,6 +70,11 @@ def finish(self):
 
 @listener.wait(types=['move']) # check each move to see if it sparks a fight
 def wait_for_move(self):
+    passageways = ''
+    for i in room_connections:
+        if i in self.inventory.keys() and room_connections[i][0] == self.roomnum:
+            passageways += room_connections[i][1] + ';'
+    
     tot = []
     for i in self.fc['rooms'][str(self.roomnum)]['objects']:
         l = GCM(i['name'], monsters.keys(), n=1, cutoff=self.cutoff)
@@ -76,8 +84,8 @@ def wait_for_move(self):
     if tot:
         self.fight = True
         self.curmonsters = [Monster(j) for j in tot]
-        return '00OH NO! THERE IS A ' + " AND A ".join(tot) + r"! THEY START A FIGHT!!! (you can no longer exit);5~!!4~!!{}"#code to print and no longer exit
-    return ''
+        return passageways + '00OH NO! THERE IS A ' + " AND A ".join(tot) + r"! THEY START A FIGHT!!! (you can no longer exit);5~!!4~!!{}"#code to print and no longer exit
+    return passageways
 
 @listener.wait(types=['action'])
 def action(self):

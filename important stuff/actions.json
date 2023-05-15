@@ -16,37 +16,26 @@
             {"action": "00You did nothing :)"},
         "smash":
             {"subjobj": 1,
-            "action#doable": "6~!!5[0];00You smashed it and it broke into, like, a GAZILLION pieces!"},
+            "action#doable2": "6~!!5[0];00You smashed it and it broke into, like, a GAZILLION pieces!"},
         "lift":
             {"subjobj":1,
             "action#doable" :"00You lifted it up. The only thing that happened is that you lifted it up."},
         "play":
-            {"subjobj":1,
-            "action#playable":""},
+            {"subjobj":1},
         "sleep":
-            {"subjobj":1,
-            "action#sleepable": ""},
+            {"subjobj":1},
         "push":
             {"subjobj":1,
             "action#doable":"00You pushed it. Nothing happened. What did you expect?"},
-        "catch":
-            {"subjobj":1,
-            "action#catchable":""},
         "snap":
             {"subjobj":1,
-            "action#doable":"5~!!5[0]!!eval(delete_numbers[1]) | {'identifier': 'part of a '+eval(delete_numbers[1])['name']};00You snapped it in half."},
-        "consume":
-            {"subjobj":1,
-            "action#consumable":""},
+            "action#doable2":"5~!!5[0]!!eval(delete_numbers[1]) | {'identifier': 'part of a '+eval(delete_numbers[1])['name']};00You snapped it in half."},
         "drink":
             {"subjobj":1,
             "action#drinkable":"00You drink the health potion and gain 50 health!;6~!!5[0];71hp = 050"},
         "burn":
             {"subjobj":1,
-            "action#burnable":"6~!!5[0];00You WATCHED IT BURRRRRRRN! :D"},
-        "purchase":
-            {"subjobj":1,
-            "action#purchasable":""},
+            "action#doable2":"6~!!5[0];00You WATCHED IT BURRRRRRRN! :D"},
         "open":
             {"subjobj":1,
             "action#chest":"6~!!5[0];00You opened it.;5~!!5sword = {'name': 'sword', 'identifier': 'sword'}",
