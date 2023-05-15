@@ -27,6 +27,9 @@ csrf = CSRFProtect(app)
 import game as s
 g = s.Game()
 
+from random import choice
+messages = ['imagine dying', 'skill issue', 'get dunked on', 'el bozo', 'you have health potions for a reason', '[insert bad game tip here]', '[insert random insult here]']
+
 # with Flask-WTF, each web form is represented by a class
 # "Game" can change; "(FlaskForm)" cannot
 # see the route for "/" and "index.html" to see how this is used
@@ -42,7 +45,7 @@ class SaveForm(FlaskForm):
     back = SubmitField('Return to map selector')
 
 class Selector(FlaskForm):
-    myChoices = ['Forest out', 'hahahahahaAAAAA', 'making sure this works', 'by adding in more stuff'] #input SPECIFIC MAP NAMES HERE, MUST BE THE EXACT NAME OF THE MAP FILES IN THE 'maps/' FOLDER
+    myChoices = ['Forest Of Wonder', 'Tech Labs', 'Ancient Egypt'] #input SPECIFIC MAP NAMES HERE, MUST BE THE EXACT NAME OF THE MAP FILES IN THE 'maps/' FOLDER
     choice = SelectField(u'Field name', choices = myChoices, validators = [DataRequired()])
     submit = SubmitField('Submit')
     
@@ -114,7 +117,7 @@ def index(id):
 
 @app.route('/death')
 def death():
-    return render_template('death.html', error='You appeared to have fallen during your adventure. Your grave was just a stick, rising into the cold, unforgiving air. No one will be around to mourn for your death.')
+    return render_template('death.html', message=choice(messages), error='You appeared to have fallen during your adventure. Your grave was just a stick, rising into the cold, unforgiving air. No one will be around to mourn for your death.')
 
 # 3 routes to handle errors - they have templates too
 

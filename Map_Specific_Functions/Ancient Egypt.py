@@ -1,5 +1,7 @@
 import random
 import time
+#Map Selection
+input("Please chosse a map")
 #Amour Snapping
 #work in progress
 def amour_snapping_mechanism(item):
@@ -17,11 +19,57 @@ elif"#helmet" in item.tag:
     helmet_slot_filled=True
 elif "#charm" in item.tag:
      charm_slot =item
-     charm_slot_filled=True
-else:
-     print("No amour or helmet or charm slot found")
-     exit()
+     
+import json
+import random
+import time
+from yachalk import chalk
 
+def animateText(text):
+    storyColour=chalk.bg_rgb(16,19,26).yellow
+    for char in text:
+        print(storyColour(char), end='', flush=True)
+        if char == '.':
+          time.sleep(1)
+        else:
+          time.sleep(0.075)
+
+with open("Cooltext.md", "r") as f:
+  gameText = f.read()
+  testwrite = gameText.split('\n\n')
+ 
+
+
+#It is chosing map
+animateText(testwrite[0])
+mapchoice=int(input(""))
+if mapchoice==1:
+    animateText(testwrite[1])
+elif mapchoice==2:
+    animateText(testwrite[2])
+elif mapchoice==3:
+    animateText(testwrite[3])
+
+else: 
+         print("Error")
+
+"Choose a map. Type 1 for Ancient Egypt, Type 2 for Tech Labs and Type 3 for Forest. > "
+
+"Loading Map - Ancient Egypt..."
+
+"Loading Map - Tech Labs..."
+
+"Loading Map - Forest..."
+def Voicelines():
+  print('Vaules')
+
+def Lives():
+  Livecount=3
+  Death=False
+  if Death==True:
+    choice=random.randint (1,5)
+    if choice==(-1):
+      pass
 
 
 

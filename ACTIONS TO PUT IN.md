@@ -19,7 +19,6 @@
 
 ## if you want something to happen not listed above then write what for below and i'll see to it
 
-## stuff with no tags
 
 ## Other (Map Specfic)
 

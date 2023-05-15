@@ -27,6 +27,9 @@ import other.connector as c # this imports the connector
 #don't worry, its very confusing
 listener = c.EventListener() # this is the thing that we sent info to
 
+
+# python -m spacy download en_core_web_sm
+# or install the wheel file, which is the same
 try:
     import spacy
     nlp = spacy.load('en_core_web_sm')
@@ -42,7 +45,7 @@ PRINTS = '' # this is so that instead of printing out things, we put it in this 
 # the things it prints. In times where it does use the terminal, you just go `print(side.PRINTS)`
 PRINTS += 'loading functions and other global variables...\n' #see, made use of it already :)
 
-cutoff = 0.85 #The cutoff for get closest matches (How close it needs to be for the match to work, 0=anything 1=same thing)
+cutoff = 0.83 #The cutoff for get closest matches (How close it needs to be for the match to work, 0=anything 1=same thing)
 
 #Here are all the positions possible - notice sometimes there is "" between two items
 #And that is because it gets the closest direction to the one inputted and it is by 2 spaces so
@@ -53,7 +56,7 @@ pos = ["north", "northeast", "east", "southeast", "south", "southwest", "west", 
 fourth_numbers = ["self.fc['rooms'][str(self.roomnum)]['exits'][str(closest_num([int(i) for i in self.fc['rooms'][str(self.roomnum)]['exits'].keys()], pos.index(self.p['move'][0][0])))]"]
 delete_numbers = ["[i['name'] for i in self.fc['rooms'][str(self.roomnum)]['objects']].index(self.p['subjobj'][0][0])", 
                 "self.fc['rooms'][str(self.roomnum)]['objects'][[i['name'] for i in self.fc['rooms'][str(self.roomnum)]['objects']].index(self.p['subjobj'][0][0])]"]
-item_groups = [["stick", "rock", "apple", "spider"]]
+item_groups = [["stick", "rock", "apple", "spider", "key", "bed"]]
 
 class CodingError(Exception):
     """
@@ -68,7 +71,7 @@ class Game:
         
         self.cutoff = cutoff # for those of us who can't reach that far down - here you go :)
         self.p = {} #A filler... just in case worst comes to worst
-        self.inventory = {} # sets inventory to blank
+        self.inventory = {"health potion": [3, {'name': 'potion', 'identifier': 'potion'}]} # sets inventory to blank
         self.added = []
         self.roomnum = 1 #This is the starting room id
         self.log = [] # the logs, including the errors
@@ -394,6 +397,30 @@ class Game:
                             spl.extend(item_groups[int(i[1:-1])])
                             spl.remove(i)
                     if len(GCM(t[spl[0]][0][0], spl[1:], 1, cutoff)) != 1:
+                        return False
+                except Exception as e:
+                    self.log.append('ERROR: %s' % str(e))
+                    return
+            elif i[0] == '2':
+                try:
+                    spl = i[1:].split(' ~ ')
+                    for i in spl[1:]:
+                        if i == '[%s]' % i[1:-1]:
+                            spl.extend(item_groups[int(i[1:-1])])
+                            spl.remove(i)
+                    if len(GCM(t[spl[0]][0][1][spl[1]][0][0], spl[1:], 1, cutoff)) != 1:
+                        return False
+                except Exception as e:
+                    self.log.append('ERROR: %s' % str(e))
+                    return
+            elif i[0] == '3':
+                try:
+                    spl = i[1:].split(' ~ ')
+                    for i in spl[1:]:
+                        if i == '[%s]' % i[1:-1]:
+                            spl.extend(item_groups[int(i[1:-1])])
+                            spl.remove(i)
+                    if len(GCM(t[spl[0]][0][1][spl[1]][0][0], spl[1:], 1, cutoff)) != 1:
                         return False
                 except Exception as e:
                     self.log.append('ERROR: %s' % str(e))

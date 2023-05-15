@@ -12,7 +12,7 @@
 
     <style>
       body {
-        background: #10968c;
+        background: #2a0000;
       }
       a {cursor:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC) 14 0,pointer !important}
       body {position:fixed;
@@ -21,6 +21,18 @@
         left:0;
         right:0;
       }
+      h1 {
+        color: #cccccc;
+        font-family: fangsong;
+        font-weight: 10;
+        font-size: 10rem;
+      }
+      a {
+        font-family: cursive;
+        font-weight: 20;
+        font-size: 2.5rem;
+        color: #cccccc;
+       }
     </style>
   </head>
   <body>
@@ -28,9 +40,8 @@
       <div class="row">
         <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
           <h1 class="pt-5 pb-2">You died!</h1>
-
           <p>
-            <a href="{{ url_for('chooser') }}">Go back to map selector</a>
+            <a href="{{ url_for('chooser') }}"><bold>{{ message }}</bold> get dunked on</a>
           </p>
         </div>
       </div>

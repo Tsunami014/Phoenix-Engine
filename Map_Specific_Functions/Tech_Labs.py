@@ -8,9 +8,9 @@ def glitchText(text):
     for char in text:
         print(storyColour(char), end='', flush=True)
         if char == '.':
-          time.sleep(random.randint[1,1.5,2])
+          time.sleep(1)
         else:
-          time.sleep(random.randint[0,0.5,1,1.5,2,2.5,3])
+          time.sleep(0.05)
 
 with open("glitchtext.md", "r") as f:
   gameText = f.read()
@@ -18,3 +18,5 @@ with open("glitchtext.md", "r") as f:
 
 print()
 glitchText(glitch[0])
+
+def 

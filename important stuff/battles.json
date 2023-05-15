@@ -1,14 +1,14 @@
 {
     "throw": {
         "0subjobj ~ 01;1subjobj ~ stick": [
-            "00You threw a stick and it hit the monster!;71curmonsters[0].hp = 1{5}", 
-            "You threw a stick so hard it broke!;71curmonsters[0].hp = 1{9};6~!!5[0]"],
+            "00You threw a stick and it hit the monster for {5} HP!;71curmonsters[0].hp = 1{5}", 
+            "00You hit the monster with a stick so hard it broke for {10} HP!!;71curmonsters[0].hp = 1{10};6~!!5[0]"],
         "0subjobj ~ 01": "00You cannot throw that!"
     },
     "hit": {
         "0subjobj ~ 01;1subjobj ~ stick": [
-            "00You hit the monster with a stick!;71curmonsters[0].hp = 1{5}", 
-            "You hit the monster with a stick so hard it broke!;71curmonsters[0].hp = 1{9};6~!!5[0]"],
-        "0subjobj ~ 01": "00You hit the monster! {3}"
+            "00You hit the monster with a stick for {5} HP!;71curmonsters[0].hp = 1{5}", 
+            "00You hit the monster with a stick so hard it broke for {10} HP!!;71curmonsters[0].hp = 1{10};6~!!5[0]"],
+        "0subjobj ~ 01": "00You hit the monster for {3} HP!;71curmonsters[0].hp = 1{3}"
     }
 }
