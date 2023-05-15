@@ -218,13 +218,13 @@
         {
           "name": "monster",
           "identifier": "lizard monster",
-          "description": "It will wake if you attack it or if the watchtower monster alerted them",
+          "description": "",
           "content": [],
           "type": 4
         },
         {
           "name": "stick",
-          "identifier": "stick on the ground",
+          "identifier": "stick",
           "description": "it's a random twig",
           "content": [],
           "type": 5
@@ -332,6 +332,13 @@
           "description": "",
           "content": [],
           "type": 5
+        },
+        {
+          "name": "potion",
+          "identifier": "health potion",
+          "description": "",
+          "content": [],
+          "type": 5
         }
       ]
     },
@@ -348,16 +355,36 @@
           "name": "trunk",
           "identifier": "big hollow fallen tree trunk ",
           "description": "Jeremy can use this to make a tree... If he had a saw",
-          "content": [
-            {
-              "name": "bokoblins",
-              "identifier": "bokoblins",
-              "description": "about 10 hide inside",
-              "content": [],
-              "type": 4
-            }
-          ],
+          "content": [],
           "type": 5
+        },
+        {
+          "name": "bokoblin",
+          "identifier": "bokoblin",
+          "description": "",
+          "content": [],
+          "type": 4
+        },
+        {
+          "name": "bokoblin",
+          "identifier": "bokoblin",
+          "description": "",
+          "content": [],
+          "type": 4
+        },
+        {
+          "name": "bokoblin",
+          "identifier": "bokoblin",
+          "description": "",
+          "content": [],
+          "type": 4
+        },
+        {
+          "name": "bokoblin",
+          "identifier": "bokoblin",
+          "description": "",
+          "content": [],
+          "type": 4
         }
       ]
     },
@@ -367,8 +394,7 @@
       "dark": false,
       "shape": 0,
       "exits": {
-        "0": 7,
-        "6": 26
+        "0": 7
       },
       "objects": [
         {
@@ -433,6 +459,20 @@
           "name": "staircase",
           "identifier": "staircase",
           "description": "you trip on it and graze your knee",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "potion",
+          "identifier": "health potion",
+          "description": "",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "potion",
+          "identifier": "health potion",
+          "description": "",
           "content": [],
           "type": 5
         }
@@ -502,6 +542,13 @@
           "name": "box",
           "identifier": "a phone box",
           "description": "This prevents Jeremy from going any further",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "potion",
+          "identifier": "health potion",
+          "description": "",
           "content": [],
           "type": 5
         }
@@ -592,6 +639,13 @@
           "description": "",
           "content": [],
           "type": 4
+        },
+        {
+          "name": "potion",
+          "identifier": "health potion",
+          "description": "",
+          "content": [],
+          "type": 5
         }
       ]
     }
