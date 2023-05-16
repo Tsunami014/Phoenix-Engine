@@ -16,7 +16,7 @@ if "#amour" in item.tag:
     amour_slot_filled=True
 elif"#helmet" in item.tag:
     helmet_slot =item
-    helmet_slot_filled=True
+    helmet_slot_filled =True
 elif "#charm" in item.tag:
      charm_slot =item
      
