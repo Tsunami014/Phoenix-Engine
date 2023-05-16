@@ -8,7 +8,6 @@ import json
 #Diffrent Colours Must be lined together. To work 
 colour_options={"red","yellow","blue","green"}
 empty_slots={"Empty,Empty"}
-colour_lock_solution=random.shuffle(colour_options)
 print(colour_options)
 #Make the colour options assinable to a number or a slot
 slot_1=random.choice(colour_options+empty_slots)
@@ -49,19 +48,6 @@ cluepart2=["What do you bury when it's alive and dig up when it's dead?","What's
 Solution_orb_text=["The Books rustle jumping around only for the books to splinter in a shower of paper, showing their true form as Orbs with four being coloured and the rest a mystical white." "The Orbs spin circling in a "]
 #End of Basic Locks which can be slightly modified to fit most other Locks
 
-#Arcade lock 
-# A lock where you have to select the correct arcade game to solve it.
-game_played = input("There are multiple different arcade machines here... Tetris, Space Invaders, Portal and Pacman. Which do you play? > ")
-el_solved = False
-if game_played in ["Space Invaders", "space invaders", "Space invaders", "space Invaders"]:
-  print("You play Space Invaders and hit the final level... The blood rushes to your head, your arms go tingly, and you drink a convenient bottle of GFuel muck! Then you beat the level. To be honest it was pretty easy.")
-  print("You hear a blipping sound and fanfare comes from the arcade machine which now displays: You have beaten Space Invaders!")
-  print("Maybe you should check the cafeteria...")
-  el_solved = True
-elif game_played in ["Tetris", "tetris", "Portal", "portal", "Pacman", "pacman", "pac man", "Pac Man", "Pac man", "pac Man"]:
-  print("You play " + game_played + ", and, somehow, you beat it! Nothing happened. What a waste of time.")
-else:
-  print("That's NOT A GAME (at least not here)")
 
 #End of eLock
 #end of locks
