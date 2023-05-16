@@ -76,12 +76,13 @@ if maze_finished==True:
 
 #Defining the Enmies
 #Mummies 25hp
-#Scorpians 45hp
+#Swarm of Scorpians 45hp
+#Snake 50hp
 
 #boss fight
 #have to kill two minions and the boss itself
-#Pharoh's Guards 50hp
-#Pharoh 
+#Pharoh's Guards 50hp each
+#Pharoh  100hp
 
 
 
