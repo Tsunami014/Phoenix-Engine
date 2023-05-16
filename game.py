@@ -333,7 +333,7 @@ class Game:
                 try:
                     self.fc['rooms'][str(self.roomnum)]['objects'].remove(i)
                 except:
-                    if i not in done:
+                    if i['identifier'] not in done:
                         self.inventory.pop(i['identifier'])
                         done.append(i['identifier'])
             self.added = []

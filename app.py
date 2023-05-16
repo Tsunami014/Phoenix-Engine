@@ -112,7 +112,9 @@ def index(id):
                 savemsg = 'UNABLE TO LOAD FILE BECAUSE: %s' % e
     croom = g.fc['rooms'][str(g.roomnum)]
     gameinfo = ' HP: %s\nMonster health: ' % str(g.hp)
-    gameinfo += str({i.name: i.hp for i in g.curmonsters})
+    #What this next line does is it takes every monster and turns it into a dictionary like {'monster': 'hp'}
+    #But it does this in a way so that python does not notice 2 matching names in a dictionary.
+    gameinfo += str({(i.name+'|', '|'+str(i.hp)) for i in g.curmonsters}).replace('(', '').replace(')', '').replace("|', '|", "': '")
     return render_template('app.html', title=id, roomname=croom['name'].capitalize(), desc=croom['description'].strip(' \t\n'), bigdesc=load_room_desc(g).strip(' \t\n'), form=form, form2=form2, message=name.strip(' \t\n'), logs=str(g.log), savemsg=savemsg, gameinfo=gameinfo)
 
 @app.route('/death')

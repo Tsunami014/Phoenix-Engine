@@ -65,5 +65,8 @@
     "potion": [
         "health potion",
         "health"
+    ],
+    "miniboss": [
+        "boss"
     ]
 }

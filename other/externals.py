@@ -82,11 +82,13 @@ def wait_for_move(self):
             break
     
     tot = []
+    rm = []
     for i in self.fc['rooms'][str(self.roomnum)]['objects']:
-        l = GCM(i['name'], monsters.keys(), n=1, cutoff=self.cutoff)
+        l = GCM(i['identifier'], monsters.keys(), n=1, cutoff=self.cutoff)
         if l:
             tot.append(l[0])
-            self.fc['rooms'][str(self.roomnum)]['objects'].remove(i)
+            rm.append(i)
+    for i in rm: self.fc['rooms'][str(self.roomnum)]['objects'].remove(i)
     if tot:
         self.fight = True
         self.curmonsters = [Monster(j) for j in tot]
