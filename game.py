@@ -56,7 +56,7 @@ pos = ["north", "northeast", "east", "southeast", "south", "southwest", "west", 
 fourth_numbers = ["self.fc['rooms'][str(self.roomnum)]['exits'][str(closest_num([int(i) for i in self.fc['rooms'][str(self.roomnum)]['exits'].keys()], pos.index(self.p['move'][0][0])))]"]
 delete_numbers = ["[i['name'] for i in self.fc['rooms'][str(self.roomnum)]['objects']].index(self.p['subjobj'][0][0])", 
                 "self.fc['rooms'][str(self.roomnum)]['objects'][[i['name'] for i in self.fc['rooms'][str(self.roomnum)]['objects']].index(self.p['subjobj'][0][0])]"]
-item_groups = [["stick", "rock", "apple", "spider", "key", "bed"]]
+item_groups = [["stick", "rock", "apple", "spider", "key", "bed", "sword", "potion"]]
 
 class CodingError(Exception):
     """
@@ -71,7 +71,7 @@ class Game:
         
         self.cutoff = cutoff # for those of us who can't reach that far down - here you go :)
         self.p = {} #A filler... just in case worst comes to worst
-        self.inventory = {"health potion": [3, {'name': 'potion', 'identifier': 'health potion'}]} # sets inventory to have 3 health potions
+        self.inventory = {"health potion": (3, {'name': 'potion', 'identifier': 'health potion'})} # sets inventory to have 3 health potions
         self.added = []
         self.roomnum = 1 #This is the starting room id
         self.log = [] # the logs, including the errors
@@ -238,12 +238,17 @@ class Game:
                     if i != '~':
                         if i == '[%s]' % i[1:-1]:
                             c += '[%s]' % delete_numbers[int(i[1:-1])]
+                        elif spl[1][0] == '5':
+                            spl.append(spl[1][spl[1].index(' = ')+3:])
                         else:
                             c += '["%s"]' % i
                     if act[0] == '4':
                         c += ' = self.tosavefc' + c[7:]
                     elif act[0] == '5':
-                        c += ' = '+spl[2]
+                        if spl[1][0] == '5':
+                            c += '.append(%s)' % spl[2]
+                        else:
+                            c += ' = '+spl[2]
                     else:
                         c = 'del ' + c
                     try:
@@ -323,11 +328,14 @@ class Game:
                 continue
             nact = listener.event('action:'+self.prev_action, self)
             #If at any time you want to stop the current action from being applied, then in the externals just pop in a "の" anywhere. It will get removed before being executed.
+            done = []
             for i in self.added:
                 try:
                     self.fc['rooms'][str(self.roomnum)]['objects'].remove(i)
                 except:
-                    self.inventory.pop(i['name'])
+                    if i not in done:
+                        self.inventory.pop(i['identifier'])
+                        done.append(i['identifier'])
             self.added = []
             for i in self.inventory:
                 self.added.extend([self.inventory[i][1] for j in range(self.inventory[i][0])])
@@ -364,7 +372,7 @@ class Game:
             try:
                 self.fc['rooms'][str(self.roomnum)]['objects'].remove(i)
             except:
-                self.inventory.pop(i['name'])
+                self.inventory.pop(i['identifier'])
         self.added = []
         for i in self.inventory:
             self.added.extend([self.inventory[i][1] for j in range(self.inventory[i][0])])

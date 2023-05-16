@@ -38,8 +38,8 @@
             "action#doable2":"6~!!5[0];00You WATCHED IT BURRRRRRRN! :D"},
         "open":
             {"subjobj":1,
-            "action#chest":"6~!!5[0];00You opened it.;5~!!5sword = {'name': 'sword', 'identifier': 'sword'}",
-            "action#closet":"6~!!5[0];00You opened it.;5~!!5sword = {'name': 'ladder', 'identifier': 'ladder'}"},
+            "action#chest":"6~!!5[0];00You opened it.;5~!!5sword = {'name': 'sword', 'identifier': 'sword', 'type': 5}",
+            "action#closet":"6~!!5[0];00You opened it.;5~!!5sword = {'name': 'ladder', 'identifier': 'ladder', 'type': 5}"},
         "talk":
             {"action#talkable": "00he says, 'what do you want to talk about?'",
             "action": "00You talk to yourself. Great. Now what?"}
