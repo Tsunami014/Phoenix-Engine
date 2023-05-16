@@ -28,8 +28,8 @@ if button_pressed==True:
 print("Welcome Mortal solve this riddle to continue or DIE")
 riddle_num=random.int(1,5)
 if riddle_num==1:
-    ans_riddle_1=input("Tutenkhamun's mother has 4 sons, North, East, West and one other, who is the fourth")
-    if ans_riddle_1=="Tutenkhamun":
+    ans_riddle_1=input("Say my name and I disappear. What am I?")
+    if ans_riddle_1=="Silence":
         print("Correct Answer, proceed")
     else :
         print("Wrong Answer")
@@ -56,8 +56,8 @@ elif riddle_num==4:
          print("Wrong Answer")
          #Kill the player
 else:
-    ans_riddle_5=input( "What goes up, but never comes down?")
-    if ans_riddle_5==("age"):
+    ans_riddle_5=input( "When you need me, you throw me away. When you’re done with me, you bring me back. What am I??")
+    if ans_riddle_5==("Anchor"):
          print("Correct answer, proceed")
     else:
          print("Wrong Answer")
@@ -69,21 +69,22 @@ if maze_finished==True:
     print("You have finished the maze")
     time.sleep(1)
     print("A rustic old lock blocks your path")
-    print("You attempt to lockpick the lock however you decide to kick it instead")
+    print("You attempt to lockpick the lock but fail however you decide to kick it instead")
     kick=input("Press K to continue")
     if kick=="K":
          print("You have successfully kicked the lock")
          print ("The door swings open")
 
 #Defining the Enmies
-#Mummies 25hp
-#Swarm of Scorpians 45hp
-#Snake 50hp
+#Mummies 25hp Attack Punch
+#Swarm of Scorpians 45hp Attack Sting
+#Snake 50hp Attack Bite
+
 
 #boss fight
 #have to kill two minions and the boss itself
-#Pharoh's Guards 50hp each
-#Pharoh  100hp
+#Pharoh's Guards 50hp each Attack Punch
+#Pharoh  100hp   Attacl Staff of the Ra
 
 
 
