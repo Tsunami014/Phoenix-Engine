@@ -46,12 +46,19 @@ cluepart2=["What do you bury when it's alive and dig up when it's dead?","What's
 
 
 Solution_orb_text=["The Books rustle jumping around only for the books to splinter in a shower of paper, showing their true form as Orbs with four being coloured and the rest a mystical white." "The Orbs spin circling in a "]
-#End of Basic Locks which can be slightly modified to fit most other Locks
-
-
-#End of eLock
-#end of locks
+#End of locks
 #PUZZLE 1
+import random
+
+# Define some constants
+NUM_DOORS = 4
+NUM_SCARAB_SYMBOLS = 7
+DOOR_SYMBOLS = ["☀️", "🔼", "*", "🌕"]
+SCARAB_SYMBOLS = ["🔶", "🔵", "🟡", "🌕", "🌑", "🌊", "🌀"]
+SCARAB_CENTER_INDEX = 3
+
+
+
 # How the door puzzle works
 #The room is a square with four doors, one on each wall, and each door is marked with a symbol. The walls are decorated with hieroglyphs, and a small pedestal sits in the center of the room with a single object on top. The object is a golden scarab beetle with a series of symbols carved into its back.
 
