@@ -1,37 +1,8 @@
 #Locks,Puzzles and traps are stored in this file so they are easy to read and edit.
-#Boring Digital Lock
-# Define the file to store the combination
 import random
-filename = "combination.txt"
-atempt_count=int(0)
-# Read the initial combination from the file
-with open(filename, "r") as file:
-    combination = file.read().strip()
+import time
+import json
 
-# Ask user if they want to change the combination
-change = input("Would you like to change the combination? (y/n): ")
-
-# If user wants to change the combination, ask for the original and new combinations
-if change.lower() == "y":
-    old_combination = input("Enter the current combination: ")
-    if old_combination == combination:
-        new_combination = int(input("Enter the new combination: "))
-        with open(filename, "w") as file:
-            file.write(new_combination)
-        combination = new_combination
-        print("Combination changed.")
-    else:
-        print("Incorrect combination. Cannot change password.")
-
-# Ask user for the combination
-user_input = input("Enter the combination: ")
-
-# Check if the combination is correct
-if user_input == combination:
-    atempt_count+1
-    print("Access granted!")
-else:
-    print("Access denied.")
 
 #Swap Lock can be modified to Work with Viggo's Music Lock
 #Diffrent Colours Must be lined together. To work 
