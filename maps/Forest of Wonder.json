@@ -50,8 +50,8 @@
           "type": 5
         },
         {
-          "name": "stones",
-          "identifier": "river stones",
+          "name": "rock",
+          "identifier": "rock",
           "description": "sleek and wet pebbles",
           "content": [],
           "type": 5
@@ -71,7 +71,8 @@
       "dark": false,
       "shape": 0,
       "exits": {
-        "5": 1
+        "5": 1,
+        "0": 42
       },
       "objects": [
         {
@@ -162,13 +163,6 @@
           "description": "A monster bent on killing you",
           "content": [],
           "type": 4
-        },
-        {
-          "name": "monster",
-          "identifier": "lizard monster",
-          "description": "A lizard about the same size as you that will kill you.",
-          "content": [],
-          "type": 4
         }
       ]
     },
@@ -188,13 +182,6 @@
           "description": "It has a sword",
           "content": [],
           "type": 4
-        },
-        {
-          "name": "chest",
-          "identifier": "chest",
-          "description": "it has a shield in it!",
-          "content": [],
-          "type": 5
         }
       ]
     },
@@ -216,16 +203,16 @@
           "type": 6
         },
         {
-          "name": "monster",
-          "identifier": "lizard monster",
-          "description": "",
+          "name": "stick",
+          "identifier": "stick",
+          "description": "it's a random twig",
           "content": [],
-          "type": 4
+          "type": 5
         },
         {
           "name": "stick",
           "identifier": "stick",
-          "description": "it's a random twig",
+          "description": "",
           "content": [],
           "type": 5
         }
@@ -249,13 +236,6 @@
           "type": 4
         },
         {
-          "name": "monster",
-          "identifier": "lizard monster",
-          "description": "",
-          "content": [],
-          "type": 4
-        },
-        {
           "name": "bokoblin",
           "identifier": "bokoblin",
           "description": "",
@@ -263,8 +243,8 @@
           "type": 4
         },
         {
-          "name": "boss",
-          "identifier": "lizard monster boss",
+          "name": "miniboss",
+          "identifier": "miniboss",
           "description": "the big baddy",
           "content": [],
           "type": 4
@@ -282,7 +262,7 @@
       "objects": [
         {
           "name": "bokoblin",
-          "identifier": "guard bokoblin",
+          "identifier": "bokoblin",
           "description": "guards Jeremy",
           "content": [],
           "type": 4
@@ -319,13 +299,6 @@
         "0": 9
       },
       "objects": [
-        {
-          "name": "stag",
-          "identifier": "glowing blue stag",
-          "description": "only appears if Jeremy is with you",
-          "content": [],
-          "type": 4
-        },
         {
           "name": "stick",
           "identifier": "stick",
@@ -643,6 +616,68 @@
         {
           "name": "potion",
           "identifier": "health potion",
+          "description": "",
+          "content": [],
+          "type": 5
+        }
+      ]
+    },
+    "42": {
+      "name": "abandoned house",
+      "description": "Outside the abandoned house you can still see the light of a fire once lit.",
+      "dark": false,
+      "shape": 0,
+      "exits": {
+        "4": 5,
+        "2": 44
+      },
+      "objects": []
+    },
+    "44": {
+      "name": "in the abandoned house",
+      "description": "In the house... it is a house. TODO: fill this in.",
+      "dark": false,
+      "shape": 0,
+      "exits": {
+        "6": 42,
+        "2": 46
+      },
+      "objects": [
+        {
+          "name": "bokoblin",
+          "identifier": "bokoblin",
+          "description": "",
+          "content": [],
+          "type": 4
+        },
+        {
+          "name": "bokoblin",
+          "identifier": "bokoblin",
+          "description": "",
+          "content": [],
+          "type": 4
+        }
+      ]
+    },
+    "46": {
+      "name": "deeper in the abandoned house",
+      "description": "",
+      "dark": true,
+      "shape": 0,
+      "exits": {
+        "6": 44
+      },
+      "objects": [
+        {
+          "name": "chest",
+          "identifier": "chest",
+          "description": "",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "banner",
+          "identifier": "a banner saying 'well done'",
           "description": "",
           "content": [],
           "type": 5
