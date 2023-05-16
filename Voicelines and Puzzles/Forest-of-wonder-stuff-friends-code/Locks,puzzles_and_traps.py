@@ -109,13 +109,5 @@ Solution_orb_text=["The Books rustle jumping around only for the books to splint
 
 #It's essential to be careful and deliberate when solving the Mirror Puzzle, as reflecting the beam of light onto the wrong hieroglyph will trigger the trap, releasing poisonous gas into the room.
 
-#PUZZLE 3
-
-#The players enter a dark chamber with a large stone scale in the center. The scale has two plates, each with different hieroglyphs engraved on them. The players notice that the scale is unbalanced, with one plate tilted downwards.
-#The players examine the hieroglyphs on the plates and see that each symbol has a numerical value. They also notice that the scale has markings on each side, indicating the weight needed to balance it.
-
-#The players must quickly calculate which combination of hieroglyphs will balance the scale and place them on the plates. If they choose the wrong combination, the scale will tip, and snakes will fall...
-
-#Once the players correctly balance the scale, the snakes retreat back into the ceiling, and a door opens, leading to the next chamber.
 
 #End of Puzzles for Ancient Egypt
