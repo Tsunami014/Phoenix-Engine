@@ -45,7 +45,7 @@ class SaveForm(FlaskForm):
     back = SubmitField('Return to map selector')
 
 class Selector(FlaskForm):
-    myChoices = ['Forest Of Wonder', 'Tech Labs', 'Ancient Egypt'] #input SPECIFIC MAP NAMES HERE, MUST BE THE EXACT NAME OF THE MAP FILES IN THE 'maps/' FOLDER
+    myChoices = ['Forest Of Wonder', 'Ancient Egypt'] #input SPECIFIC MAP NAMES HERE, MUST BE THE EXACT NAME OF THE MAP FILES IN THE 'maps/' FOLDER
     choice = SelectField(u'Field name', choices = myChoices, validators = [DataRequired()])
     submit = SubmitField('Submit')
     
