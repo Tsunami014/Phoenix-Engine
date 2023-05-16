@@ -1,6 +1,7 @@
 import random
 import time
 sword_in_stone_pullers={"name: Riley","name: Imzafish","name: Max","name: Viggo",}
+#18 Rooms
 #voicelines
 #work in progress
 def Voicelines():
@@ -34,15 +35,15 @@ if riddle_num==1:
         print("Wrong Answer")
         #Kill the player
 elif riddle_num==2:
-    ans_riddle_2=input("What can run but cannot walk")
+    ans_riddle_2=input("I run but never walk, have a mouth but never talk, have a bed but never sleep. What am I?")
     if ans_riddle_2.lower() =="river":
         print("Correct Answer, proceed")
     else:
         print("Wrong Answer")
         #Kill the player
 elif riddle_num==3:
-    ans_riddle_3=input("What goes from Z to A")
-    if ans_riddle_3==("zebra"):
+    ans_riddle_3=input("I am easy to lift, but hard to throw. What am I?")
+    if ans_riddle_3==("A feather"):
         print("Correct Answer, proceed")
     else:
          print("Wrong Answer")
