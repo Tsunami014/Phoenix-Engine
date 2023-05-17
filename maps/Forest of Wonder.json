@@ -1,7 +1,7 @@
 {
   "card": {
     "title": "The forest of wonder",
-    "author": "Max Da GOD!!!",
+    "author": "Max",
     "description": "This is the forest, where you must go and find the legendary pool of the daemons. This mythical location is rumoured to be hidden deep within this forest. You are on a quest to find it and claim the ultimate treasure... The Gaurof Sword."
   },
   "rooms": {
@@ -100,7 +100,7 @@
           "identifier": "a river",
           "description": "You see a river that blocks your path to the north of where you started",
           "content": [],
-          "type": 5
+          "type": 6
         },
         {
           "name": "boulder",
@@ -148,14 +148,14 @@
           "identifier": "spiral staircase",
           "description": "A staircase that leads up into the monster camp",
           "content": [],
-          "type": 6
+          "type": 5
         },
         {
           "name": "post",
           "identifier": "lookout post",
           "description": "Thankfully they don't see you because of the trees",
           "content": [],
-          "type": 6
+          "type": 5
         },
         {
           "name": "bokoblin",
@@ -260,13 +260,6 @@
         "2": 15
       },
       "objects": [
-        {
-          "name": "bokoblin",
-          "identifier": "bokoblin",
-          "description": "guards Jeremy",
-          "content": [],
-          "type": 4
-        },
         {
           "name": "jeremy",
           "identifier": "jeremy",
