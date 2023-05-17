@@ -80,8 +80,8 @@ def chooser():
         name = form.choice.data
         return redirect("main/"+name+'/', 303)
     inf = dumps({games[i].replace('!', ''): gs[i].fc['card'] for i in range(len(games))}, indent=2)
-    inf = inf.replace('{', '').replace('}', '').replace('"', '').replace('\n,\n', '\n\n')
-    return render_template('selector.html', form=form, info=inf)
+    inf = inf.replace('{', '').replace('}', '').replace('"', '').replace('\n  ,\n', '\n\n')
+    return render_template('selector.html', form=form, info=inf.strip(' \t\n,'))
 
 @app.route('/main/<id>/', methods = ['GET', 'POST'])
 def index(id):
