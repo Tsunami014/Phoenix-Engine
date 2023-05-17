@@ -51,6 +51,7 @@ class SaveForm(FlaskForm):
     save = SubmitField('Save')
     load = SubmitField('Load')
     back = SubmitField('Return to map selector')
+    reset = SubmitField('Reset game')
 
 class Selector(FlaskForm):
     choice = SelectField(u'Field name', choices = games, validators = [DataRequired()])
@@ -73,10 +74,19 @@ def load_room_desc(g):
     out += "You can see: " +                     '['+", ".join([i['identifier'] for i in objs if i['type'] == 6])+']' + '\n'
     return out
 
+def reset(gid):
+    global gs
+    gs[gid] = s.Game(games[gid].replace('!', ''))
+
+def checkMTB():
+    global meant2b
+    if meant2b: meant2b = False
+
 # all Flask routes below
 
 @app.route('/', methods = ['GET', 'POST'])
 def chooser():
+    checkMTB()
     form = Selector()
     if form.validate_on_submit():
         name = form.choice.data
@@ -87,7 +97,8 @@ def chooser():
 
 @app.route('/main/<id>/', methods = ['GET', 'POST'])
 def index(id):
-    global gs
+    checkMTB()
+    global gs, meant2b
     g = gs[games.index(id)]
     # you must tell the variable 'form' what you named the class, above
     # 'form' is the variable name used in this template: index.html
@@ -96,14 +107,15 @@ def index(id):
     name = ""
     savemsg = ""
     g.log = []
-    if g.redirect:
-        r = redirect(url_for(g.redirect))
-        meant2b = True
-        return r
     if form.submit.data and form.validate():
         name = g(form.inp.data)
         form.inp.data = ''
-    if (form2.back.data or form2.save.data or form2.load.data) and form2.validate():
+    if g.redirect:
+        r = redirect(url_for(g.redirect))
+        meant2b = True
+        reset(games.index(id))
+        return r
+    if (form2.back.data or form2.save.data or form2.load.data or form2.reset.data) and form2.validate():
         if form2.back.data:
             return redirect(url_for('chooser'))
         elif form2.save.data:
@@ -119,6 +131,9 @@ def index(id):
                     savemsg = 'SUCESSFULLY LOADED FILE!!'
             except Exception as e:
                 savemsg = 'UNABLE TO LOAD FILE BECAUSE: %s' % e
+        elif form2.reset.data:
+            reset(games.index(id))
+            return redirect(url_for('chooser'))
     croom = g.fc['rooms'][str(g.roomnum)]
     gameinfo = ' HP: %s\nMonster health: ' % str(g.hp)
     #What this next line does is it takes every monster and turns it into a dictionary like {'monster': 'hp'}
@@ -137,14 +152,17 @@ def death():
 
 @app.errorhandler(404)
 def page_not_found(e):
+    checkMTB()
     return render_template('404.html', error=e), 404
 
 @app.errorhandler(500)
 def internal_server_error(e):
+    checkMTB()
     return render_template('500.html', error=e), 500
 
 @app.errorhandler(400)
 def internal_server_error(e):
+    checkMTB()
     return render_template('400.html', error=e), 400
 
 # keep this as is
