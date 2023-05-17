@@ -33,6 +33,8 @@ games = ['Forest Of Wonder', 'Forest Of Wonder!', 'Ancient Egypt'] #input SPECIF
 
 gs = [s.Game(i.replace('!', '')) for i in games]
 
+meant2b = False # If you really died, or just put that in the url bar
+
 from random import choice
 messages = ['imagine dying', 'skill issue', 'get dunked on', 'el bozo', 'you have health potions for a reason', '[insert bad game tip here]', '[insert random insult here]', 'unable to access bad jokes at this time', 'when an enemy attacks you, fight them or run away']
 
@@ -96,6 +98,7 @@ def index(id):
     g.log = []
     if g.redirect:
         r = redirect(url_for(g.redirect))
+        meant2b = True
         return r
     if form.submit.data and form.validate():
         name = g(form.inp.data)
@@ -125,7 +128,10 @@ def index(id):
 
 @app.route('/death')
 def death():
-    return render_template('death.html', message=choice(messages), error='You appeared to have fallen during your adventure. Your grave was just a stick, rising into the cold, unforgiving air. No one will be around to mourn for your death.')
+    if meant2b:
+        return render_template('death.html', message=choice(messages), error='You appeared to have fallen during your adventure. Your grave was just a stick, rising into the cold, unforgiving air. No one will be around to mourn for your death.')
+    else:
+        return render_template('404.html', error='You either reloaded the page when you died or redirected yourself here. If your name is HENRY then STOP DOING THIS SILLY!'), 404
 
 # 3 routes to handle errors - they have templates too
 
