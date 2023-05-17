@@ -10,6 +10,8 @@ from flask_wtf import FlaskForm, CSRFProtect
 from wtforms import *
 from wtforms.validators import DataRequired, Length
 
+from json import dumps
+
 import pickle as pkl
 
 app = Flask(__name__)
@@ -25,7 +27,11 @@ bootstrap = Bootstrap5(app)
 csrf = CSRFProtect(app)
 
 import game as s
-g = s.Game()
+
+#The !s are for a unique ID so they won't count as the same, but it still loads as the same FILE by ignoring the !s.
+games = ['Forest Of Wonder', 'Forest Of Wonder!', 'Ancient Egypt'] #input SPECIFIC MAP NAMES HERE, MUST BE THE EXACT NAME OF THE MAP FILES IN THE 'maps/' FOLDER
+
+gs = [s.Game(i.replace('!', '')) for i in games]
 
 from random import choice
 messages = ['imagine dying', 'skill issue', 'get dunked on', 'el bozo', 'you have health potions for a reason', '[insert bad game tip here]', '[insert random insult here]', 'unable to access bad jokes at this time', 'when an enemy attacks you, fight them or run away']
@@ -45,8 +51,7 @@ class SaveForm(FlaskForm):
     back = SubmitField('Return to map selector')
 
 class Selector(FlaskForm):
-    myChoices = ['Forest Of Wonder', 'Ancient Egypt'] #input SPECIFIC MAP NAMES HERE, MUST BE THE EXACT NAME OF THE MAP FILES IN THE 'maps/' FOLDER
-    choice = SelectField(u'Field name', choices = myChoices, validators = [DataRequired()])
+    choice = SelectField(u'Field name', choices = games, validators = [DataRequired()])
     submit = SubmitField('Submit')
     
 def load_room_desc(g):
@@ -70,16 +75,18 @@ def load_room_desc(g):
 
 @app.route('/', methods = ['GET', 'POST'])
 def chooser():
-    global g
     form = Selector()
     if form.validate_on_submit():
         name = form.choice.data
         return redirect("main/"+name+'/', 303)
-    return render_template('selector.html', form=form)
+    inf = dumps({games[i].replace('!', ''): gs[i].fc['card'] for i in range(len(games))}, indent=2)
+    inf = inf.replace('{', '').replace('}', '').replace('"', '').replace('\n,\n', '\n\n')
+    return render_template('selector.html', form=form, info=inf)
 
 @app.route('/main/<id>/', methods = ['GET', 'POST'])
 def index(id):
-    global g
+    global gs
+    g = gs[games.index(id)]
     # you must tell the variable 'form' what you named the class, above
     # 'form' is the variable name used in this template: index.html
     form = Game()

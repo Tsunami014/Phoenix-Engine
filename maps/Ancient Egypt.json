@@ -7,7 +7,7 @@
   "rooms": {
     "1": {
       "name": "elevator",
-      "description": "Old Rictity elevaor ",
+      "description": "Old Rickety elevator ",
       "dark": true,
       "shape": 0,
       "exits": {
@@ -80,8 +80,8 @@
       ]
     },
     "4": {
-      "name": "the chamber secrets",
-      "description": "",
+      "name": "the chamber of secrets",
+      "description": "secrety",
       "dark": false,
       "shape": 0,
       "exits": {
@@ -97,8 +97,8 @@
           "type": 5
         },
         {
-          "name": "boockase",
-          "identifier": "the boockase",
+          "name": "bookcase",
+          "identifier": "the bookcase",
           "description": "",
           "content": [],
           "type": 5
@@ -125,14 +125,14 @@
         {
           "name": "jar",
           "identifier": "brain jar",
-          "description": "",
+          "description": "Eww...",
           "content": [],
           "type": 5
         },
         {
           "name": "jar",
           "identifier": "brain jar",
-          "description": "Eww..",
+          "description": "Eww...",
           "content": [],
           "type": 5
         },
@@ -146,7 +146,7 @@
       ]
     },
     "7": {
-      "name": "spinx",
+      "name": "sphinx",
       "description": "",
       "dark": false,
       "shape": 0,
@@ -189,22 +189,22 @@
       },
       "objects": [
         {
-          "name": "pharoh",
-          "identifier": "the pharoh",
+          "name": "pharaoh",
+          "identifier": "the pharaoh",
           "description": "The Final Boss",
           "content": [],
           "type": 5
         },
         {
           "name": "guard",
-          "identifier": "pharoh guard",
+          "identifier": "pharaoh guard",
           "description": "Destiny to protect the pharaoh.",
           "content": [],
           "type": 5
         },
         {
           "name": "guard",
-          "identifier": "pharoh guard",
+          "identifier": "pharaoh guard",
           "description": "Destiny to protect the pharaoh.",
           "content": [],
           "type": 5
@@ -218,8 +218,8 @@
         },
         {
           "name": "staff",
-          "identifier": "the staff of the pharoh",
-          "description": "",
+          "identifier": "the staff of the pharaoh",
+          "description": "Concreted into the ground",
           "content": [],
           "type": 5
         }
@@ -453,7 +453,7 @@
         {
           "name": "mirror",
           "identifier": "mirror",
-          "description": "God damn you ugly",
+          "description": "God daaamn you ugly",
           "content": [],
           "type": 5
         },
@@ -495,7 +495,7 @@
         {
           "name": "bottle",
           "identifier": "bottle of wine",
-          "description": "Mega Vintage",
+          "description": "Mega Vintage (not rotten)",
           "content": [],
           "type": 5
         },
@@ -663,7 +663,7 @@
         {
           "name": "sword",
           "identifier": "sword in the stone",
-          "description": "Attempt to pull?",
+          "description": "Attempt to pull? (NO, you're not King Arthur dammit)",
           "content": [],
           "type": 5
         }
