@@ -8,7 +8,7 @@
             {"action": "00There is nothing to hit!"},
         "take":
             {"subjobj": 1,
-            "action#takeable": "8self.inventory[self.p['subjobj'][0][0]] = (self.inventory.get(self.p['subjobj'][0][0], [0])[0] + 1, self.fc['rooms'][str(self.roomnum)]['objects'][[i['name'] for i in self.fc['rooms'][str(self.roomnum)]['objects']].index(self.p['subjobj'][0][0])]);6~!!5[0];00You collected it and it is now in your inventory.;3'take'"},
+            "action#takeable": "8self.inventory[self.fc['rooms'][str(self.roomnum)]['objects'][[i['name'] for i in self.fc['rooms'][str(self.roomnum)]['objects']].index(self.p['subjobj'][0][0])]['identifier']] = (self.inventory.get(self.p['subjobj'][0][0], [0])[0] + 1, self.fc['rooms'][str(self.roomnum)]['objects'][[i['name'] for i in self.fc['rooms'][str(self.roomnum)]['objects']].index(self.p['subjobj'][0][0])]);6~!!5[0];00You collected it and it is now in your inventory.;3'take'"},
         "move":
             {"move": 1,
             "action": "12roomnum = 0;3'move'+str(self.roomnum)"},

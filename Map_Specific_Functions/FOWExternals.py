@@ -73,14 +73,15 @@ def finish(self):
 def wait_for_move(self):
     passageways = ''
     for i in room_connections:
-        if i in self.inventory.keys() and room_connections[i][0] == self.roomnum:
+        if i in self.inventory.keys() and room_connections[i][0][0] == self.roomnum:
             passageways += room_connections[i][1] + ';'
     
     autopickups = ''
-    for i in self.fc['rooms'][str(self.roomnum)]['objects']:
-        if GCM(i['name'], 'jeremy', n=1, cutoff=self.cutoff):
-            autopickups += '00Jeremy decides to come with you!;6~!!5%i;11inventory["Jeremy"] = (1, \{"name": "jeremy", "identifier": "jeremy", "type": 4\});' % self.fc['rooms'][str(self.roomnum)]['objects'].index(i)
-            break
+    if self.roomnum == 17:
+        for i in self.fc['rooms'][str(self.roomnum)]['objects']:
+            if i['name'] == 'jeremy':
+                autopickups += '00Jeremy decides to come with you!;6~!!5%i;11inventory["Jeremy"] = (1, \{"name": "jeremy", "identifier": "jeremy", "type": 4\});' % self.fc['rooms'][str(self.roomnum)]['objects'].index(i)
+                break
     
     tot = []
     rm = []

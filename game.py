@@ -210,9 +210,11 @@ class Game:
                     front = ('globals()[\'%s\']' if act[1] == '0' else 'self.%s') % spl[0]
                     try:
                         if act[0] == '1':
-                            exec(front + " = " + (spl[1] if not spl[1] in [str(i) for i in range(len(fourth_numbers))] else fourth_numbers[int(spl[1])]))
+                            c = front + " = " + (spl[1] if not spl[1] in [str(i) for i in range(len(fourth_numbers))] else fourth_numbers[int(spl[1])])
                         else:
-                            exec(front + ["+=", "-=", " = "][int(spl[1][0])] + spl[1][1:])
+                            c = front + ["+=", "-=", " = "][int(spl[1][0])] + spl[1][1:]
+                        c = c.replace('\\', '')
+                        exec(c)
                     except Exception as e:
                         self.log.append(str(e))
                         return
@@ -240,7 +242,10 @@ class Game:
                         if i == '[%s]' % i[1:-1]:
                             c += '[%s]' % delete_numbers[int(i[1:-1])]
                         elif spl[1][0] == '5':
-                            spl.append(spl[1][spl[1].index(' = ')+3:])
+                            if act[0] != '6':
+                                spl.append(spl[1][spl[1].index(' = ')+3:])
+                            else:
+                                c += '[%s]' % i
                         else:
                             c += '["%s"]' % i
                     if act[0] == '4':
@@ -329,14 +334,14 @@ class Game:
                 continue
             nact = listener.event('action:'+self.prev_action, self)
             #If at any time you want to stop the current action from being applied, then in the externals just pop in a "の" anywhere. It will get removed before being executed.
-            done = []
             for i in self.added:
                 try:
                     self.fc['rooms'][str(self.roomnum)]['objects'].remove(i)
                 except:
-                    if i['identifier'] not in done:
+                    if self.inventory[i['identifier']][0] > 1:
+                        self.inventory[i['identifier']] = (self.inventory[i['identifier']][0] - 1, self.inventory[i['identifier']][1])
+                    else:
                         self.inventory.pop(i['identifier'])
-                        done.append(i['identifier'])
             self.added = []
             for i in self.inventory:
                 self.added.extend([self.inventory[i][1] for j in range(self.inventory[i][0])])
