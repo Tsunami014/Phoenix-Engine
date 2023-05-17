@@ -1,14 +1,14 @@
 {
     "throw": {
-        "0subjobj ~ 01;1subjobj ~ sword": "00You threw your sword to hit the monster for {7} HP!;71curmonsters[0].hp = 1{7}",
-        "0subjobj ~ 01;1subjobj ~ stick": [
+        "0subjobj ~ 01;4 ~ sword": "00You threw your sword to hit the monster for {7} HP!;71curmonsters[0].hp = 1{7}",
+        "0subjobj ~ 01;4 ~ stick": [
             "00You threw a stick and it hit the monster for {5} HP!;71curmonsters[0].hp = 1{5}", 
             "00You hit the monster with a stick so hard it broke for {10} HP!!;71curmonsters[0].hp = 1{10};6~!!5[0]"],
         "0subjobj ~ 01": "00You cannot throw that!"
     },
     "hit": {
-        "0subjobj ~ 01;1subjobj ~ sword": "00You swung your sword to hit the monster for {7} HP!;71curmonsters[0].hp = 1{7}",
-        "0subjobj ~ 01;1subjobj ~ stick": [
+        "0subjobj ~ 01;4 ~ sword": "00You swung your sword to hit the monster for {7} HP!;71curmonsters[0].hp = 1{7}",
+        "0subjobj ~ 01;4 ~ stick": [
             "00You hit the monster with a stick for {5} HP!;71curmonsters[0].hp = 1{5}", 
             "00You hit the monster with a stick so hard it broke for {10} HP!!;71curmonsters[0].hp = 1{10};6~!!5[0]"],
         "0subjobj ~ 01": "00You hit the monster for {3} HP!;71curmonsters[0].hp = 1{3}"

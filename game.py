@@ -424,12 +424,25 @@ class Game:
             elif i[0] == '3':
                 try:
                     spl = i[1:].split(' ~ ')
+                    if eval(str(len(t[spl[0]][0][1][spl[1]][0][0])) + ' ' + ['==', '!=', '>=', '<=', '>', '<'][int(spl[1][0])] + ' ' + spl[1][1:]):
+                        pass
+                    else:
+                        return False
+                except Exception as e:
+                    self.log.append('ERROR: %s' % str(e))
+                    return
+            elif i[0] == '4':
+                try:
+                    spl = i[1:].split(' ~ ')
                     for i in spl[1:]:
                         if i == '[%s]' % i[1:-1]:
                             spl.extend(item_groups[int(i[1:-1])])
                             spl.remove(i)
-                    if len(GCM(t[spl[0]][0][1][spl[1]][0][0], spl[1:], 1, cutoff)) != 1:
-                        return False
+                    yes = False
+                    for i in self.inventory:
+                        if len(self.get_closest_matches(i, spl[1:])):
+                            yes = True
+                    if not yes: return False
                 except Exception as e:
                     self.log.append('ERROR: %s' % str(e))
                     return

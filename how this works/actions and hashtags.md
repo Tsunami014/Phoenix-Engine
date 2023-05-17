@@ -114,8 +114,9 @@ first digit:
     1 - matching words
     2 - matching word one level down the tree
     3 - matching number of items one level down the tree
+    4 - matching item name in inventory (matching the words)
 
-next text:
+next text (not for matching in inventory):
     the part of speech ('subjobj', 'action', 'what')
 
 delimenar - " ~ "
