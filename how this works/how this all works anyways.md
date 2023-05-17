@@ -2,48 +2,7 @@
 
 # How our Locks and Puzzles  work
 Locks,Puzzles and traps are stored in this file so they are easy to read and edit.
-# Boring Digital Lock
- Define the file to store the combination
-    import random
-    filename = "combination.txt"
-
- Read the initial combination from the file
-
-    with open(filename, "r") as file:
-        combination = file.read().strip()
-
- Ask user if they want to change the combination
-
-    change = input("Would you like to change the combination? (y/n): ")
-
-If user wants to change the combination, ask for the original and new combinations
-
-    if change == "y":
-        old_combination = input("Enter the current combination: ")
-            if old_combination == combination:
-                new_combination = input("Enter the new combination: ")
-                    with open(filename, "w") as file:
-                        file.write(new_combination)
-                        combination = new_combination
-                        print("Combination changed.")
-    else:
-        print("Incorrect combination. Cannot change password.")
-
-Ask user for the combination
-
-    user_input = input("Enter the combination: ")
-
- Check if the combination is correct
-
-    if user_input == combination:
-        print("Access granted!")
-    else:
-        print("Access denied.")
-
-# Next Lock
-
-# Swap Lock can be modified to Work with Viggo's Music Lock
-# Diffrent Colours Must be lined together. To work
+# Swap Lock is a lock where iffrent Colours Must be lined together, To work they randomly jump around each time you hit the button A and B moves only one that is currently lined up with arrow
 
 # This is code to order a set of Orbs or an Orb lock
  Don't forget this I have it above but will be needed normally; import random

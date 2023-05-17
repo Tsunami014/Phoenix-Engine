@@ -100,7 +100,7 @@
           "identifier": "a river",
           "description": "You see a river that blocks your path to the north of where you started",
           "content": [],
-          "type": 6
+          "type": 5
         },
         {
           "name": "boulder",
@@ -148,14 +148,14 @@
           "identifier": "spiral staircase",
           "description": "A staircase that leads up into the monster camp",
           "content": [],
-          "type": 5
+          "type": 6
         },
         {
           "name": "post",
           "identifier": "lookout post",
           "description": "Thankfully they don't see you because of the trees",
           "content": [],
-          "type": 5
+          "type": 6
         },
         {
           "name": "bokoblin",

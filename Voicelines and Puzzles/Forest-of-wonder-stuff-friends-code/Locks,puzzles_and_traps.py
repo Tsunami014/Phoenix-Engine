@@ -1,43 +1,13 @@
 #Locks,Puzzles and traps are stored in this file so they are easy to read and edit.
-#Boring Digital Lock
-# Define the file to store the combination
 import random
-filename = "combination.txt"
-atempt_count=int(0)
-# Read the initial combination from the file
-with open(filename, "r") as file:
-    combination = file.read().strip()
+import time
+import json
 
-# Ask user if they want to change the combination
-change = input("Would you like to change the combination? (y/n): ")
-
-# If user wants to change the combination, ask for the original and new combinations
-if change.lower() == "y":
-    old_combination = input("Enter the current combination: ")
-    if old_combination == combination:
-        new_combination = int(input("Enter the new combination: "))
-        with open(filename, "w") as file:
-            file.write(new_combination)
-        combination = new_combination
-        print("Combination changed.")
-    else:
-        print("Incorrect combination. Cannot change password.")
-
-# Ask user for the combination
-user_input = input("Enter the combination: ")
-
-# Check if the combination is correct
-if user_input == combination:
-    atempt_count+1
-    print("Access granted!")
-else:
-    print("Access denied.")
 
 #Swap Lock can be modified to Work with Viggo's Music Lock
 #Diffrent Colours Must be lined together. To work 
 colour_options={"red","yellow","blue","green"}
 empty_slots={"Empty,Empty"}
-colour_lock_solution=random.shuffle(colour_options)
 print(colour_options)
 #Make the colour options assinable to a number or a slot
 slot_1=random.choice(colour_options+empty_slots)
@@ -76,25 +46,19 @@ cluepart2=["What do you bury when it's alive and dig up when it's dead?","What's
 
 
 Solution_orb_text=["The Books rustle jumping around only for the books to splinter in a shower of paper, showing their true form as Orbs with four being coloured and the rest a mystical white." "The Orbs spin circling in a "]
-#End of Basic Locks which can be slightly modified to fit most other Locks
-
-#Arcade lock 
-# A lock where you have to select the correct arcade game to solve it.
-game_played = input("There are multiple different arcade machines here... Tetris, Space Invaders, Portal and Pacman. Which do you play? > ")
-el_solved = False
-if game_played in ["Space Invaders", "space invaders", "Space invaders", "space Invaders"]:
-  print("You play Space Invaders and hit the final level... The blood rushes to your head, your arms go tingly, and you drink a convenient bottle of GFuel muck! Then you beat the level. To be honest it was pretty easy.")
-  print("You hear a blipping sound and fanfare comes from the arcade machine which now displays: You have beaten Space Invaders!")
-  print("Maybe you should check the cafeteria...")
-  el_solved = True
-elif game_played in ["Tetris", "tetris", "Portal", "portal", "Pacman", "pacman", "pac man", "Pac Man", "Pac man", "pac Man"]:
-  print("You play " + game_played + ", and, somehow, you beat it! Nothing happened. What a waste of time.")
-else:
-  print("That's NOT A GAME (at least not here)")
-
-#End of eLock
-#end of locks
+#End of locks
 #PUZZLE 1
+import random
+
+# Define some constants
+NUM_DOORS = 4
+NUM_SCARAB_SYMBOLS = 7
+DOOR_SYMBOLS = ["☀️", "🔼", "*", "🌕"]
+SCARAB_SYMBOLS = ["🔶", "🔵", "🟡", "🌕", "🌑", "🌊", "🌀"]
+SCARAB_CENTER_INDEX = 3
+
+
+
 # How the door puzzle works
 #The room is a square with four doors, one on each wall, and each door is marked with a symbol. The walls are decorated with hieroglyphs, and a small pedestal sits in the center of the room with a single object on top. The object is a golden scarab beetle with a series of symbols carved into its back.
 
@@ -152,13 +116,5 @@ else:
 
 #It's essential to be careful and deliberate when solving the Mirror Puzzle, as reflecting the beam of light onto the wrong hieroglyph will trigger the trap, releasing poisonous gas into the room.
 
-#PUZZLE 3
-
-#The players enter a dark chamber with a large stone scale in the center. The scale has two plates, each with different hieroglyphs engraved on them. The players notice that the scale is unbalanced, with one plate tilted downwards.
-#The players examine the hieroglyphs on the plates and see that each symbol has a numerical value. They also notice that the scale has markings on each side, indicating the weight needed to balance it.
-
-#The players must quickly calculate which combination of hieroglyphs will balance the scale and place them on the plates. If they choose the wrong combination, the scale will tip, and snakes will fall...
-
-#Once the players correctly balance the scale, the snakes retreat back into the ceiling, and a door opens, leading to the next chamber.
 
 #End of Puzzles for Ancient Egypt

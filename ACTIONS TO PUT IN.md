@@ -19,17 +19,4 @@
 
 ## if you want something to happen not listed above then write what for below and i'll see to it
 
-
-## Other (Map Specfic)
-
-Viggos Map
-| tag               | name       | Description                | synonyms (if any)         |
-| ----------------- | ---------- | -------------------------- | -----------------------   |
-| #shootgrav        | gravgrab   | Use gravgun to grab stuff  | gg,gravg,gravityg         |
-| #throwgrav        | gravthrow  | Use gravgun to throw stuff | gt,gravt,gravityt         |
-| #shootpurp        | purportal  | Shoot the purple portal    | purpshoot,myportal,purple |
-| #shootyell        | yellportal | Shoot the yellow portal    | yellshoot,dogportal,yellow|
-| #woof             | woof       | Woof at robodoggo          | bark,dogconvo,dogtalk     |
-| #fetch            | fetch      | Play fetch with robodoggo  | playdog,throwbone,cute    |
-
 ## **DO NOT PUT IN 'use'** as the WHOLE POINT of this is to make all different actions so you don't just say 'use' but have to specify what and make it more of a puzzle

@@ -1,85 +1,11 @@
 import random
 import time
-#Map Selection
-input("Please chosse a map")
-#Amour Snapping
+sword_in_stone_pullers={"name: Riley","name: Imzafish","name: Max","name: Viggo",}
+#18 Rooms
+#voicelines
 #work in progress
-def amour_snapping_mechanism(item):
-    helmet_slot_filled=False
-    amour_slot_filled=False
-    charm_slot_filled=False
-   
-    
-    amour_slot=={}
-if "#amour" in item.tag:
-    amour_slot =item
-    amour_slot_filled=True
-elif"#helmet" in item.tag:
-    helmet_slot =item
-    helmet_slot_filled =True
-elif "#charm" in item.tag:
-     charm_slot =item
-     
-import json
-import random
-import time
-from yachalk import chalk
-
-def animateText(text):
-    storyColour=chalk.bg_rgb(16,19,26).yellow
-    for char in text:
-        print(storyColour(char), end='', flush=True)
-        if char == '.':
-          time.sleep(1)
-        else:
-          time.sleep(0.075)
-
-with open("Cooltext.md", "r") as f:
-  gameText = f.read()
-  testwrite = gameText.split('\n\n')
- 
-
-
-#It is chosing map
-animateText(testwrite[0])
-mapchoice=int(input(""))
-if mapchoice==1:
-    animateText(testwrite[1])
-elif mapchoice==2:
-    animateText(testwrite[2])
-elif mapchoice==3:
-    animateText(testwrite[3])
-
-else: 
-         print("Error")
-
-"Choose a map. Type 1 for Ancient Egypt, Type 2 for Tech Labs and Type 3 for Forest. > "
-
-"Loading Map - Ancient Egypt..."
-
-"Loading Map - Tech Labs..."
-
-"Loading Map - Forest..."
 def Voicelines():
   print('Vaules')
-
-def Lives():
-  Livecount=3
-  Death=False
-  if Death==True:
-    choice=random.randint (1,5)
-    if choice==(-1):
-      pass
-
-
-
-
-
-
-
-
-
-
 #Swap lock
 
 #Pushing Boulder
@@ -92,36 +18,86 @@ character_choice=input("Choose a character")
 if character_choice=="hi":
      print("filler")
 
-
+#Quicksand
+#The player needs to press the button and then do a quick reaction test to confirm they made it across.
+if button_pressed==True:
+     print("Get ready")
+     time.sleep(1)
+    
 #Spinx code
 print("Welcome Mortal solve this riddle to continue or DIE")
 riddle_num=random.int(1,5)
 if riddle_num==1:
-     ans_riddle_1=input("Tutenkhamun's mother has 4 sons, North, East, West and one other, who is the fourth")
-     if ans_riddle_1=="Tutenkhamun":
-                print("Correct Answer, proceed")
+    ans_riddle_1=input("Say my name and I disappear. What am I?")
+    if ans_riddle_1=="Silence":
+        print("Correct Answer, proceed")
+    else :
+        print("Wrong Answer")
+        #Kill the player
 elif riddle_num==2:
-    ans_riddle_2=input("What can run but cannot walk")
+    ans_riddle_2=input("I run but never walk, have a mouth but never talk, have a bed but never sleep. What am I?")
     if ans_riddle_2.lower() =="river":
         print("Correct Answer, proceed")
     else:
         print("Wrong Answer")
+        #Kill the player
 elif riddle_num==3:
-    ans_riddle_3=input("What goes from Z to A")
-    if ans_riddle_3==(""):
-        print("error")
+    ans_riddle_3=input("I am easy to lift, but hard to throw. What am I?")
+    if ans_riddle_3==("A feather"):
+        print("Correct Answer, proceed")
+    else:
+         print("Wrong Answer")
+         #Kill the player
 elif riddle_num==4:
-    print("hi")
+    ans_riddle_5=input("The more you take, the more you leave behind. What am I?")
+    if ans_riddle_5=="footsteps":
+        print("Correct answer, proceed")
+    else:
+         print("Wrong Answer")
+         #Kill the player
 else:
-    ans_riddle_5=input( "What goes up, but never comes down?")
-    if ans_riddle_5==(""):
+    ans_riddle_5=input( "When you need me, you throw me away. When you’re done with me, you bring me back. What am I??")
+    if ans_riddle_5==("Anchor"):
          print("Correct answer, proceed")
     else:
          print("Wrong Answer")
+        #Kill the player
 
-#The more you take, the more you leave behind. What am I?
+#funny lock
+maze_finished=False
+if maze_finished==True:
+    print("You have finished the maze")
+    time.sleep(1)
+    print("A rustic old lock blocks your path")
+    print("You attempt to lockpick the lock but fail however you decide to kick it instead")
+    kick=input("Press K to continue")
+    if kick=="K":
+         print("You have successfully kicked the lock")
+         print ("The door swings open")
 
-#answer Footsteps
- #What goes up, but never comes down?
+#Defining the Enmies
+#Mummies 25hp Attack Punch
+#Swarm of Scorpians 45hp Attack Sting
+#Snake 50hp Attack Bite
 
-#A: Age
+
+#boss fight
+#have to kill two minions and the boss itself
+#Pharoh's Guards 50hp each Attack Punch
+#Pharoh  100hp   Attacl Staff of the Ra
+
+
+
+#Sword in Stone 
+Can_pull=True
+chance_to_pull=random.randint(1,4)
+if chance_to_pull==4:
+     print("You are the almighty and have pulled the sword in the stone")
+     name=input("You shall be recorded what is your name?(Please note your name will be recorded in the game)")
+     sword_in_stone_pullers.update ({'name': name})
+else:
+     print("You have not pulled the sword in the stone")
+     print("You cannot attempt to pull the sword in the stone again until you restart the game")
+     Can_pull=False
+     
+#End of Map speficfic functions
