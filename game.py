@@ -20,8 +20,8 @@ from difflib import get_close_matches as GCM # this is the get closest matches f
 # this is used so you can type spelling errors and it will pick it up as one of the actions in the list.
 # it still has false positives and negatives, so it is not perfect, but it is darned good enough.
 
-import other.externals # this, even though it is not used, is used (see below)
-import other.connector as c # this imports the connector
+import Map_Specific_Functions.FOWExternals # this, even though it is not used, is used (see below)
+import Map_Specific_Functions.connector as c # this imports the connector
 #see so how this works is the others.externals contains some functions that bind itself to other.connector
 #so when we import other.connector, it has those functions from other.externals in it
 #don't worry, its very confusing
@@ -386,10 +386,10 @@ class Game:
 
         If you want the hash codes it is in how this works/actions and hashtags.md
         """
-        for i in code.split(';'):
-            if i[0] == '0':
+        for s in code.split(';'):
+            if s[0] == '0':
                 try:
-                    spl = i[1:].split(' ~ ')
+                    spl = s[1:].split(' ~ ')
                     if eval(str(len(t[spl[0]])) + ' ' + ['==', '!=', '>=', '<=', '>', '<'][int(spl[1][0])] + ' ' + spl[1][1:]):
                         pass
                     else:
@@ -397,9 +397,9 @@ class Game:
                 except Exception as e:
                     self.log.append('ERROR: %s' % str(e))
                     return
-            elif i[0] == '1':
+            elif s[0] == '1':
                 try:
-                    spl = i[1:].split(' ~ ')
+                    spl = s[1:].split(' ~ ')
                     for i in spl[1:]:
                         if i == '[%s]' % i[1:-1]:
                             spl.extend(item_groups[int(i[1:-1])])
@@ -409,9 +409,9 @@ class Game:
                 except Exception as e:
                     self.log.append('ERROR: %s' % str(e))
                     return
-            elif i[0] == '2':
+            elif s[0] == '2':
                 try:
-                    spl = i[1:].split(' ~ ')
+                    spl = s[1:].split(' ~ ')
                     for i in spl[1:]:
                         if i == '[%s]' % i[1:-1]:
                             spl.extend(item_groups[int(i[1:-1])])
@@ -421,9 +421,9 @@ class Game:
                 except Exception as e:
                     self.log.append('ERROR: %s' % str(e))
                     return
-            elif i[0] == '3':
+            elif s[0] == '3':
                 try:
-                    spl = i[1:].split(' ~ ')
+                    spl = s[1:].split(' ~ ')
                     if eval(str(len(t[spl[0]][0][1][spl[1]][0][0])) + ' ' + ['==', '!=', '>=', '<=', '>', '<'][int(spl[1][0])] + ' ' + spl[1][1:]):
                         pass
                     else:
@@ -431,9 +431,9 @@ class Game:
                 except Exception as e:
                     self.log.append('ERROR: %s' % str(e))
                     return
-            elif i[0] == '4':
+            elif s[0] == '4':
                 try:
-                    spl = i[1:].split(' ~ ')
+                    spl = s[1:].split(' ~ ')
                     for i in spl[1:]:
                         if i == '[%s]' % i[1:-1]:
                             spl.extend(item_groups[int(i[1:-1])])

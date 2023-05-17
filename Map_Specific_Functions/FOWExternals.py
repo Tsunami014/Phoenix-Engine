@@ -1,7 +1,7 @@
 try:
     import connector as c
 except ModuleNotFoundError:
-    import other.connector as c
+    import Map_Specific_Functions.connector as c
 from difflib import get_close_matches as GCM
 
 from json import load

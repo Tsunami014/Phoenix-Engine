@@ -1,0 +1,676 @@
+{
+  "card": {
+    "title": "Ancient Egypt",
+    "author": "Riley Dowse",
+    "description": "The old wooden rickety elevator creaks down echoing ,before it creaks to a stop and you're greeted by hieroglyphics which leads to \u2026"
+  },
+  "rooms": {
+    "1": {
+      "name": "elevator",
+      "description": "Old Rictity elevaor ",
+      "dark": true,
+      "shape": 0,
+      "exits": {
+        "2": 2
+      },
+      "objects": [
+        {
+          "name": "plaque",
+          "identifier": " secret plaque",
+          "description": "It Reads \"This Game was designed and created by Max Worrall, Riley Dowse, Viggo Drygajlo and Henry Pankhurst  ",
+          "content": [],
+          "type": 5
+        }
+      ]
+    },
+    "2": {
+      "name": "hallway",
+      "description": "",
+      "dark": false,
+      "shape": 0,
+      "exits": {
+        "6": 1,
+        "0": 4,
+        "1": 6,
+        "3": 7
+      },
+      "objects": [
+        {
+          "name": "torch",
+          "identifier": "torch in holder",
+          "description": "It seems to be stuck..",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "torch",
+          "identifier": "torch in holder",
+          "description": "It seems to be stuck..",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "torch",
+          "identifier": "torch in holder",
+          "description": "It seems to be stuck..",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "torch",
+          "identifier": "torch in holder",
+          "description": "It seems to be stuck..",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "torch",
+          "identifier": "torch in holder",
+          "description": "It seems to be stuck..",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "torch",
+          "identifier": "torch in holder",
+          "description": "It seems to be stuck..",
+          "content": [],
+          "type": 5
+        }
+      ]
+    },
+    "4": {
+      "name": "the chamber secrets",
+      "description": "",
+      "dark": false,
+      "shape": 0,
+      "exits": {
+        "2": 32,
+        "0": 15
+      },
+      "objects": [
+        {
+          "name": "fountain",
+          "identifier": "the fountain of fate",
+          "description": "",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "boockase",
+          "identifier": "the boockase",
+          "description": "",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "books",
+          "identifier": "the books of knowledge",
+          "description": "",
+          "content": [],
+          "type": 5
+        }
+      ]
+    },
+    "6": {
+      "name": "mummification room",
+      "description": "",
+      "dark": true,
+      "shape": 0,
+      "exits": {
+        "6": 2,
+        "2": 13
+      },
+      "objects": [
+        {
+          "name": "jar",
+          "identifier": "brain jar",
+          "description": "",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "jar",
+          "identifier": "brain jar",
+          "description": "Eww..",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "tools",
+          "identifier": "mummification tools",
+          "description": "Scalpels and other weird instruments.",
+          "content": [],
+          "type": 5
+        }
+      ]
+    },
+    "7": {
+      "name": "spinx",
+      "description": "",
+      "dark": false,
+      "shape": 0,
+      "exits": {
+        "6": 2,
+        "4": 0
+      },
+      "objects": [
+        {
+          "name": "statue",
+          "identifier": "statue of sphinx",
+          "description": "Ask a riddle to continue",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "cannon",
+          "identifier": "cannon ",
+          "description": "Don't you pull a Napoleon",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "matches",
+          "identifier": "matches",
+          "description": "You better not...",
+          "content": [],
+          "type": 5
+        }
+      ]
+    },
+    "10": {
+      "name": "pharaoh's chamber",
+      "description": "",
+      "dark": false,
+      "shape": 0,
+      "exits": {
+        "4": 26,
+        "2": 38
+      },
+      "objects": [
+        {
+          "name": "pharoh",
+          "identifier": "the pharoh",
+          "description": "The Final Boss",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "guard",
+          "identifier": "pharoh guard",
+          "description": "Destiny to protect the pharaoh.",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "guard",
+          "identifier": "pharoh guard",
+          "description": "Destiny to protect the pharaoh.",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "sarcophagus",
+          "identifier": "the pharaoh's sarcophagus ",
+          "description": "Raised on a platform ",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "staff",
+          "identifier": "the staff of the pharoh",
+          "description": "",
+          "content": [],
+          "type": 5
+        }
+      ]
+    },
+    "11": {
+      "name": "outdoors",
+      "description": "",
+      "dark": false,
+      "shape": 0,
+      "exits": {
+        "4": 15,
+        "3": 38
+      },
+      "objects": []
+    },
+    "12": {
+      "name": "arrow traps",
+      "description": "",
+      "dark": false,
+      "shape": 0,
+      "exits": {
+        "6": 7,
+        "2": 19
+      },
+      "objects": [
+        {
+          "name": "plates",
+          "identifier": "pressure plates",
+          "description": "Not rigged",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "plates",
+          "identifier": "pressure plates",
+          "description": "Rigged",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "dispensers",
+          "identifier": "dispensers",
+          "description": "Filled with Poisonous Arrows",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "torch",
+          "identifier": "torch in holder",
+          "description": "",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "torch",
+          "identifier": "torch in holder",
+          "description": "",
+          "content": [],
+          "type": 5
+        }
+      ]
+    },
+    "13": {
+      "name": "scorpion room",
+      "description": "",
+      "dark": true,
+      "shape": 0,
+      "exits": {
+        "6": 6,
+        "2": 35
+      },
+      "objects": [
+        {
+          "name": "swarm",
+          "identifier": "swarm of scorpions",
+          "description": "Kill them",
+          "content": [],
+          "type": 5
+        }
+      ]
+    },
+    "15": {
+      "name": "puzzle of doors",
+      "description": "",
+      "dark": false,
+      "shape": 0,
+      "exits": {
+        "2": 11,
+        "5": 4
+      },
+      "objects": [
+        {
+          "name": "door",
+          "identifier": "door 1",
+          "description": "",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "door",
+          "identifier": "door 2",
+          "description": "",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "door",
+          "identifier": "door 3",
+          "description": "",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "door",
+          "identifier": "door 4",
+          "description": "",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "trapdoor",
+          "identifier": "trapdoor ",
+          "description": "You just came through this one. (It's not locked...)",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "scarab",
+          "identifier": "golden scarab",
+          "description": "The symbols on the scarab beetle are arranged in a circular pattern, with one symbol at the center and six others arranged around it.",
+          "content": [],
+          "type": 5
+        }
+      ]
+    },
+    "17": {
+      "name": "maze",
+      "description": "",
+      "dark": true,
+      "shape": 0,
+      "exits": {
+        "2": 10,
+        "6": 32
+      },
+      "objects": [
+        {
+          "name": "key",
+          "identifier": "a mysterious key..",
+          "description": "",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "snake",
+          "identifier": "snake",
+          "description": "Sneki Snek",
+          "content": [],
+          "type": 5
+        }
+      ]
+    },
+    "18": {
+      "name": "tunnel of scarabs",
+      "description": "",
+      "dark": false,
+      "shape": 0,
+      "exits": {},
+      "objects": [
+        {
+          "name": "trap",
+          "identifier": "spike trap",
+          "description": "JUMP!!",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "millions",
+          "identifier": "millions of scarabs",
+          "description": "RUN!!!!",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "torch",
+          "identifier": "torch in holder",
+          "description": "",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "torch",
+          "identifier": "torch in holder",
+          "description": "",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "torch",
+          "identifier": "torch in holder",
+          "description": "",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "axe",
+          "identifier": "swinging axe",
+          "description": "Chop!",
+          "content": [],
+          "type": 5
+        }
+      ]
+    },
+    "19": {
+      "name": "mirror puzzle",
+      "description": "",
+      "dark": false,
+      "shape": 0,
+      "exits": {
+        "2": 22,
+        "7": 35
+      },
+      "objects": [
+        {
+          "name": "crystal",
+          "identifier": "crystal ",
+          "description": "Reflecting Mystical Light",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "mirror",
+          "identifier": "mirror",
+          "description": "God damn you ugly",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "lever",
+          "identifier": "lever",
+          "description": "Moves Mirror",
+          "content": [],
+          "type": 5
+        }
+      ]
+    },
+    "22": {
+      "name": "lock",
+      "description": "",
+      "dark": false,
+      "shape": 0,
+      "exits": {
+        "2": 10
+      },
+      "objects": []
+    },
+    "26": {
+      "name": "servents cellar",
+      "description": "",
+      "dark": false,
+      "shape": 0,
+      "exits": {
+        "0": 10
+      },
+      "objects": [
+        {
+          "name": "mummies",
+          "identifier": "mummies",
+          "description": "GULP...",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "bottle",
+          "identifier": "bottle of wine",
+          "description": "Mega Vintage",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "servants",
+          "identifier": "servants tools",
+          "description": "",
+          "content": [],
+          "type": 5
+        }
+      ]
+    },
+    "31": {
+      "name": "quick sand",
+      "description": "",
+      "dark": false,
+      "shape": 0,
+      "exits": {
+        "2": 18
+      },
+      "objects": [
+        {
+          "name": "pit",
+          "identifier": "pit of quick sand",
+          "description": "",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "pathway",
+          "identifier": "ruin pathway",
+          "description": "Magical",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "torch",
+          "identifier": "torch in holder",
+          "description": "",
+          "content": [],
+          "type": 5
+        }
+      ]
+    },
+    "32": {
+      "name": "boulder blockage",
+      "description": "",
+      "dark": false,
+      "shape": 0,
+      "exits": {
+        "6": 4,
+        "2": 17
+      },
+      "objects": [
+        {
+          "name": "boulder",
+          "identifier": "boulder",
+          "description": "",
+          "content": [],
+          "type": 5
+        }
+      ]
+    },
+    "35": {
+      "name": "room of offering",
+      "description": "",
+      "dark": false,
+      "shape": 0,
+      "exits": {
+        "6": 13,
+        "4": 19
+      },
+      "objects": [
+        {
+          "name": "altar",
+          "identifier": "altar",
+          "description": "It's covered in red blood....(For YOUNGER KIDS; its actually ketchup)",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "food",
+          "identifier": "food (figs and fruit)",
+          "description": "YUM!! A little mouldy",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "knife",
+          "identifier": "ceremony knife",
+          "description": "Hieroglyphs are carved in its hilt.",
+          "content": [],
+          "type": 5
+        }
+      ]
+    },
+    "38": {
+      "name": "treasure room",
+      "description": "",
+      "dark": false,
+      "shape": 0,
+      "exits": {
+        "5": 10,
+        "2": 42
+      },
+      "objects": [
+        {
+          "name": "jewel",
+          "identifier": "jewel",
+          "description": "Shiny",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "gold",
+          "identifier": "gold",
+          "description": "Shiny!",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "diamonds",
+          "identifier": "diamonds",
+          "description": "",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "diamonds",
+          "identifier": "diamonds",
+          "description": "",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "rubies",
+          "identifier": "rubies",
+          "description": "",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "sapphires",
+          "identifier": "sapphires",
+          "description": "",
+          "content": [],
+          "type": 5
+        },
+        {
+          "name": "trinkets",
+          "identifier": "trinkets of the pharaoh",
+          "description": "",
+          "content": [],
+          "type": 5
+        }
+      ]
+    },
+    "42": {
+      "name": "sword in the stone",
+      "description": "",
+      "dark": false,
+      "shape": 0,
+      "exits": {},
+      "objects": [
+        {
+          "name": "sword",
+          "identifier": "sword in the stone",
+          "description": "Attempt to pull?",
+          "content": [],
+          "type": 5
+        }
+      ]
+    }
+  },
+  "actions": {},
+  "startRoom": 0,
+  "endRoom": 11
+}

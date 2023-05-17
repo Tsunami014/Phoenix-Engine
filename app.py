@@ -28,7 +28,7 @@ import game as s
 g = s.Game()
 
 from random import choice
-messages = ['imagine dying', 'skill issue', 'get dunked on', 'el bozo', 'you have health potions for a reason', '[insert bad game tip here]', '[insert random insult here]']
+messages = ['imagine dying', 'skill issue', 'get dunked on', 'el bozo', 'you have health potions for a reason', '[insert bad game tip here]', '[insert random insult here]', 'unable to access bad jokes at this time', 'when an enemy attacks you, fight them or run away']
 
 # with Flask-WTF, each web form is represented by a class
 # "Game" can change; "(FlaskForm)" cannot
@@ -74,7 +74,6 @@ def chooser():
     form = Selector()
     if form.validate_on_submit():
         name = form.choice.data
-        g.redirect = ''
         return redirect("main/"+name+'/', 303)
     return render_template('selector.html', form=form)
 
@@ -89,8 +88,8 @@ def index(id):
     savemsg = ""
     g.log = []
     if g.redirect:
-            r = redirect(url_for(g.redirect))
-            return r
+        r = redirect(url_for(g.redirect))
+        return r
     if form.submit.data and form.validate():
         name = g(form.inp.data)
         form.inp.data = ''

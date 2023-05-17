@@ -3,8 +3,8 @@ import unittest
 import game as s
 from json import loads
 import re, ast
-import other.externals as ext
-import other.connector as c
+import Map_Specific_Functions.FOWExternals as ext
+import Map_Specific_Functions.connector as c
 
 """
 Action code:
