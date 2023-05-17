@@ -17,7 +17,7 @@ monsters = {'bokoblin': [0, 25], 'miniboss': [0, 30], 'lizard monster boss': [1,
 powers = [(10, {6:['tried to hit you... But it missed!', '... tried to hit you but you blocked!', 'hit your shield!'], 11: 'hit you for {5} HP!;71hp = 1{5}'}), (10, {4:['tried to hit you... But it missed!', '... tried to hit you but you blocked!', 'hit your shield!'], 7: 'hit you for {4} HP!;71hp = 1{4}', 11: 'hit you for {7} HP!!;71hp = 1{7}'})]
 
 #{'name of object': [(roomnum, 'codewhenitactivates'), etc.], etc.}
-room_connections = {'key': [(23, '6~!!5[0];5~!!426!!"6";00Your key opened the door of the house!')]}
+room_connections = {'key': [(23, '6~!!5(key);5~!!426!!"6";00Your key opened the door of the house!')]}
 
 with open('important stuff/battles.json') as f:
     battle = load(f)
@@ -67,15 +67,14 @@ def finish(self):
     if not self.curmonsters and self.fight:
         self.fight = False
         return '00YOU WON THE FIGHT!!!;4~!!4~'
-    return ''
-
-@listener.wait(types=['move']) # check each move to see if it sparks a fight
-def wait_for_move(self):
     passageways = ''
     for i in room_connections:
         if i in self.inventory.keys() and room_connections[i][0][0] == self.roomnum:
-            passageways += room_connections[i][1] + ';'
-    
+            passageways += room_connections[i][0][1] + ';'
+    return passageways
+
+@listener.wait(types=['move']) # check each move to see if it sparks a fight
+def wait_for_move(self):
     autopickups = ''
     if self.roomnum == 17:
         for i in self.fc['rooms'][str(self.roomnum)]['objects']:

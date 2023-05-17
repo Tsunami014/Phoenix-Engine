@@ -241,6 +241,8 @@ class Game:
                     if i != '~':
                         if i == '[%s]' % i[1:-1]:
                             c += '[%s]' % delete_numbers[int(i[1:-1])]
+                        elif i == '(%s)' % i[1:-1]:
+                            c += '[%s]' % "[i['name'] for i in self.fc['rooms'][str(self.roomnum)]['objects']].index('%s')" % i[1:-1]
                         elif spl[1][0] == '5':
                             if act[0] != '6':
                                 spl.append(spl[1][spl[1].index(' = ')+3:])
