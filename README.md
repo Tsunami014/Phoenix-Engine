@@ -17,28 +17,28 @@
 - Run app.py
 - Wait for it to load (some computers load faster than others)
 - Once it says `debugger active! website avaliable on localhost:5000` or whatever then go to the website it says.
-- If it doesn't work then check you haveall of these:
+- If it doesn't work then check you have all of these:
 
     flask
     flask_bootstrap
     flask_wtf
     wtforms
     bootstrap-flask
-    nltk 
-    
-- if that still does not work try going `python -m spacy download en_core_web_sm` ***THIS IS VERY IMPORTANT***
+    nltk
+
+- if that still does not work try typing in terminal `python -m spacy download en_core_web_sm` ***THIS IS VERY IMPORTANT***
+
 - Select a map
 - Input your action into the box and press enter
-- You can do any action you want!*
+- You can do any action you want! Try picking up stuff or moving and hitting monsters.
 - If at any time you want to save/load your adventure choose your save slot and press save/load
 - If you want to repeat an action you can press the back arrow and it will go back to your previous action *please note* it will show previous and possibly incorrect information if you go back to the previous page but when you press enter to submit the action it will correct it
 - Certain Functions might be spefic so rember to read all of the instructions
 - Don't get frustrated if you can't complete a puzzle don't worry as most of the time you will get it with a bit of patience.
 - If you get into a battle than you need to read all of the stats of your enemies, but a reminder that you cannot leave the room during a battle
-- You can put stuff on you! (like armor and trinkets and stuff)
 - this is a good game
-*Most things
-(This is not in order)
+
+## The rest of all this are some depricated to-do lists.
 
 ## To do list
 
@@ -60,22 +60,6 @@
 | Replit Units          | Done!!!!    |ALL     | To know how to do da codes                       |
 |finish how it works.md | IN progress |All     | Explain stuff                                    |
 |amour snapping         | In progress | Riley  |                                                  |
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Actions to put in
 
