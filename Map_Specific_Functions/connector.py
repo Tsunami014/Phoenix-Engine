@@ -1,7 +1,7 @@
 #This file is meant to be for using in all of your external files. Make a file (like locks.py) and use this structure by importing the file.
 #Full documentation on how to use later in the file.
 
-noms = {'FOWExternals': '', 'Ancient_Egypt': '2'}
+noms = {'FOWExternals': '',}
 
 class EventListener(object):
     def __init__(self, name):

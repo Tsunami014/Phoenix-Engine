@@ -29,7 +29,7 @@ csrf = CSRFProtect(app)
 import game as s
 
 #The !s are for a unique ID so they won't count as the same, but it still loads as the same FILE by ignoring the !s.
-games = ['Forest Of Wonder', 'Forest Of Wonder!', 'Ancient Egypt'] #input SPECIFIC MAP NAMES HERE, MUST BE THE EXACT NAME OF THE MAP FILES IN THE 'maps/' FOLDER
+games = ['Forest Of Wonder', 'Forest Of Wonder!', ] #input SPECIFIC MAP NAMES HERE, MUST BE THE EXACT NAME OF THE MAP FILES IN THE 'maps/' FOLDER
 
 gs = [s.Game(i.replace('!', '')) for i in games]
 
