@@ -75,7 +75,6 @@ def finish(self):
 
 @listener.wait(types=['move']) # check each move to see if it sparks a fight
 def wait_for_move(self):
-    print('moved in the forest of wonder!')
     autopickups = ''
     if self.roomnum == 17:
         for i in self.fc['rooms'][str(self.roomnum)]['objects']:

@@ -197,7 +197,6 @@ def finish2(self):
 
 @listener.wait(types=['move']) # check each move to see if it sparks a fight
 def wait_for_move2(self):
-    print('moved in ancient egypt!')
     tot = []
     rm = []
     for i in self.fc['rooms'][str(self.roomnum)]['objects']:
