@@ -72,7 +72,7 @@ with 4/5/6:
         5 = objects
     fourth value:
         with exits/objects:
-            key of the exit/object ('~' = all, '|' = delimener between multiple, [**] = delete_numbers[**])
+            key of the exit/object ('~' = all, '|' = delimener between multiple, [**] = delete_numbers[**], (**) = object in the current room with name **)
     delimenar: '!!'
     fourth/fifth value with 5:
         what to set the value to (must be a python object)

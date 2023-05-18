@@ -32,7 +32,10 @@
         font-weight: 20;
         font-size: 2.5rem;
         color: #cccccc;
-       }
+      }
+      p {
+        color: floralwhite
+      }
     </style>
   </head>
   <body>
@@ -43,6 +46,7 @@
           <p>
             <a href="{{ url_for('chooser') }}"><bold>{{ message }}</bold> </a>
           </p>
+          <p>{{ error }}</p>
         </div>
       </div>
     </div>

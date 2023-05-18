@@ -2,6 +2,17 @@
 #Full documentation on how to use later in the file.
 
 class EventListener(object):
+    def __init__(self, name):
+        if name == 'FOWExternals':
+            try:
+                import FOWExternals
+            except:
+                import Map_Specific_Functions.FOWExternals
+        elif name == 'Ancient Egypt':
+            try:
+                import Ancient_Egypt
+            except:
+                import Map_Specific_Functions.Ancient_Egypt
     all_funcs = {}
     def wait(self, types):
         def main(func):
