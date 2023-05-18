@@ -77,13 +77,11 @@ if maze_finished==True:
 
 #Defining the Enmies
 #Mummies 25hp Attack Punch
-#Swarm of Scorpians 45hp Attack Sting
 #Snake 50hp Attack Bite
 
 
 #boss fight
 #have to kill two minions and the boss itself
-#Pharoh's Guards 50hp each Attack Punch
 #Pharoh  100hp   Attacl Staff of the Ra
 
 
@@ -124,7 +122,7 @@ from random import randint, choice
 listener = c.EventListener()
 
 #monsters dict in format: {name: [power (see below list powers for the number), hp]}
-monsters = {'bokoblin': [0, 25], 'miniboss': [0, 30], 'lizard monster boss': [1, 40]} # change this
+monsters = {'Snake': [0, 25], 'Mummy': [0, 30], 'Pharoh': [1, 40]} # change this
 # and this v
 #[(randeom number between 1 and this number, {if rolled this or below: 'code to execute', etc.})]
 powers = [(10, {6:['tried to hit you... But it missed!', '... tried to hit you but you blocked!', 'hit your shield!'], 11: 'hit you for {5} HP!;71hp = 1{5}'}), (10, {4:['tried to hit you... But it missed!', '... tried to hit you but you blocked!', 'hit your shield!'], 7: 'hit you for {4} HP!;71hp = 1{4}', 11: 'hit you for {7} HP!!;71hp = 1{7}'})]
