@@ -110,6 +110,17 @@ else:
 #IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #WHATEVER YOU DO TO THIS BELOW CODE PLEASE TELL ME
 
+"""
+If you want to lock a room:
+1. make it one way leading OUT of the room (or not there if you want it to be a one way lock)
+2. make an object WITH A UNIQUE NAME as the key to unlock the lock and pass
+3. add in the list room_connections this:
+    {previousStuffInroom_connections, 'uniqueNameOfItem': [(roomnumOfRoomYouNeedToBeInToUnlockThePassageSeeBelow, 'codeSeeBelow'), etc.IfNececary]}
+    The code is; (copy-paste) "6~!!5($$OBJECT NAME$$);5~!!4$$DIRECTION$$!!$$ROOM TO NAME$$;00Your key opened the door of the house!
+    If you ever need a room number, ctrl+f the room name in your map json file (the clean one)
+    If you ever need a direction, Look in the game.py file. It will ahve a list of directions on line 54. Starting from 0, the number of the direction should be there. Count them up.
+"""
+
 #Forrst of Wonder externals
 try:
     import connector as c
