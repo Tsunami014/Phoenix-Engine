@@ -75,19 +75,6 @@ if maze_finished==True:
          print("You have successfully kicked the lock")
          print ("The door swings open")
 
-#Defining the Enmies
-#Mummies 25hp Attack Punch
-#Swarm of Scorpians 45hp Attack Sting
-#Snake 50hp Attack Bite
-
-
-#boss fight
-#have to kill two minions and the boss itself
-#Pharoh's Guards 50hp each Attack Punch
-#Pharoh  100hp   Attacl Staff of the Ra
-
-
-
 #Sword in Stone 
 Can_pull=True
 chance_to_pull=random.randint(1,4)
@@ -130,13 +117,23 @@ from difflib import get_close_matches as GCM
 
 from json import load
 from random import randint, choice
-print('ANCIENT EGYPT EXTERNALS!!!!')
 #If at any time you want to stop the current action from being applied, then in the externals just pop in a "の" anywhere. It will get removed before being executed.
 
 listener = c.EventListener('Ancient_Egypt')
 
+#Defining the Enmies
+#Mummies 25hp Attack Punch
+#Swarm of Scorpians 45hp Attack Sting
+#Snake 50hp Attack Bite
+
+
+#boss fight
+#have to kill two minions and the boss itself
+#Pharoh's Guards 50hp each Attack Punch
+#Pharoh  100hp   Attacl Staff of the Ra
+
 #monsters dict in format: {name: [power (see below list powers for the number), hp]}
-monsters = {'bokoblin': [0, 25], 'miniboss': [0, 30], 'lizard monster boss': [1, 40]}
+monsters = {'mummies': [0, 25], 'snake': [0, 30], 'lizard monster boss': [1, 40]}
 powers = [(10, {6:['tried to hit you... But it missed!', '... tried to hit you but you blocked!', 'hit your shield!'], 11: 'hit you for {5} HP!;71hp = 1{5}'}), (10, {4:['tried to hit you... But it missed!', '... tried to hit you but you blocked!', 'hit your shield!'], 7: 'hit you for {4} HP!;71hp = 1{4}', 11: 'hit you for {7} HP!!;71hp = 1{7}'})]
 
 #{'name of object': [(roomnum, 'codewhenitactivates'), etc.], etc.}
@@ -144,7 +141,7 @@ room_connections = {'key': [(23, '6~!!5(key);5~!!46!!26;00Your key opened the do
 
 with open('important stuff/battles.json') as f:
     battle = load(f)
-
+    
 class Monster:
     def __init__(self, name: str, power: int=-1):
         self.name = name
@@ -172,8 +169,10 @@ class Monster:
                 return '00The %s ' % self.name + end.format(*[str(randint(1, i+1)) for i in range(1, 12)]) # so you can go 'it hit you for {5} HP!' and that {5} will be replaced with a random number from 1 to 5
         return '00CODING ERROR: %s' % str(self)
 
+#PLEASE NOTE put a 2 after the name of a function bcos identity reasons
+
 @listener.wait(types=['init'])
-def init(self):
+def init2(self):
     self.fight = False
     self.hp = 100
     self.inv = {}
@@ -181,7 +180,7 @@ def init(self):
     return ''
 
 @listener.wait(types=['finish'])
-def finish(self):
+def finish2(self):
     if self.hp <= 0:
         return '00YOU DIED!!!;11redirect = "death"'
     for m in self.curmonsters:
@@ -197,7 +196,8 @@ def finish(self):
     return passageways
 
 @listener.wait(types=['move']) # check each move to see if it sparks a fight
-def wait_for_move(self):
+def wait_for_move2(self):
+    print('moved in ancient egypt!')
     tot = []
     rm = []
     for i in self.fc['rooms'][str(self.roomnum)]['objects']:
@@ -213,10 +213,10 @@ def wait_for_move(self):
     return ''
 
 @listener.wait(types=['action'])
-def action(self):
+def action2(self):
     # self.prev_action, ironically, is the current action and you can use said variable here!
     if self.fight:
-        mt = turns(self)
+        mt = turns2(self)
         deps = None
         if self.prev_action in battle:
             for i in battle[self.prev_action]:
@@ -235,7 +235,7 @@ def action(self):
             return ('%s%s%s%s' % (skip, mt, (';' if mt else ''), deps.format(*[str(randint(1, i+1)) for i in range(1, 12)]))) # so you can go 'it hit you for {5} HP!' and that {5} will be replaced with a random number from 1 to 5
     return ''
 
-def turns(self):
+def turns2(self):
     end = ';'
     for i in self.curmonsters:
         end += i.its_turn() + ';'
@@ -244,7 +244,7 @@ def turns(self):
 
 
 
-
+"""
 #Locks,Puzzles and traps are stored in this file so they are easy to read and edit.
 import random
 import time
@@ -364,4 +364,4 @@ SCARAB_CENTER_INDEX = 3
 #It's essential to be careful and deliberate when solving the Mirror Puzzle, as reflecting the beam of light onto the wrong hieroglyph will trigger the trap, releasing poisonous gas into the room.
 
 
-#End of Puzzles for Ancient Egypt
+#End of Puzzles for Ancient Egypt"""

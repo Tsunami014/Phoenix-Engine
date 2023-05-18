@@ -21,6 +21,7 @@ from difflib import get_close_matches as GCM # this is the get closest matches f
 # it still has false positives and negatives, so it is not perfect, but it is darned good enough.
 
 import Map_Specific_Functions.FOWExternals # this, even though it is not used, is used (see below)
+import Map_Specific_Functions.Ancient_Egypt # same with the line above
 import Map_Specific_Functions.connector as c # this imports the connector
 #see so how this works is the others.externals contains some functions that bind itself to other.connector
 #so when we import other.connector, it has those functions from other.externals in it

@@ -1,18 +1,11 @@
 #This file is meant to be for using in all of your external files. Make a file (like locks.py) and use this structure by importing the file.
 #Full documentation on how to use later in the file.
 
+noms = {'FOWExternals': '', 'Ancient_Egypt': '2'}
+
 class EventListener(object):
     def __init__(self, name):
-        if name == 'FOWExternals':
-            try:
-                import FOWExternals
-            except:
-                import Map_Specific_Functions.FOWExternals
-        elif name == 'Ancient Egypt':
-            try:
-                import Ancient_Egypt
-            except:
-                import Map_Specific_Functions.Ancient_Egypt
+        self.suffix = noms[name]
     all_funcs = {}
     def wait(self, types):
         def main(func):
@@ -24,13 +17,22 @@ class EventListener(object):
             return func
         return main
     
+    def _run(self, i, otherself):
+        try:
+            return i(otherself) + ';'
+        except Exception as e:
+            return '00some error occured with the %s function in externals!! Error: %s;' % (str(i), str(e))
+    
     def event(self, type, otherself):
         endcode = ';'
         for t in self.all_funcs.keys():
             if t in type:
                 for i in self.all_funcs[t]:
-                    try:
-                        endcode += i(otherself) + ';'
-                    except Exception as e:
-                        endcode += '00some error occured with the %s function in externals!! Error: %s;' % (str(i), str(e))
+                    end = str(i)[str(i).index(' ')+1:str(i).index(' ', str(i).index(' ')+1)][-1]
+                    if end == '2':
+                        if self.suffix == '2':
+                            endcode += self._run(i, otherself)
+                    else:
+                        if self.suffix == '':
+                            endcode += self._run(i, otherself)
         return endcode[1:-1]

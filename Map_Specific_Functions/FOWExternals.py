@@ -7,7 +7,6 @@ from difflib import get_close_matches as GCM
 
 from json import load
 from random import randint, choice
-print('FOW externals!!!')
 
 #If at any time you want to stop the current action from being applied, then in the externals just pop in a "の" anywhere. It will get removed before being executed.
 
@@ -76,6 +75,7 @@ def finish(self):
 
 @listener.wait(types=['move']) # check each move to see if it sparks a fight
 def wait_for_move(self):
+    print('moved in the forest of wonder!')
     autopickups = ''
     if self.roomnum == 17:
         for i in self.fc['rooms'][str(self.roomnum)]['objects']:
