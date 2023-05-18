@@ -57,7 +57,7 @@ fourth_numbers = ["self.fc['rooms'][str(self.roomnum)]['exits'][str(closest_num(
 delete_numbers = ["[i['name'] for i in self.fc['rooms'][str(self.roomnum)]['objects']].index(self.p['subjobj'][0][0])", 
                 "self.fc['rooms'][str(self.roomnum)]['objects'][[i['name'] for i in self.fc['rooms'][str(self.roomnum)]['objects']].index(self.p['subjobj'][0][0])]",
                 "[i['name'] for i in self.fc['rooms'][str(self.roomnum)]['objects']].index('stick')"]
-item_groups = [["stick", "rock", "apple", "spider", "key", "bed", "sword", "potion"]]
+item_groups = [["stick", "rock", "apple", "spider", "key", "bed", "sword", "potion", 'ladder', 'saw']]
 
 class CodingError(Exception):
     """

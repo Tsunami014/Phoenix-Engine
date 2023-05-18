@@ -17,7 +17,7 @@ monsters = {'bokoblin': [0, 25], 'miniboss': [0, 30], 'lizard monster boss': [1,
 powers = [(10, {6:['tried to hit you... But it missed!', '... tried to hit you but you blocked!', 'hit your shield!'], 11: 'hit you for {5} HP!;71hp = 1{5}'}), (10, {4:['tried to hit you... But it missed!', '... tried to hit you but you blocked!', 'hit your shield!'], 7: 'hit you for {4} HP!;71hp = 1{4}', 11: 'hit you for {7} HP!!;71hp = 1{7}'})]
 
 #{'name of object': [(roomnum, 'codewhenitactivates'), etc.], etc.}
-room_connections = {'key': [(23, '6~!!5(key);5~!!426!!"6";00Your key opened the door of the house!')]}
+room_connections = {'key': [(23, '6~!!5(key);5~!!46!!26;00Your key opened the door of the house!')]}
 
 with open('important stuff/battles.json') as f:
     battle = load(f)
