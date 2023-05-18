@@ -25,7 +25,6 @@ import Map_Specific_Functions.connector as c # this imports the connector
 #see so how this works is the others.externals contains some functions that bind itself to other.connector
 #so when we import other.connector, it has those functions from other.externals in it
 #don't worry, its very confusing
-listener = c.EventListener() # this is the thing that we sent info to
 
 
 # python -m spacy download en_core_web_sm
@@ -64,6 +63,8 @@ class CodingError(Exception):
     Exception raised when something in the code happens that isn't meant to happen
     """
 
+names = {'Forest Of Wonder': 'FOWExternals', 'Ancient Egypt': 'Ancient_Egypt'}
+
 class Game:
     def __init__(self, mapname="Forest of Wonder"):
         global PRINTS
@@ -72,7 +73,7 @@ class Game:
         
         self.cutoff = cutoff # for those of us who can't reach that far down - here you go :)
         self.p = {} #A filler... just in case worst comes to worst
-        self.inventory = {"health potion": (3, {'name': 'potion', 'identifier': 'health potion'})} # sets inventory to have 3 health potions
+        self.inventory = {"health potion": (1, {'name': 'potion', 'identifier': 'health potion'})} # sets inventory to have 3 health potions
         self.added = []
         self.roomnum = 1 #This is the starting room id
         self.log = [] # the logs, including the errors
@@ -117,7 +118,8 @@ class Game:
 
         self.prev_action = None #What the previous action specified was
         PRINTS = ''
-        self.run_action(listener.event('init', self)) # get listeners to have their turn for init
+        self.listener = c.EventListener(names[mapname]) # this is the thing that we sent info to
+        self.run_action(self.listener.event('init', self)) # get listeners to have their turn for init
     
     def to_tree(self, node): # I got this code from the internet and BARELY know how it works
         if len(list(node.children)) > 0:
@@ -230,7 +232,7 @@ class Game:
                     self.log.append(str(e))
                     return
             elif act[0] == '3':
-                self.run_action(listener.event(eval(act[1:]), self))
+                self.run_action(self.listener.event(eval(act[1:]), self))
             elif act[0] in ['4', '5', '6']:
                 spl = act[1:].split('!!')
                 def run(i='~', ln=1):
@@ -312,7 +314,7 @@ class Game:
         trees = [self.to_tree(sent.root) for sent in doc.sents]
         for t in trees:
             if type(t) == tuple:
-                nact = listener.event('one word:'+t[0], self)
+                nact = self.listener.event('one word:'+t[0], self)
                 #If at any time you want to stop the current action from being applied, then in the externals just pop in a "の" anywhere. It will get removed before being executed.
                 if 'の' in nact:
                     nact.replace('の', '')
@@ -334,7 +336,7 @@ class Game:
             except KeyError:
                 self.log.append(self.p['action'][-1][0]+' is not in actions list')
                 continue
-            nact = listener.event('action:'+self.prev_action, self)
+            nact = self.listener.event('action:'+self.prev_action, self)
             #If at any time you want to stop the current action from being applied, then in the externals just pop in a "の" anywhere. It will get removed before being executed.
             for i in self.added:
                 try:
@@ -363,7 +365,7 @@ class Game:
             if self.prev_action in ['move', 'take']:
                 self.fc['rooms'][str(self.roomnum)]['objects'].extend(self.added)
             self.reload_inventory()
-        self.run_action(listener.event('finish', self))
+        self.run_action(self.listener.event('finish', self))
         return PRINTS
     
     def all_non_inventory_items(self):

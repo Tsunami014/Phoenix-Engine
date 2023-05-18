@@ -7,10 +7,11 @@ from difflib import get_close_matches as GCM
 
 from json import load
 from random import randint, choice
+print('FOW externals!!!')
 
 #If at any time you want to stop the current action from being applied, then in the externals just pop in a "の" anywhere. It will get removed before being executed.
 
-listener = c.EventListener()
+listener = c.EventListener('FOWExternals')
 
 #monsters dict in format: {name: [power (see below list powers for the number), hp]}
 monsters = {'bokoblin': [0, 25], 'miniboss': [0, 30], 'lizard monster boss': [1, 40]}

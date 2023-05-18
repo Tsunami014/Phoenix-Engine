@@ -1,4 +1,4 @@
-import random
+"""import random
 import time
 sword_in_stone_pullers={"name: Riley","name: Imzafish","name: Max","name: Viggo",}
 #18 Rooms
@@ -98,7 +98,7 @@ if chance_to_pull==4:
 else:
      print("You have not pulled the sword in the stone")
      print("You cannot attempt to pull the sword in the stone again until you restart the game")
-     Can_pull=False
+     Can_pull=False"""
      
 #End of Map speficfic functions
 
@@ -110,6 +110,7 @@ else:
 #IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #WHATEVER YOU DO TO THIS BELOW CODE PLEASE TELL ME
 
+#Forrst of Wonder externals
 try:
     import connector as c
 except ModuleNotFoundError:
@@ -118,19 +119,17 @@ from difflib import get_close_matches as GCM
 
 from json import load
 from random import randint, choice
-
+print('ANCIENT EGYPT EXTERNALS!!!!')
 #If at any time you want to stop the current action from being applied, then in the externals just pop in a "の" anywhere. It will get removed before being executed.
 
-listener = c.EventListener()
+listener = c.EventListener('Ancient_Egypt')
 
 #monsters dict in format: {name: [power (see below list powers for the number), hp]}
-monsters = {'bokoblin': [0, 25], 'miniboss': [0, 30], 'lizard monster boss': [1, 40]} # change this
-# and this v
-#[(randeom number between 1 and this number, {if rolled this or below: 'code to execute', etc.})]
+monsters = {'bokoblin': [0, 25], 'miniboss': [0, 30], 'lizard monster boss': [1, 40]}
 powers = [(10, {6:['tried to hit you... But it missed!', '... tried to hit you but you blocked!', 'hit your shield!'], 11: 'hit you for {5} HP!;71hp = 1{5}'}), (10, {4:['tried to hit you... But it missed!', '... tried to hit you but you blocked!', 'hit your shield!'], 7: 'hit you for {4} HP!;71hp = 1{4}', 11: 'hit you for {7} HP!!;71hp = 1{7}'})]
 
 #{'name of object': [(roomnum, 'codewhenitactivates'), etc.], etc.}
-room_connections = {'key': [(23, '6~!!5[0];5~!!426!!"6";00Your key opened the door of the house!')]} # and this if you need it
+room_connections = {'key': [(23, '6~!!5(key);5~!!46!!26;00Your key opened the door of the house!')]}
 
 with open('important stuff/battles.json') as f:
     battle = load(f)
@@ -180,15 +179,14 @@ def finish(self):
     if not self.curmonsters and self.fight:
         self.fight = False
         return '00YOU WON THE FIGHT!!!;4~!!4~'
-    return ''
+    passageways = ''
+    for i in room_connections:
+        if i in self.inventory.keys() and room_connections[i][0][0] == self.roomnum:
+            passageways += room_connections[i][0][1] + ';'
+    return passageways
 
 @listener.wait(types=['move']) # check each move to see if it sparks a fight
 def wait_for_move(self):
-    passageways = ''
-    for i in room_connections:
-        if i in self.inventory.keys() and room_connections[i][0] == self.roomnum:
-            passageways += room_connections[i][1] + ';'
-            
     tot = []
     rm = []
     for i in self.fc['rooms'][str(self.roomnum)]['objects']:
@@ -200,8 +198,8 @@ def wait_for_move(self):
     if tot:
         self.fight = True
         self.curmonsters = [Monster(j) for j in tot]
-        return passageways + '00OH NO! THERE IS A ' + " AND A ".join(tot) + r"! THEY START A FIGHT!!! (you can no longer exit);5~!!4~!!{}"#code to print and no longer exit
-    return passageways
+        return '00OH NO! THERE IS A ' + " AND A ".join(tot) + r"! THEY START A FIGHT!!! (you can no longer exit);5~!!4~!!{}"#code to print and no longer exit
+    return ''
 
 @listener.wait(types=['action'])
 def action(self):
