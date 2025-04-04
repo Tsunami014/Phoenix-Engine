@@ -3,6 +3,9 @@ import json # reads the maps
 import os # for the clear function
 from random import choice # for the choice function so there are random events that happen, not the same ones all the time
 
+if not os.path.exists('saves'):
+    os.mkdir('saves')
+
 clear = lambda: os.system('cls' if os.name == 'nt' else 'clear') # this is the clear function
 #to use it, use `clear()`
 #it clears the terminal

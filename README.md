@@ -1,5 +1,8 @@
 # Assement Text adventure
 
+![Demo image](demo.png)
+This is a neat text based adventure game where you can input a bunch of different ways and it will do the same thing; e.g. 'take stick', 'grab stick', 'grab the stick', and a bunch of other ways. :)
+
 > This is the TAS assessment task :)
 
     This game uses input/output in app.py using flask forms
@@ -12,21 +15,14 @@
 
 ## If you don't understand what something does then poke around in the file directories bcos everything is a bit of a mess right now sry
 
-## How to play?
+## How to install
+- `pip install -r requirements.txt`
+- `python -m spacy download en_core_web_sm`
 
+## How to play?
 - Run app.py
 - Wait for it to load (some computers load faster than others)
 - Once it says `debugger active! website avaliable on localhost:5000` or whatever then go to the website it says.
-- If it doesn't work then check you have all of these:
-
-    flask
-    flask_bootstrap
-    flask_wtf
-    wtforms
-    bootstrap-flask
-    nltk
-
-- if that still does not work try typing in terminal `python -m spacy download en_core_web_sm` ***THIS IS VERY IMPORTANT***
 
 - Select a map
 - Input your action into the box and press enter
